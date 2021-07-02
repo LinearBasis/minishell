@@ -1,4 +1,4 @@
-NAME = exe
+NAME = minishell.exe
 
 MAIN = main2.c
 
