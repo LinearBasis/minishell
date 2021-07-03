@@ -59,6 +59,7 @@ int	main()
 		{
 			add_history(input);
 		}
+		rl_replace_line(input, 0);
 		free(input);
 	}
 }
