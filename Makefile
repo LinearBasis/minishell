@@ -4,7 +4,7 @@ MAIN = main2.c
 
 CC = gcc
 
-SRCS_DIRS = .
+SRCS_DIRS = . ./signals
 
 OBJS_DIR = ./objs
 
@@ -22,7 +22,7 @@ $(OBJS_DIR)/%.o: %$(LANGUAGE_END)
 all: $(NAME)
 
 $(NAME): $(OBJS) $(MAIN)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L/Users/dnicki/.brew/Cellar/readline/8.1/lib -L/Users/dnicki/.brew/Cellar/readline/8.1/include/readline
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L/Users/dnicki/.brew/Cellar/readline/8.1/lib
 
 clean:
 	rm -f $(OBJS)
