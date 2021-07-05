@@ -72,8 +72,6 @@ void	list_remove_elem(t_list **list_begin,
 	free(deleted);
 }
 
-
-
 t_list	*list_find(t_list *list, void *data, int (*cmp)(void *, void *))
 {
 	while (list)
@@ -102,10 +100,3 @@ void	list_clear(t_list **list, void (*del)(void*))
 	}
 	*list = cpy;
 }
-
-// /*				______leaks tester______
-
-
-
-
-

@@ -4,7 +4,9 @@ MAIN = main2.c
 
 CC = gcc
 
-SRCS_DIRS = . ./signals
+SRCS_DIRS = . ./signals ./do_command ./envp ./utils
+
+CFLAGS = -fsanitize=address
 
 OBJS_DIR = ./objs
 
@@ -27,7 +29,7 @@ $(NAME): $(OBJS) $(MAIN)
 clean:
 	rm -f $(OBJS)
 
-fclean: clean
+fclean:	clean
 	rm -f $(NAME)
 
-re: fclean all
+re:		fclean	$(NAME)
