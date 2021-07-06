@@ -19,7 +19,7 @@ OBJS = $(addprefix objs/, $(notdir $(patsubst %$(LANGUAGE_END), %.o, $(SRCS))))
 VPATH = $(SRCS_DIRS)
 
 $(OBJS_DIR)/%.o: %$(LANGUAGE_END)
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) $(CFLAGS)  -c $< -o $@
 
 all: $(NAME)
 

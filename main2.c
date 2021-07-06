@@ -94,10 +94,16 @@ int	main(int argc, char *argv[], char *envp[])
 	add_to_env(exp, "c");
 	add_to_env(exp, "a=d");
 	add_to_env(exp, "b=");
-	print_env(exp);
-
-	printf("%s - a\n", get_env(exp, "a"));
-	printf("%s - z\n", get_env(exp, "z"));
+	remove_from_env(exp, "b");
+	remove_from_env(exp, "a");
+	remove_from_env(exp, "c");
+	remove_from_env(exp, "TMPDIR");
+	remove_from_env(exp, "d");
+	// print_env(exp);
+	
+	do_env(NULL, exp);
+	// printf("%s - a\n", get_env(exp, "a"));
+	// printf("%s - z\n", get_env(exp, "z"));
 }
 
 

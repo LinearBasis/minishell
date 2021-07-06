@@ -1,3 +1,4 @@
+from 0 to 1
 TERM_PROGRAM=vscode
 TERM=prikol
 HOMEBREW_TEMP=/tmp/dnicki/Homebrew/Temp
@@ -26,4 +27,4 @@ VSCODE_GIT_IPC_HANDLE=/var/folders/zz/zyxvpxvq6csfxvn_n0001s_r000f_p/T/vscode-gi
 VSCODE_GIT_ASKPASS_NODE=/Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper (Renderer).app/Contents/MacOS/Code Helper (Renderer)
 GIT_ASKPASS=/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass.sh
 COLORTERM=truecolor
-_=/usr/bin/env
+_=HERE

@@ -1,123 +1,6 @@
 #include "envp.h"
 #include <stdio.h>
 
-
-//		ТРЕБУЕТСЯ ПРОВЕРКА НА ЛИКИ, ВРОДЕ ВСЕ НАКОСТЫЛЕНО ХОРОШО, НО КТО ЗНАЕТ
-
-static int	_add_key_value_to_env(t_export *env, char *key, char *value)
-{
-	char	**new_key_value[2];
-	int		size;
-	int		i;
-
-	size = 0;
-	while (env->envp_key_value[0][size])
-	{
-		if (!ft_strcmp(key, env->envp_key_value[0][size]))
-		{
-			free(env->envp_key_value[1][size]);
-			env->envp_key_value[1][size] = value;
-			return (0);
-		}
-		++size;
-	}
-	new_key_value[0] = ft_realloc(env->envp_key_value[0], sizeof(char *) * (size), sizeof(char *) * (size + 2));
-	if (!new_key_value[0])
-		return (-1);
-	new_key_value[1] = ft_realloc(env->envp_key_value[1], sizeof(char *) * (size), sizeof(char *) * (size + 2));
-	if (!new_key_value[1])
-	{
-		free(new_key_value[0]);
-		return (-1);
-	}
-	new_key_value[0][size] = key;
-	new_key_value[1][size] = value;
-	new_key_value[0][size + 1] = NULL;
-	new_key_value[1][size + 1] = NULL;
-	env->envp_key_value[0] = new_key_value[0];
-	env->envp_key_value[1] = new_key_value[1];
-	return (0);
-}
-
-int			add_to_env(t_export *env, char *str)
-{
-	int		i;
-	char	*key;
-	char	*value;
-	size_t	len;
-
-	len = ft_strlen(str);
-	i = 0;
-	value = NULL;
-	while (str[i] != '=' && str[i])
-		++i;
-	if (i <= len - 1)
-	{
-		if (i == len - 1)
-			value = ft_strdup("");
-		else
-		{
-			value = ft_substr_from_to(str, i + 1, len);
-		}
-		if (!value)
-			return (-1);
-	}
-	key = ft_substr_from_to(str, 0, i);
-	if (!key)
-	{
-		free(value);
-		return (-1);
-	}
-	return (_add_key_value_to_env(env, key, value));
-}
-
-int		_fill_one_export(t_export *ans, char *env, int i)
-{
-	int		len;
-	char	*a2;
-	char	*a3;
-
-	len = 0;
-	while (env[len] != '=')
-	{
-		len++;
-	}
-	a2 = ft_substr_from_to(env, 0, len);
-	a3 = ft_substr_from_to(env, len + 1, (int)ft_strlen(env));
-	ans->envp_key_value[0][i] = NULL;
-	ans->envp_key_value[1][i] = NULL;
-	if (!a2 || !a3)
-	{
-		free(a2);
-		free(a3);
-		return (-1);
-	}
-	ans->envp_key_value[0][i] = a2;
-	ans->envp_key_value[1][i] = a3;
-	return (0);
-}
-
-static int	copy_envp(t_export *ans, char **envp, int i)
-{
-	int		j;
-	int		len;
-	char	**tmp;
-
-	j = 0;
-	while (j < i)
-	{
-		if (_fill_one_export(ans, envp[j], j) != 0)
-		{
-			clear_export(ans);
-			return (-1);
-		}
-		j++;
-	}
-	ans->envp_key_value[0][i] = 0;
-	ans->envp_key_value[1][i] = 0;
-	return (0);
-}
-
 t_export	*create_export(char **envp)
 {
 	int			i;
@@ -137,7 +20,7 @@ t_export	*create_export(char **envp)
 		clear_export(ans);
 		return (NULL);
 	}
-	copy_envp(ans, envp, i);
+	_copy_envp(ans, envp, i);
 	return (ans);
 }
 
@@ -177,17 +60,5 @@ void		print_env(t_export *exp)
 	}
 }
 
-char		*get_env(t_export *exp, char *key)
-{
-	int	i;
 
-	i = 0;
-	while (exp->envp_key_value[0][i])
-	{
-		if (!ft_strcmp(key, exp->envp_key_value[0][i]))
-			return (ft_strdup(exp->envp_key_value[0][i]));
-		++i;
-	}
-	return (NULL);
-}
 
