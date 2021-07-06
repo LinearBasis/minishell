@@ -25,7 +25,7 @@ static int	do_cd_to_back(char buf[25565])
 
 static int	do_cd_to_path(char b)
 {
-	return (0);
+	
 }
 
 int	do_cd(char **command, t_export *exp)

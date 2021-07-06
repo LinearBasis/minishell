@@ -17,5 +17,8 @@ void	*ft_calloc(size_t count, size_t size);
 
 int		ft_strncmp(const char *str1, const char *str2, size_t len);
 int		ft_strcmp(const char *str1, const char *str2);
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
+
+void	*ft_realloc(void *str1, size_t before, size_t after);
 
 #endif

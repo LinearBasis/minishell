@@ -6,6 +6,11 @@ char	*ft_substr_from_to(char *str, int begin, int end)
 	char	*ans;
 	int		begin_cpy;
 
+	if (begin == 0)
+	{
+		if (!ft_strcmp("a=b", str))
+			printf("from %d to %d\n", begin, end);
+	}
 	if (end <= begin || begin > ft_strlen(str) || end > ft_strlen(str))
 		return (NULL);
 	ans = malloc(end - begin + 1);
