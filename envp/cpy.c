@@ -12,7 +12,10 @@ int		_fill_one_export(t_export *ans, char *env, int i)
 		len++;
 	}
 	a2 = ft_substr_from_to(env, 0, len);
-	a3 = ft_substr_from_to(env, len + 1, (int)ft_strlen(env));
+	if (len != ft_strlen(env) - 1)
+		a3 = ft_substr_from_to(env, len + 1, (int)ft_strlen(env));
+	else
+		a3 = ft_strdup("");
 	ans->envp_key_value[0][i] = NULL;
 	ans->envp_key_value[1][i] = NULL;
 	if (!a2 || !a3)

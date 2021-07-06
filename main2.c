@@ -31,7 +31,7 @@ int	g_flag;
 // 			add_history(input);
 // 		}
 // 		// input = parse();
-// 		//проверка
+// 		// проверка
 // 		check_what_to_do_with_command(&input, exp);
 // 		free(input);
 // 	}
@@ -85,23 +85,23 @@ int	main(int argc, char *argv[], char *envp[])
 	if (!envp)
 		return (1);
 	t_export	*exp;
+	char	*arr1[] = {"cd", NULL};
+	char	*arr2[] = {"pwd", "-n", "-n", "1", "2", "3", "-n", "4", NULL};
 
 	exp = create_export(envp);
-	add_to_env(exp, "a=b");
-	add_to_env(exp, "TERM=prikol");
-	add_to_env(exp, "_=HERE");
-	add_to_env(exp, "a");
-	add_to_env(exp, "c");
-	add_to_env(exp, "a=d");
-	add_to_env(exp, "b=");
-	remove_from_env(exp, "b");
-	remove_from_env(exp, "a");
-	remove_from_env(exp, "c");
-	remove_from_env(exp, "TMPDIR");
-	remove_from_env(exp, "d");
-	// print_env(exp);
+	// add_to_env(exp, "a");
+	// add_to_env(exp, "b=");
+	print_env(exp);
 	
-	do_env(NULL, exp);
+	// // do_env(NULL, exp);
+	// for (int i = 0; i < 10; i++)
+	// {
+	// 	printf("_\n");
+	// }
+	// do_export(arr1, exp);
+	check_what_to_do_with_command(arr1, exp);
+	check_what_to_do_with_command(arr2, exp);
+
 	// printf("%s - a\n", get_env(exp, "a"));
 	// printf("%s - z\n", get_env(exp, "z"));
 }
