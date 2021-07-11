@@ -18,7 +18,8 @@ t_export	*create_export(char **envp);
 void		sort_env(t_export *);
 void		print_env(t_export *);
 char		*get_env(t_export *, char *key);
-int			add_to_env(t_export *, char *str);
-int			remove_from_env(t_export *, char *name);
+int			add_to_env(t_export *, char *key);
+int			remove_from_env(t_export *, char *key);
+int			_copy_envp(t_export *ans, char **envp, int i);
 
 #endif
