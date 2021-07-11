@@ -92,6 +92,8 @@ int	main(int argc, char *argv[], char *envp[])
 	add_to_env(exp, "b=");
 	print_env(exp);
 
+	clear_export(exp);
+	
 	printf("%s - a\n", get_env(exp, "a"));
 	printf("%s - z\n", get_env(exp, "z"));
 }
