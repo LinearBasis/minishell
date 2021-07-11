@@ -55,12 +55,23 @@ char	*ft_strdup(char *str)
 	return (ans);
 }
 
-int		ft_strcmp(const char *str1, const char *str2)
+//podarok [2,4) = da
+char	*ft_substr_from_to(char *str, int begin, int end)
 {
-	int	i;
+	char	*ans;
+	int		begin_cpy;
 
-	i = 0;
-	while (str1[i] == str2[i] && str2[i])
-		i++;
-	return (str1[i] - str2[i]);
+	if (end <= begin || begin > ft_strlen(str) || end > ft_strlen(str))
+		return (NULL);
+	ans = malloc(end - begin + 1);
+	if (!ans)
+		return (NULL);
+	begin_cpy = begin;
+	while (begin < end)
+	{
+		ans[begin - begin_cpy] = str[begin];
+		begin++;
+	}
+	ans[begin - begin_cpy] = 0;
+	return (ans);
 }
