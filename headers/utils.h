@@ -7,8 +7,6 @@
 char	*ft_substr_from_to(char *str, int begin, int end);		//	[begin, end)
 size_t	ft_strlen(const char *str);
 
-char	**ft_split_smart(const char *s, int (*cmp)(char), const char *tail);
-
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(char *str);
 
@@ -20,5 +18,7 @@ int		ft_strcmp(const char *str1, const char *str2);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 
 void	*ft_realloc(void *str1, size_t before, size_t after);
+
+char	**ft_split(char const *s, char c);
 
 #endif
