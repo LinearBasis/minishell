@@ -1,13 +1,12 @@
 #include "do_command.h"
-
-#include <string.h>
+#include "utils.h"
 
 int	builtin_echo(char **commmand)
 {
 	int i = 1;
 	int	flag = 0;
 
-	while (!strcmp(commmand[i], "-n"))		//TODO
+	while (!ft_strcmp(commmand[i], "-n"))
 	{
 		++i;
 		++flag;

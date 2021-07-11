@@ -11,6 +11,7 @@ static int	_add_key_value_to_env(t_export *env, char *key, char *value)
 	{
 		if (!ft_strcmp(key, env->envp_key_value[0][size]))
 		{
+			free(key);
 			free(env->envp_key_value[1][size]);
 			env->envp_key_value[1][size] = value;
 			return (0);
@@ -51,9 +52,7 @@ int			add_to_env(t_export *env, char *str)
 		if (i == len - 1)
 			value = ft_strdup("");
 		else
-		{
 			value = ft_substr_from_to(str, i + 1, len);
-		}
 		if (!value)
 			return (-1);
 	}

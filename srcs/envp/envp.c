@@ -24,18 +24,6 @@ t_export	*create_export(char **envp)
 	return (ans);
 }
 
-static void	clear_nullptred_array(char **arr)
-{
-	int i;
-
-	i = 0;
-	if (arr)
-	{
-		while (arr[i])
-			free(arr[i]);
-		free(arr);
-	}
-}
 
 void		clear_export(t_export *exp)
 {
@@ -43,8 +31,16 @@ void		clear_export(t_export *exp)
 
 	if (!exp)
 		return ;
-	clear_nullptred_array(exp->envp_key_value[0]);
-	clear_nullptred_array(exp->envp_key_value[1]);
+	i = 0;
+
+	while (exp->envp_key_value[0][i])
+	{
+		free(exp->envp_key_value[0][i]);
+		free(exp->envp_key_value[1][i]);
+		i++;
+	}
+	free(exp->envp_key_value[0]);
+	free(exp->envp_key_value[1]);
 	free(exp);
 }
 

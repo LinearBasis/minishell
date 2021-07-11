@@ -83,20 +83,21 @@ int	main(int argc, char *argv[], char *envp[])
 	t_export	*exp;
 
 	exp = create_export(envp);
-	add_to_env(exp, "a=b");
-	add_to_env(exp, "TERM=prikol");
-	add_to_env(exp, "_=HERE");
-	add_to_env(exp, "a");
-	add_to_env(exp, "c");
-	add_to_env(exp, "a=d");
+	// add_to_env(exp, "a=b");
+	// add_to_env(exp, "TERM=prikol");
+	// add_to_env(exp, "_=HERE");
+	// add_to_env(exp, "a");
+	// add_to_env(exp, "c");
+	// add_to_env(exp, "a=d");
 	add_to_env(exp, "b=");
 	print_env(exp);
 
-	printf("%s - a\n", get_env(exp, "a"));
-	printf("%s - z\n", get_env(exp, "z"));
+	clear_export(exp);
+
+	// printf("%s - a\n", get_env(exp, "a"));
+	// printf("%s - z\n", get_env(exp, "z"));
+	sleep(10);
 }
-
-
 
 
 
