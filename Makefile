@@ -3,16 +3,23 @@ NAME = minishell
 CC = gcc
 CFLAGS = -fsanitize=address -Wall -Wextra # -Werror
 
-SRCS_DIRS = . ./signals ./do_command ./envp ./utils
-OBJS_DIR = ./objs
+HDRS_DIR	= ./headers
+OBJS_DIR	= ./objs
+SRCS_DIRS	= ./srcs $(addprefix ./srcs, /signals /do_command /envp /utils)
 
-HDRS = $(wildcard $(addsuffix /*.h, $(SRCS_DIRS)))
+HDRS = $(wildcard $(addsuffix /*.h, $(HDRS_DIRS)))
 SRCS = $(wildcard $(addsuffix /*.c, $(SRCS_DIRS)))
 OBJS = $(addprefix objs/, $(notdir $(patsubst %.c, %.o, $(SRCS))))
 VPATH = $(SRCS_DIRS)
 
 $(OBJS_DIR)/%.o: %.c $(HDRS)
-	$(CC) $(CFLAGS) -o $@ -c $<
+	$(CC) $(CFLAGS) -o $@ -c $< -I$(HDRS_DIR)
+
+# print_info:
+# 	@echo $(SRCS_DIRS)
+# 	@echo $(SRCS)
+# 	@echo $(HDRS)
+# 	@echo $(OBJS)
 
 all: $(NAME)
 

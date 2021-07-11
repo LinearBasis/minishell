@@ -1,7 +1,7 @@
 #ifndef DO_COMMAND_H
 # define DO_COMMAND_H
 
-# include "../envp/envp.h"
+# include "envp.h"
 # include <unistd.h>
 # include <errno.h>
 # include <stdio.h>

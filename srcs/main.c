@@ -1,8 +1,4 @@
-#include "header.h"
-#include "signals/signals.h"
-#include "envp/envp.h"
-#include "do_command/do_command.h"
-#include "utils/utils.h"
+#include "minishell.h"
 
 int	g_flag;
 
