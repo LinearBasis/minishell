@@ -2,6 +2,7 @@
 # define SIGNALS_H
 
 # include <signal.h>
+# include "a_readline.h"
 
 extern int	g_flag;
 
