@@ -2,17 +2,17 @@
 
 t_commlist	*commlist_create(char *data)
 {
-	t_commlist	*ans;
+	t_commlist	*out;
 
-	ans = malloc(sizeof(t_commlist));
-	if (!ans)
-		return (ans);
-	ans->prev = NULL;
-	ans->next = NULL;
-	ans->op_prev = OP_NONE;
-	ans->op_next = OP_NONE;
-	ans->data = data;
-	return (ans);
+	out = malloc(sizeof(t_commlist));
+	if (!out)
+		return (out);
+	out->prev = NULL;
+	out->next = NULL;
+	out->op_prev = OP_NONE;
+	out->op_next = OP_NONE;
+	out->data = data;
+	return (out);
 }
 
 void	commlist_push_back(t_commlist **list, t_commlist *to_add)
