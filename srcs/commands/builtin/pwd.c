@@ -1,4 +1,4 @@
-#include "builtin_commands.h"
+#include "commands.h"
 #include <unistd.h>
 
 int		builtin_pwd(char **command)

@@ -1,4 +1,4 @@
-#include "builtin_commands.h"
+#include "commands.h"
 #include <string.h>
 
 int	handle_command(char **command, t_envp *exp)
@@ -19,5 +19,7 @@ int	handle_command(char **command, t_envp *exp)
 	// 	builtin_env(command, exp);
 	// if (!strcmp(command[0], "exit"))
 	// 	builtin_exit(command);
+	else
+		exec_command(command, exp);
 	return (0);
 }

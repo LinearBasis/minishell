@@ -21,5 +21,6 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 void	*ft_realloc(void *str1, size_t before, size_t after);
 
 char	**ft_split(char const *s, char c);
+char	**ft_smart_split(const char *s, int (*cmp)(char), const char *tail);
 
 #endif

@@ -1,4 +1,4 @@
-#include "builtin_commands.h"
+#include "commands.h"
 #include "utils.h"
 
 int	builtin_echo(char **commmand)

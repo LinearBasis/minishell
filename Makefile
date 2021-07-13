@@ -3,11 +3,14 @@ NAME = minishell
 CC = gcc
 CFLAGS =  -Wall -Wextra -fsanitize=address #-Werror
 
-HDRS_DIR	= ./headers
+HDRS_DIRS	= ./headers $(addprefix ./headers, /data_structs /readline)
 OBJS_DIR	= ./objs
 SRCS_DIRS	= ./srcs $(addprefix ./srcs, \
 							/signals \
-							/builtin_commands \
+							$(addprefix /commands,\
+								/builtin \
+								/exec\
+							)\
 							/envp \
 							/utils \
 							/parser\
@@ -22,7 +25,7 @@ OBJS = $(addprefix objs/, $(notdir $(patsubst %.c, %.o, $(SRCS))))
 VPATH = $(SRCS_DIRS)
 
 $(OBJS_DIR)/%.o: %.c $(HDRS)
-	$(CC) $(CFLAGS) -o $@ -c $< -I$(HDRS_DIR)
+	$(CC) $(CFLAGS) -o $@ -c $< -I./headers
 
 # print_info:
 # 	@echo $(SRCS_DIRS)
