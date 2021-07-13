@@ -26,6 +26,7 @@
 extern "C" {
 #endif
 
+#include <stdio.h>
 /* Old-style, attempt to mark as deprecated in some way people will notice. */
 
 #if !defined (_FUNCTION_DEF)
