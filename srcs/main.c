@@ -28,7 +28,7 @@ int	g_flag;
 // 		}
 // 		// input = parse();
 // 		//проверка
-// 		check_what_to_do_with_command(&input, exp);
+// 		handle_command(&input, exp);
 // 		free(input);
 // 	}
 // }
@@ -70,7 +70,7 @@ int	g_flag;
 // 	exp = create_export(envp);
 // 	for (int i = 0; i < 9; i++)
 // 	{
-// 		check_what_to_do_with_command(arr[i], exp);
+// 		handle_command(arr[i], exp);
 // 	}
 // }
 
