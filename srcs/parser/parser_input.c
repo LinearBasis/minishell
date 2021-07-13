@@ -20,7 +20,6 @@ int	parse_input(char *str, t_commlist **out_commlist)
 
 static int	fill_commlist(char *str, t_commlist **commlist)
 {
-	t_commlist	*tmp;
 	t_operation	op;
 
 	*commlist = NULL;
@@ -30,7 +29,7 @@ static int	fill_commlist(char *str, t_commlist **commlist)
 	{
 		op = parser__is_oper(str);
 		if (op != OP_NONE)
-			str += (op != OP_NONE) + (op == OP_REDIR2L || op == OP_REDIR2R);
+			str += 1 + (op == OP_REDIR2L || op == OP_REDIR2R);
 		if (fill_commlist__push_elem(&str, commlist, op) != 0)
 		{
 			commlist_clear(*commlist);

@@ -19,7 +19,7 @@ typedef struct s_commlist
 # define OP_REDIRL		2
 # define OP_REDIRR		3
 # define OP_REDIR2L 	4
-# define OP_REDIR2R 	4
+# define OP_REDIR2R 	5
 
 t_commlist	*commlist_create(char **data);
 
