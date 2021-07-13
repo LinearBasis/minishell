@@ -31,13 +31,13 @@ void	parser__print_syntax_error(t_operation error_token)
 		write(2, "newline", 7);
 	else if (error_token == OP_PIPE)
 		write(2, "|", 1);
-	else if (error_token == OP_REDIRR)
-		write(2, "<", 1);
 	else if (error_token == OP_REDIRL)
+		write(2, "<", 1);
+	else if (error_token == OP_REDIRR)
 		write(2, ">", 1);
-	else if (error_token == OP_REDIR2R)
-		write(2, "<<", 2);
 	else if (error_token == OP_REDIR2L)
+		write(2, "<<", 2);
+	else if (error_token == OP_REDIR2R)
 		write(2, ">>", 2);
 	write(2, "\'\n", 2);
 }

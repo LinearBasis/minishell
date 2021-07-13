@@ -70,7 +70,7 @@ static int	operations_redirects_analys(const char *str,
 				is_empty = 1;
 		} else if (!ft_isspace(*str))
 			is_empty = 0;
-		str++;
+		str += 1 + (op == OP_REDIR2L || op == OP_REDIR2R);
 	}
 	if (is_empty)
 	{

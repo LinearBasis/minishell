@@ -2,6 +2,7 @@
 # define PARSER_H
 
 # include "utils.h"
+# include "unistd.h"
 # include "data_structs/commlist.h"
 
 # define CHECK_FAILED_QUOTES	-1
