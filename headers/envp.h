@@ -10,6 +10,9 @@ typedef struct s_envp
 	char	**envp_key_value[2];
 }	t_envp;
 
+# define KEY	0
+# define VALUE	1
+
 int			_fill_one_export(t_envp *ans, char *env, int i);
 
 void		clear_export(t_envp *exp);

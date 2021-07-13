@@ -105,7 +105,7 @@ int		main(int argc, char *argv[])
 
 	if (argc < 2)
 		return (-1);
-	if (parse_input(argv[1], &lst) == 0)
+	if (parse_input(argv[1], &lst, NULL) == 0)
 		commlist_print(lst);
 	return (0);
 }
