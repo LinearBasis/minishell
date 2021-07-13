@@ -10,6 +10,7 @@
 # include "envp.h"
 # include "builtin_commands.h"
 # include "utils.h"
+# include "parser.h"
 
 # define SHELL_NAME "\x1b[1;32mMem4AgainShell:\x1b[0m "
 

@@ -10,7 +10,7 @@ size_t	ft_strlen(const char *s)
 	return (i - 1);
 }
 
-int		ft_strcmp(const char *str1, const char *str2)
+int	ft_strcmp(const char *str1, const char *str2)
 {
 	int	i;
 
@@ -28,4 +28,10 @@ int	ft_strncmp(const char *str1, const char *str2, size_t len)
 	while (i < len - 1 && str1[i] == str2[i] && str1[i])
 		i++;
 	return (str1[i] - str2[i]);
+}
+
+int	ft_isspace(char c)
+{
+	return (c == ' ' || c == '\t' || c == '\r' || c == '\r'
+		|| c == '\n' || c == '\f');
 }

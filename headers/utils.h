@@ -6,6 +6,7 @@
 
 char	*ft_substr_from_to(char *str, int begin, int end);		//	[begin, end)
 size_t	ft_strlen(const char *str);
+int		ft_isspace(char c);
 
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(char *str);

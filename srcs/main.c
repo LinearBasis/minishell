@@ -76,30 +76,51 @@ int	g_flag;
 
 
 
-int	main(int argc, char *argv[], char *envp[])
+// int	main(int argc, char *argv[], char *envp[])
+// {
+// 	if (!envp)
+// 		return (1);
+// 	t_export	*exp;
+
+// 	exp = create_export(envp);
+// 	// add_to_env(exp, "a=b");
+// 	// add_to_env(exp, "TERM=prikol");
+// 	// add_to_env(exp, "_=HERE");
+// 	// add_to_env(exp, "a");
+// 	// add_to_env(exp, "c");
+// 	// add_to_env(exp, "a=d");
+// 	add_to_env(exp, "b=");
+// 	print_env(exp);
+
+// 	clear_export(exp);
+
+// 	// printf("%s - a\n", get_env(exp, "a"));
+// 	// printf("%s - z\n", get_env(exp, "z"));
+// 	sleep(10);
+// }
+
+int		main(int argc, char *argv[])
 {
-	if (!envp)
-		return (1);
-	t_export	*exp;
+	char		error_token;
+	t_operation	status;
 
-	exp = create_export(envp);
-	// add_to_env(exp, "a=b");
-	// add_to_env(exp, "TERM=prikol");
-	// add_to_env(exp, "_=HERE");
-	// add_to_env(exp, "a");
-	// add_to_env(exp, "c");
-	// add_to_env(exp, "a=d");
-	add_to_env(exp, "b=");
-	print_env(exp);
-
-	clear_export(exp);
-
-	// printf("%s - a\n", get_env(exp, "a"));
-	// printf("%s - z\n", get_env(exp, "z"));
-	sleep(10);
+	if (argc < 2)
+		return (-1);
+	if ((status = parser__syntax_analys(argv[1], &error_token)) != CHECK_SUCCESS)
+	{
+		if (status == CHECK_FAILED_QUOTES)
+			printf("quotes error ");
+		else
+		{	printf("operations error ");
+			if (error_token == OP_NONE)
+				printf("near unexpected token `newline'\n");
+			else
+				printf("near unexpected token `%u'\n", error_token);
+		}
+	}
+	else
+		printf("SUCCESS\n");
 }
-
-
 
 
 //readline,

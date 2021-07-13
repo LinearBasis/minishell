@@ -5,7 +5,18 @@ CFLAGS = -fsanitize=address -Wall -Wextra # -Werror
 
 HDRS_DIR	= ./headers
 OBJS_DIR	= ./objs
-SRCS_DIRS	= ./srcs $(addprefix ./srcs, /signals /do_command /envp /utils)
+SRCS_DIRS	= ./srcs $(addprefix ./srcs, \
+							/signals \
+							/builtin_command \
+							/envp \
+							/utils \
+							/parser\
+							$(addprefix /data_structs, \
+								commlist\
+								list\
+								stack\
+							)\
+						)
 
 HDRS = $(wildcard $(addsuffix /*.h, $(HDRS_DIRS)))
 SRCS = $(wildcard $(addsuffix /*.c, $(SRCS_DIRS)))
