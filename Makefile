@@ -1,7 +1,7 @@
 NAME = minishell
 
 CC = gcc
-CFLAGS = -fsanitize=address -Wall -Wextra # -Werror
+CFLAGS =  -Wall -Wextra -fsanitize=address #-Werror
 
 HDRS_DIR	= ./headers
 OBJS_DIR	= ./objs
@@ -12,9 +12,7 @@ SRCS_DIRS	= ./srcs $(addprefix ./srcs, \
 							/utils \
 							/parser\
 							$(addprefix /data_structs, \
-								commlist\
-								list\
-								stack\
+								/commlist\
 							)\
 						)
 

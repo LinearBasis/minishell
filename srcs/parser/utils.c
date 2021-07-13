@@ -1,8 +1,8 @@
 #include "parser.h"
 
-t_operation		parser__is_operation(const char *str)
+t_operation	parser__is_oper(const char *str)
 {
-	t_operation out;
+	t_operation	out;
 
 	out = OP_NONE;
 	if (*str == '|')

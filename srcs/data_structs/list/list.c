@@ -1,4 +1,4 @@
-#include "list.h"
+#include "data_structs/list.h"
 
 t_list	*list_create(void *data)
 {

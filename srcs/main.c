@@ -101,9 +101,15 @@ int	g_flag;
 
 int		main(int argc, char *argv[])
 {
+	t_commlist	*lst;
+
 	if (argc < 2)
 		return (-1);
-	return (parse_input(argv[1], NULL));
+	if (parse_input(argv[1], &lst) != 0)
+		printf("PARSE ERROR\n");
+	else
+		commlist_print(lst);
+	return (0);
 }
 
 
