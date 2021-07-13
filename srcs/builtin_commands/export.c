@@ -5,6 +5,31 @@
 		// 	printf("=\"%s\"", exp->envp_key_value[1][i]);
 		// printf("\n");
 
+/*
+	builtin_export function
+
+	Если не против, я тут немного поменял структуру файла,
+	чтобы было видна основная структура "функция - статические подфункции"
+
+	Можешь прописать комментарии сюда
+*/
+static void	_swap(int *a1, int *a2);
+static int	*get_sort_indexes(char **export, size_t size);
+static int	print_export(t_export *exp);
+
+int		builtin_export(char **command, t_export *exp)
+{
+	size_t	size;
+
+	size = 0;
+	while (command[size])
+		size++;
+	if (size == 1)
+	{
+		return (print_export(exp));
+	}
+}
+
 static void	_swap(int *a1, int *a2)
 {
 	int	a3;
@@ -71,17 +96,4 @@ static int	print_export(t_export *exp)
 	}
 	free(indexes);
 	return (0);
-}
-
-int		builtin_export(char **command, t_export *exp)
-{
-	size_t	size;
-
-	size = 0;
-	while (command[size])
-		size++;
-	if (size == 1)
-	{
-		return (print_export(exp));
-	}
 }
