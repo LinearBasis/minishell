@@ -101,25 +101,9 @@ int	g_flag;
 
 int		main(int argc, char *argv[])
 {
-	char		error_token;
-	t_operation	status;
-
 	if (argc < 2)
 		return (-1);
-	if ((status = parser__syntax_analys(argv[1], &error_token)) != CHECK_SUCCESS)
-	{
-		if (status == CHECK_FAILED_QUOTES)
-			printf("quotes error ");
-		else
-		{	printf("operations error ");
-			if (error_token == OP_NONE)
-				printf("near unexpected token `newline'\n");
-			else
-				printf("near unexpected token `%u'\n", error_token);
-		}
-	}
-	else
-		printf("SUCCESS\n");
+	return (parse_input(argv[1], NULL));
 }
 
 
