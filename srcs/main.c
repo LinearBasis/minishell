@@ -6,7 +6,7 @@ int	g_flag;
 // {
 // 	char		*input;
 // 	char		**commands;
-// 	t_export	*exp;
+// 	t_envp	*exp;
 
 // 	if (!envp)
 // 		return (0);
@@ -61,7 +61,7 @@ int	g_flag;
 
 // 	char		*input;
 // 	char		**commands;
-// 	t_export	*exp;
+// 	t_envp	*exp;
 
 // 	if (!envp)
 // 		return (0);
@@ -80,7 +80,7 @@ int	g_flag;
 // {
 // 	if (!envp)
 // 		return (1);
-// 	t_export	*exp;
+// 	t_envp	*exp;
 
 // 	exp = create_export(envp);
 // 	// add_to_env(exp, "a=b");
@@ -105,9 +105,7 @@ int		main(int argc, char *argv[])
 
 	if (argc < 2)
 		return (-1);
-	if (parse_input(argv[1], &lst) != 0)
-		printf("PARSE ERROR\n");
-	else
+	if (parse_input(argv[1], &lst) == 0)
 		commlist_print(lst);
 	return (0);
 }

@@ -9,11 +9,11 @@
 
 	Можешь прописать комментарии сюда
 */
-static int	do_cd_to_user(t_export *exp);
+static int	do_cd_to_user(t_envp *exp);
 static int	do_cd_to_back(char buf[25565]);
 static int	do_cd_to_path(char b);
 
-int	builtin_cd(char **command, t_export *exp)
+int	builtin_cd(char **command, t_envp *exp)
 {
 	char	buf[25565];
 
@@ -37,7 +37,7 @@ int	builtin_cd(char **command, t_export *exp)
 	return(0);
 }
 
-static int	do_cd_to_user(t_export *exp)
+static int	do_cd_to_user(t_envp *exp)
 {
 	char	*path;
 	

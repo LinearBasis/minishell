@@ -1,6 +1,6 @@
 #include "envp.h"
 
-char		*get_env(t_export *exp, char *key)
+char		*get_env(t_envp *exp, char *key)
 {
 	int	i;
 

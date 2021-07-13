@@ -1,6 +1,6 @@
 #include "envp.h"
 
-int		_fill_one_export(t_export *ans, char *env, int i)
+int		_fill_one_export(t_envp *ans, char *env, int i)
 {
 	int		len;
 	char	*a2;
@@ -29,7 +29,7 @@ int		_fill_one_export(t_export *ans, char *env, int i)
 	return (0);
 }
 
-int	_copy_envp(t_export *ans, char **envp, int i)
+int	_copy_envp(t_envp *ans, char **envp, int i)
 {
 	int		j;
 	int		len;

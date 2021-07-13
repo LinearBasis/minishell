@@ -1,6 +1,6 @@
 #include "envp.h"
 
-static int	_add_key_value_to_env(t_export *env, char *key, char *value)
+static int	_add_key_value_to_env(t_envp *env, char *key, char *value)
 {
 	char	**new_key_value[2];
 	int		size;
@@ -35,7 +35,7 @@ static int	_add_key_value_to_env(t_export *env, char *key, char *value)
 	return (0);
 }
 
-int			add_to_env(t_export *env, char *str)
+int			add_to_env(t_envp *env, char *str)
 {
 	int		i;
 	char	*key;

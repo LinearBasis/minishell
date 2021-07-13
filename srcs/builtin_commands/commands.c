@@ -1,7 +1,7 @@
 #include "do_command.h"
 #include <string.h>
 
-int	handle_command(char **command, t_export *exp)
+int	handle_command(char **command, t_envp *exp)
 {
 	if (!command || !command[0])
 		return (1);

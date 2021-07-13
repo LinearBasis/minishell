@@ -1,6 +1,6 @@
 #include "do_command.h"
 
-int		builtin_env(char ** command, t_export *exp)
+int		builtin_env(char ** command, t_envp *exp)
 {
 	int	i;
 

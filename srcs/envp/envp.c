@@ -1,15 +1,15 @@
 #include "envp.h"
 #include <stdio.h>
 
-t_export	*create_export(char **envp)
+t_envp	*create_export(char **envp)
 {
 	int			i;
-	t_export	*ans;
+	t_envp	*ans;
 
 	i = 0;
 	while (envp[i])
 		i++;
-	ans = calloc(1, sizeof(t_export));		//TODO
+	ans = calloc(1, sizeof(t_envp));		//TODO
 	if (!ans)
 		return ans;
 	ans->envp_key_value[0] = (char **)malloc(sizeof(char *) * (i + 1));
@@ -25,7 +25,7 @@ t_export	*create_export(char **envp)
 }
 
 
-void		clear_export(t_export *exp)
+void		clear_export(t_envp *exp)
 {
 	int i;
 
@@ -44,7 +44,7 @@ void		clear_export(t_export *exp)
 	free(exp);
 }
 
-void		print_env(t_export *exp)
+void		print_env(t_envp *exp)
 {
 	int	i;
 

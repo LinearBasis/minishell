@@ -1,6 +1,6 @@
 #include "envp.h"
 
-int			remove_from_env(t_export *exp, char *key)
+int			remove_from_env(t_envp *exp, char *key)
 {
 	size_t	i;
 	int		id;
