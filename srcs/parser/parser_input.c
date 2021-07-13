@@ -13,8 +13,8 @@ int	parse_input(char *str, t_commlist **out_commlist, t_envp *envp)
 		parser__print_syntax_error(error_token);
 		return (-1);
 	}
-	if (parser__envp_replace(&str, envp) != 0)
-		return (-2);
+	// if (parser__envp_replace(&str, envp) != 0)
+		// return (-2);
 	if (fill_commlist(str, out_commlist) != 0)
 		return (-3);
 	return (0);
