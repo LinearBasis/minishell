@@ -10,7 +10,6 @@ typedef struct s_export
 	char	**envp_key_value[2];
 }				t_export;
 
-
 int			_fill_one_export(t_export *ans, char *env, int i);
 
 void		clear_export(t_export *exp);
