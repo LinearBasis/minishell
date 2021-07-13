@@ -1,4 +1,4 @@
-#include "do_command.h"
+#include "builtin_commands.h"
 #include <string.h>
 
 int	handle_command(char **command, t_envp *exp)
@@ -6,18 +6,18 @@ int	handle_command(char **command, t_envp *exp)
 	if (!command || !command[0])
 		return (1);
 	if (!strcmp(command[0], "echo"))	// TODO
-		return (do_echo(command));
+		return (builtin_echo(command));
 	if (!strcmp(command[0], "cd"))
-		do_cd(command, exp);
+		builtin_cd(command, exp);
 	if (!strcmp(command[0], "pwd"))
-		do_pwd(command);
+		builtin_pwd(command);
 	// if (!strcmp(command[0], "export"))
-	// 	do_export(command, exp);
+	// 	builtin_export(command, exp);
 	// if (!strcmp(command[0], "unset"))
-	// 	do_unset(command, exp);
+	// 	builtin_unset(command, exp);
 	// if (!strcmp(command[0], "env"))
-	// 	do_env(command, exp);
+	// 	builtin_env(command, exp);
 	// if (!strcmp(command[0], "exit"))
-	// 	do_exit(command);
+	// 	builtin_exit(command);
 	return (0);
 }

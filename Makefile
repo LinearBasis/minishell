@@ -7,7 +7,7 @@ HDRS_DIR	= ./headers
 OBJS_DIR	= ./objs
 SRCS_DIRS	= ./srcs $(addprefix ./srcs, \
 							/signals \
-							/builtin_command \
+							/builtin_commands \
 							/envp \
 							/utils \
 							/parser\
