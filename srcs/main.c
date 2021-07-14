@@ -2,36 +2,39 @@
 
 int	g_flag;
 
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	char		*input;
-// 	char		**commands;
-// 	t_envp	*exp;
+int	main(int argc, char **argv, char **envp)
+{
+	t_commlist	*commands;
+	t_envp		*envp_copy;
+	char		*input;
 
-// 	if (!envp)
-// 		return (0);
-// 	signal(SIGINT, handler_sigint);
-// 	rl_catch_signals = 0;
-// 	exp = create_export(envp);
-// 	while(21)
-// 	{
-// 		input = readline(SHELL_NAME);
-// 		g_flag = 0;
-// 		if (input == NULL)
-// 		{
-// 			printf("\e[A%sexit\n", SHELL_NAME);
-// 			break;
-// 		}
-// 		if (input[0] && !g_flag)
-// 		{
-// 			add_history(input);
-// 		}
-// 		// input = parse();
-// 		//проверка
-// 		handle_command(&input, exp);
-// 		free(input);
-// 	}
-// }
+	(void)argc;
+	(void)argv;
+	if (!envp)
+		return (0);
+	signal(SIGINT, handler_sigint);
+	rl_catch_signals = 0;
+	envp_copy = create_export(envp);
+	while(1)
+	{
+		input = readline(SHELL_NAME);
+		g_flag = 0;
+		if (input == NULL)
+		{
+			printf("\e[A%sexit\n", SHELL_NAME);
+			break;
+		}
+		if (*input && !g_flag)
+		{
+			add_history(input);
+		}
+		if (parse_input(input, &commands, envp_copy) == 0)
+			if (command_processing(commands, envp_copy) != 0)
+				perror("Error ");
+		free(input);
+	}
+	return (0);
+}
 
 
 	//TEST COMMANDS MAIN
@@ -99,16 +102,16 @@ int	g_flag;
 // 	sleep(10);
 // }
 
-int		main(int argc, char *argv[])
-{
-	t_commlist	*lst;
+// int		main(int argc, char *argv[])
+// {
+// 	t_commlist	*lst;
 
-	if (argc < 2)
-		return (-1);
-	if (parse_input(argv[1], &lst, NULL) == 0)
-		commlist_print(lst);
-	return (0);
-}
+// 	if (argc < 2)
+// 		return (-1);
+// 	if (parse_input(argv[1], &lst, NULL) == 0)
+// 		commlist_print(lst);
+// 	return (0);
+// }
 
 
 //readline,

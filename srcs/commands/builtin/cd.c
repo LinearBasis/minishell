@@ -76,5 +76,6 @@ static int	do_cd_to_back(char buf[25565])
 
 static int	do_cd_to_path(char b)
 {
+	(void)b;
 	return (-1);
 }

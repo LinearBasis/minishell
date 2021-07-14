@@ -28,6 +28,7 @@ int		builtin_export(char **command, t_envp *exp)
 	{
 		return (print_envp(exp));
 	}
+	return (0);
 }
 
 static void	_swap(int *a1, int *a2)
@@ -73,11 +74,9 @@ static int	print_envp(t_envp *exp)
 {
 	int		*indexes;
 	size_t	i;
-	size_t	j;
 	size_t	size;
 
 	i = 0;
-	j = 0;
 	size = 0;
 	while (exp->envp_key_value[0][size])
 		size++;
@@ -87,7 +86,7 @@ static int	print_envp(t_envp *exp)
 	i = 0;
 	while (i < size)
 	{
-		printf("indexes[%d] - %d,    ", i, indexes[i]);
+		printf("indexes[%zu] - %d,    ", i, indexes[i]);
 		printf("declare -x %s", exp->envp_key_value[0][indexes[i]]);
 		if (exp->envp_key_value[1][indexes[i]])
 			printf("=\"%s\"", exp->envp_key_value[1][indexes[i]]);

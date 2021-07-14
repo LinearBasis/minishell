@@ -46,32 +46,34 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 char	*ft_strdup(char *str)
 {
-	char	*ans;
-	size_t	i;
+	char	*out;
+	size_t	len;
 
-	i = ft_strlen(str);
-	ans = malloc(i + 1);
-	ft_strlcpy(ans, str, i + 1);
-	return (ans);
+	len = ft_strlen(str);
+	out = malloc(sizeof(char) * (len + 1));
+	if (!out)
+		return (NULL);
+	ft_strlcpy(out, str, len + 1);
+	return (out);
 }
 
 //podarok [2,4) = da
-char	*ft_substr_from_to(char *str, int begin, int end)
+char	*ft_substr_from_to(char *str, size_t begin, size_t end)
 {
-	char	*ans;
-	int		begin_cpy;
+	char		*out;
+	size_t		begin_cpy;
 
 	if (end <= begin || begin > ft_strlen(str) || end > ft_strlen(str))
 		return (NULL);
-	ans = malloc(end - begin + 1);
-	if (!ans)
+	out = malloc(sizeof(char) * (end - begin + 1));
+	if (!out)
 		return (NULL);
 	begin_cpy = begin;
 	while (begin < end)
 	{
-		ans[begin - begin_cpy] = str[begin];
+		out[begin - begin_cpy] = str[begin];
 		begin++;
 	}
-	ans[begin - begin_cpy] = 0;
-	return (ans);
+	out[begin - begin_cpy] = 0;
+	return (out);
 }

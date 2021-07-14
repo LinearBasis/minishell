@@ -2,7 +2,7 @@
 
 int		_fill_one_export(t_envp *ans, char *env, int i)
 {
-	int		len;
+	size_t	len;
 	char	*a2;
 	char	*a3;
 
@@ -32,8 +32,6 @@ int		_fill_one_export(t_envp *ans, char *env, int i)
 int	_copy_envp(t_envp *ans, char **envp, int i)
 {
 	int		j;
-	int		len;
-	char	**tmp;
 
 	j = 0;
 	while (j < i)

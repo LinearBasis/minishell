@@ -12,13 +12,15 @@ int		exec_command(char **argv, t_envp *envp)
 	if (!path_dirs)
 		return (-1);
 	binary = bruteforce_binary(argv[0], path_dirs);
+	if (!binary)
+		return (-2);
 	if (binary != argv[0])
 	{
 		free(argv[0]);
 		argv[0] = binary;
 	}
-	if (execve(binary, argv, envp->envp_key_value) < 0)
-		return (-2);
+	if (execve(binary, argv, NULL) < 0)
+		return (-3);
 	return (0);
 }
 
@@ -35,8 +37,7 @@ char	*bruteforce_binary(char *command, char **path_dirs)
 	while (*path_dirs)
 	{
 		tmp = ft_strjoin(*path_dirs, command);
-		if (stat(tmp, &buff) != 0)
-			return (NULL);
+		stat(tmp, &buff);
 		if (buff.st_mode & S_IXUSR)
 			return (tmp);
 		free(tmp);

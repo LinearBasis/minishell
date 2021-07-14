@@ -2,12 +2,12 @@
 
 size_t	ft_strlen(const char *s)
 {
-	size_t	i;
+	size_t	len;
 
-	i = 0;
-	while (s[i++])
-		;
-	return (i - 1);
+	len = 0;
+	while (s[len])
+		++len;
+	return (len);
 }
 
 int	ft_strcmp(const char *str1, const char *str2)

@@ -4,7 +4,6 @@ static int	_add_key_value_to_env(t_envp *env, char *key, char *value)
 {
 	char	**new_key_value[2];
 	int		size;
-	int		i;
 
 	size = -1;
 	while (env->envp_key_value[0][++size])
@@ -37,10 +36,10 @@ static int	_add_key_value_to_env(t_envp *env, char *key, char *value)
 
 int			add_to_env(t_envp *env, char *str)
 {
-	int		i;
 	char	*key;
 	char	*value;
 	size_t	len;
+	size_t	i;
 
 	len = ft_strlen(str);
 	i = 0;

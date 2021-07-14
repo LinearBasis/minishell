@@ -27,7 +27,7 @@ static size_t	get_new_len(char *str, char **envp[2])
 	size = 0;
 	while (str)
 	{
-		if (str == '$')
+		if (*str == '$')
 			size += ft_strlen(envp__get_value(envp, str + 1));
 		else
 			++size;
