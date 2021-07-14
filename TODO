@@ -1,2 +1,5 @@
-1. Test input parser with ENVP (now in commented in parser_input.c)
-2. Test commands exec
+1. Add 'char **' null-terminated list of 'key=value' env params to 't_envp'.
+
+2. Test input parser with ENVP (now in commented in parser_input.c)
+
+3. Test commands exec
