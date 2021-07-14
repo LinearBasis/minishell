@@ -37,14 +37,14 @@ $(OBJS_DIR)/%.o: %.c $(HDRS)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@if [[ "$$LOGNAME" == "pp189" ]]; \
+	@if [[ "$$LOGNAME" == "mgroot" ]]; \
 	then \
-		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline; \
+		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L/Users/mgroot/.brew/Cellar/readline/8.1/lib; \
 	elif [[ "$$LOGNAME" == "dnicki" ]]; \
 	then \
 		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L/Users/dnicki/.brew/Cellar/readline/8.1/lib; \
 	else \
-		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L/Users/mgroot/.brew/Cellar/readline/8.1/lib; \
+		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline;\
 	fi
 
 	@echo "Build done"
