@@ -1,6 +1,6 @@
 #include "parser.h"
 
-static char		*envp__get_value(char **envp[2], char *key);
+static char		*envp__get_value(char **envp[2], char *key, size_t *key_len);
 static void		replace_keys(char *str, char *dest, char **envp[2]);
 static size_t	get_new_len(char *str, char **envp[2]);
 
@@ -13,7 +13,7 @@ int	parser__envp_replace(char **str, t_envp *envp)
 	out = malloc(sizeof(char) * (size + 1));
 	if (!out)
 		return (-1);
-	out[size + 1] = '\0';
+	out[size] = '\0';
 	replace_keys(*str, out, envp->envp_key_value);
 	free(*str);
 	*str = out;
@@ -23,14 +23,17 @@ int	parser__envp_replace(char **str, t_envp *envp)
 static size_t	get_new_len(char *str, char **envp[2])
 {
 	size_t	size;
-	
+	size_t	key_len;
+
 	size = 0;
-	while (str)
+	while (*str)
 	{
-		if (*str == '$')
-			size += ft_strlen(envp__get_value(envp, str + 1));
+		key_len = 0;
+		if (*str == '$' && *(str + 1))
+			size += ft_strlen(envp__get_value(envp, str + 1, &key_len));
 		else
 			++size;
+		str += key_len + 1;
 	}
 	return (size);
 }
@@ -38,41 +41,43 @@ static size_t	get_new_len(char *str, char **envp[2])
 static void		replace_keys(char *str, char *dest, char **envp[2])
 {
 	char	*value;
-	
+	size_t	key_len;
+
 	while (*str)
 	{
-		if (*str == '$')
+		if (*str == '$' && *(str + 1))
 		{
-			value = envp__get_value(envp, str + 1);
-			while (*value)
-			{
-				*dest = *value;
-				dest++;
-				value++;
-			}
+			value = envp__get_value(envp, str + 1, &key_len);
+			if (value)
+				while (*value)
+				{
+					*dest = *value;
+					dest++;
+					value++;
+				}
+			str += key_len + 1;
 		}
 		else
 		{
 			*dest = *str;
-			dest++;
-			str++;
+			++dest;
+			++str;
 		}
 	}
 }
 
-static char		*envp__get_value(char **envp[2], char *key)
+static char		*envp__get_value(char **envp[2], char *key, size_t *key_len)
 {
-	size_t	len;
 	size_t	index;
 
-	len = 0;
-	while (key[len] && !ft_isspace(key[len])
+	*key_len = 0;
+	while (key[*key_len] && !ft_isspace(key[*key_len])
 		&& parser__is_oper(key) == OP_NONE && *key != '$')
-		++len;
+		++(*key_len);
 	index = 0;
 	while (envp[KEY][index])
 	{
-		if (ft_strncmp(envp[KEY][index], key, len) == 0)
+		if (ft_strncmp(envp[KEY][index], key, *key_len) == 0)
 			return (envp[VALUE][index]);
 		index++;
 	}

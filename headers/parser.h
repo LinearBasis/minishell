@@ -11,7 +11,7 @@
 # define CHECK_SUCCESS			0
 
 // parser.c
-int			parse_input(char *str, t_commlist **out_commlist, t_envp *envp);
+int			parse_input(char **str, t_commlist **out_commlist, t_envp *envp);
 
 // syntax_analys.c
 t_operation	parser__is_oper(const char *str);

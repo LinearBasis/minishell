@@ -2,6 +2,8 @@
 
 int	command_processing(t_commlist *commands, t_envp *envp)
 {
+	// for (int i = 0; commands->data[i]; i++)
+	// 	printf("[%s]\n", commands->data[i]);
 	return (handle_command(commands->data, envp));
 }
 
