@@ -32,13 +32,12 @@ int		is_colon(char c)
 char	*bruteforce_binary(char *command, char **path_dirs)
 {
 	struct stat	buff;
-	char	*tmp;
+	char		*tmp;
 
 	while (*path_dirs)
 	{
 		tmp = ft_strjoin(*path_dirs, command);
-		stat(tmp, &buff);
-		if (buff.st_mode & S_IXUSR)
+		if (stat(tmp, &buff) == 0 && (buff.st_mode & S_IXUSR))
 			return (tmp);
 		free(tmp);
 		path_dirs++;
