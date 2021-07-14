@@ -23,5 +23,6 @@ int			parser__envp_replace(char **str, t_envp *envp);
 
 // parser_argv.c
 char		**parser__get_argv(char **str);
+char		*parser__get_word(char **str);
 
 #endif

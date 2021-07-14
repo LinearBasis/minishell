@@ -3,6 +3,8 @@
 static int		fill_commlist(char *str, t_commlist **commlist);
 static int		fill_commlist__push_elem(char **str, t_commlist **commlist,
 					t_operation oper);
+static int		fill_commlist__push_wrd_elem(char **str, t_commlist **commlist,
+					t_operation oper);
 
 int	parse_input(char **str, t_commlist **out_commlist, t_envp *envp)
 {
@@ -27,6 +29,9 @@ static int	fill_commlist(char *str, t_commlist **commlist)
 	*commlist = NULL;
 	while (ft_isspace(*str))
 		++str;
+	op = parser__is_oper(str);
+	if (op != OP_NONE && op != OP_PIPE)
+		fill_commlist__push_wrd_elem(&str, commlist, op);
 	while (*str)
 	{
 		op = parser__is_oper(str);
@@ -43,6 +48,26 @@ static int	fill_commlist(char *str, t_commlist **commlist)
 	return (0);
 }
 
+static int		fill_commlist__push_wrd_elem(char **str, t_commlist **commlist,
+					t_operation oper)
+{
+	t_commlist	*tmp;
+	char		**argv;
+
+	argv = malloc(sizeof(char *));
+	if (!argv)
+		return (-1);
+	*argv = parser__get_word(str);
+	if (!*argv)
+		return (-2);
+	tmp = commlist_create(argv);
+	if (!tmp)
+		return (-3);
+	commlist_push_back(commlist, tmp);
+	tmp->op_prev = oper;
+	return (0);
+}
+
 static int	fill_commlist__push_elem(char **str, t_commlist **commlist,
 				t_operation oper)
 {
@@ -54,7 +79,7 @@ static int	fill_commlist__push_elem(char **str, t_commlist **commlist,
 		return (-1);
 	tmp = commlist_create(argv);
 	if (!tmp)
-		return (-1);
+		return (-2);
 	commlist_push_back(commlist, tmp);
 	tmp->op_prev = oper;
 	if (tmp->prev)

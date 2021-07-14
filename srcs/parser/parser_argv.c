@@ -1,7 +1,6 @@
 #include "parser.h"
 
 static size_t	count_words(char *str);
-static char		*get_word(char **str);
 
 char	**parser__get_argv(char **str)
 {
@@ -17,7 +16,7 @@ char	**parser__get_argv(char **str)
 	index = 0;
 	while (index < argc)
 	{
-		argv[index] = get_word(str);
+		argv[index] = parser__get_word(str);
 		if (!argv[index])
 		{
 			while (index--)
@@ -48,7 +47,7 @@ static size_t	count_words(char *str)
 	return (count);
 }
 
-static char	*get_word(char **str)
+char	*parser__get_word(char **str)
 {
 	size_t	size;
 	char	*out;
