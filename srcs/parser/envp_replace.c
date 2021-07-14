@@ -24,12 +24,16 @@ static size_t	get_new_len(char *str, char **envp[2])
 {
 	size_t	size;
 	size_t	key_len;
+	int		squotes_flag;
 
+	squotes_flag = 0;
 	size = 0;
 	while (*str)
 	{
 		key_len = 0;
-		if (*str == '$' && *(str + 1))
+		if (*str == '\'')
+			squotes_flag = !squotes_flag;
+		if (*str == '$' && !squotes_flag && *(str + 1))
 			size += ft_strlen(envp__get_value(envp, str + 1, &key_len));
 		else
 			++size;
@@ -42,10 +46,13 @@ static void		replace_keys(char *str, char *dest, char **envp[2])
 {
 	char	*value;
 	size_t	key_len;
+	int		squotes_flag;
 
 	while (*str)
 	{
-		if (*str == '$' && *(str + 1))
+		if (*str == '\'')
+			squotes_flag = !squotes_flag;
+		if (*str == '$' && !squotes_flag && *(str + 1))
 		{
 			value = envp__get_value(envp, str + 1, &key_len);
 			if (value)
@@ -72,7 +79,8 @@ static char		*envp__get_value(char **envp[2], char *key, size_t *key_len)
 
 	*key_len = 0;
 	while (key[*key_len] && !ft_isspace(key[*key_len])
-		&& parser__is_oper(key) == OP_NONE && *key != '$')
+		&& parser__is_oper(key) == OP_NONE
+		&& key[*key_len] != '\"' && key[*key_len] != '$')
 		++(*key_len);
 	index = 0;
 	while (envp[KEY][index])
