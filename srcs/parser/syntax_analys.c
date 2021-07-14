@@ -10,6 +10,10 @@ static int	operations_analys(const char *str, t_operation *error_token);
 
 int	parser__syntax_analys(const char *str, t_operation *error_token)
 {
+	while (ft_isspace(*str))
+		str++;
+	if (!*str)
+		return (CHECK_SUCCESS);
 	if (quotes_analys(str) != CHECK_SUCCESS)
 		return (CHECK_FAILED_QUOTES);
 	else if (operations_analys(str, error_token) != CHECK_SUCCESS)
