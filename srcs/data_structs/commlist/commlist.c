@@ -26,7 +26,6 @@ void	commlist_push_back(t_commlist **list, t_commlist *to_add)
 		*list = to_add;
 		return;
 	}
-
 	iter = *list;
 	while (iter->next)
 		iter = iter->next;

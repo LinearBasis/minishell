@@ -31,7 +31,10 @@ static int	fill_commlist(char *str, t_commlist **commlist)
 		++str;
 	op = parser__is_oper(str);
 	if (op != OP_NONE && op != OP_PIPE)
+	{
+		str += 1 + (op == OP_REDIR2L || op == OP_REDIR2R);
 		fill_commlist__push_wrd_elem(&str, commlist, op);
+	}
 	while (*str)
 	{
 		op = parser__is_oper(str);
@@ -54,10 +57,11 @@ static int		fill_commlist__push_wrd_elem(char **str, t_commlist **commlist,
 	t_commlist	*tmp;
 	char		**argv;
 
-	argv = malloc(sizeof(char *));
+	argv = malloc(sizeof(char *) * 2);
 	if (!argv)
 		return (-1);
-	*argv = parser__get_word(str);
+	argv[1] = NULL;
+	argv[0] = parser__get_word(str);
 	if (!*argv)
 		return (-2);
 	tmp = commlist_create(argv);
