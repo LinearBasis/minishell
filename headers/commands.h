@@ -5,9 +5,11 @@
 # include "envp.h"
 # include "utils.h"
 # include <unistd.h>
+# include <fcntl.h>
 # include <errno.h>
 # include <stdio.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 
 int		command_processing(t_commlist *commands, t_envp *envp);
 int		handle_command(char **command, t_envp *envp);
