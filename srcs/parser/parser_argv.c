@@ -40,7 +40,6 @@ static size_t	count_words(char *str)
 	count = 0;
 	while (*str  && parser__is_oper(str) == OP_NONE)
 	{
-		printf("{%s}\t", str);
 		qoute_flag = 0;
 		if (*str == '\'' || *str == '\"')
 		{
@@ -52,7 +51,6 @@ static size_t	count_words(char *str)
 			str++;
 		if (qoute_flag)
 			str++;
-		printf("{%s}\n", str);
 		++count;
 		while (*str && ft_isspace(*str))
 			str++;

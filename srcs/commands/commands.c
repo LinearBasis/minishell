@@ -9,11 +9,11 @@ int	command_processing(t_commlist *commands, t_envp *envp)
 	int		status;
 	int		pid;
 
+	//commlist_print(commands);
 	prev_fd = -1;
 	while (commands)
 	{
-		//printf("%d | %s | %d\n", commands->op_prev, commands->data[0], commands->op_next);
-		if (commands->op_next != OP_NONE && pipe(pipe_fds) == -1)
+		if (commands->op_next == OP_PIPE && pipe(pipe_fds) == -1)
 		{
 			perror("Can't create pipe ");
 			return (-1);
@@ -28,16 +28,19 @@ int	command_processing(t_commlist *commands, t_envp *envp)
 		{
 			if (prev_fd >= 0)
 				dup2(prev_fd, STDIN_FILENO);
-			if (commands->op_next != OP_NONE)
+			if (commands->op_next == OP_PIPE)
 				dup2(pipe_fds[1], STDOUT_FILENO);
 			handle_command(commands->data, envp);
 		}
-		if (commands->op_next != OP_NONE)
-		{
+		if (prev_fd >= 0)
 			close(prev_fd);
+		if (commands->op_next == OP_PIPE)
+		{
 			close(pipe_fds[1]);
 			prev_fd = pipe_fds[0];
 		}
+		else
+			prev_fd = -1; 
 		commands = commands->next;
 	}
 	wait(&status);
