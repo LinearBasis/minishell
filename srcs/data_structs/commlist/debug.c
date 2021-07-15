@@ -34,6 +34,8 @@ void	commlist_print(t_commlist *lst)
 		}
 		printf("%s]\t", *copy);
 		printf_oper(lst->op_next);
+		printf("\n");
 		lst = lst->next;
 	}
+	printf("\n----------------------------------------\n");
 }
