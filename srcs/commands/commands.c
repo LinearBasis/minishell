@@ -12,7 +12,7 @@ int	command_processing(t_commlist *commands, t_envp *envp)
 	prev_fd = -1;
 	while (commands)
 	{
-		printf("%d | %s | %d\n", commands->op_prev, commands->data[0], commands->op_next);
+		//printf("%d | %s | %d\n", commands->op_prev, commands->data[0], commands->op_next);
 		if (commands->op_next != OP_NONE && pipe(pipe_fds) == -1)
 		{
 			perror("Can't create pipe ");

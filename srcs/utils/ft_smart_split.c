@@ -1,6 +1,6 @@
 #include "utils.h"
 
-static size_t	count_words(char const *s, int (*cmp)(char))
+static size_t	count_words(char const *s, int (*sep_cmp)(char))
 {
 	size_t	count;
 
@@ -8,15 +8,15 @@ static size_t	count_words(char const *s, int (*cmp)(char))
 	if (!*s)
 		return (0);
 	while (*(++s))
-		if (cmp(*s) && !cmp(*(s - 1)))
+		if (sep_cmp(*s) && !sep_cmp(*(s - 1)))
 			count++;
-	if (!cmp(*(s - 1)))
+	if (!sep_cmp(*(s - 1)))
 		count++;
 	return (count);
 }
 
 static size_t	get_word(char **dest, char const *s,
-							int (*cmp)(char), const char *tail)
+							int (*sep_cmp)(char), const char *tail)
 {
 	size_t	len;
 	size_t	tail_len;
@@ -25,7 +25,7 @@ static size_t	get_word(char **dest, char const *s,
 
 	len = 0;
 	i = -1;
-	while (!cmp(s[++i]) && s[i] != '\0')
+	while (s[++i] != '\0' && !sep_cmp(s[i]))
 		len++;
 	tail_len = ft_strlen(tail);
 	*dest = (char *)malloc(sizeof(char) * (len + tail_len + 1));
@@ -36,10 +36,10 @@ static size_t	get_word(char **dest, char const *s,
 	while (tail[++j])
 		(*dest)[len + j] = tail[j];
 	i = -1;
-	while (!cmp(s[++i]) && s[i] != '\0')
+	while (s[++i] != '\0' && !sep_cmp(s[i]))
 		(*dest)[i] = s[i];
-	while (cmp(s[++i]))
-		;
+	while (s[i] != '\0' && sep_cmp(s[i]))
+		++i;
 	return (i);
 }
 
@@ -63,14 +63,14 @@ static const char	*skip_sep(char const *s, int (*cmp)(char))
 	to each of separeted strings.
 	Params:
 const char*		s		-- src string to split
-int	(*)(char)	cmp		-- comparator for sep, returns 1 or 0 (i.e. isspace)
+int	(*)(char)	sep_cmp	-- comparator for sep, returns 1 or 0 (i.e. isspace)
 const char*		tail	-- null terminated string, that will be add 
 							to each of words
 	Returns:
 char**			array	-- array of ptrs to splitted allocated words,
 							last pointer is NULL.
 */
-char	**ft_smart_split(const char *s, int (*cmp)(char), const char *tail)
+char	**ft_smart_split(const char *s, int (*sep_cmp)(char), const char *tail)
 {
 	char	**words;
 	size_t	n_o_w;
@@ -79,16 +79,16 @@ char	**ft_smart_split(const char *s, int (*cmp)(char), const char *tail)
 
 	if (!s)
 		return (ft_calloc(1, sizeof(char *)));
-	n_o_w = count_words(s, cmp);
+	n_o_w = count_words(s, sep_cmp);
 	words = (char **)malloc(sizeof(char *) * (n_o_w + 1));
 	if (!words)
 		return (NULL);
-	s = skip_sep(s, cmp);
+	s = skip_sep(s, sep_cmp);
 	i = -1;
 	sw = 0;
 	while (++i < n_o_w)
 	{
-		sw += get_word(words + i, s + sw, cmp, tail);
+		sw += get_word(words + i, s + sw, sep_cmp, tail);
 		if (!words[i])
 		{
 			free_words(words, i);
