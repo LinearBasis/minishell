@@ -36,9 +36,8 @@ static size_t	count_words(char *str)
 
 	while (ft_isspace(*str))
 		++str;
-
 	count = 0;
-	while (*str  && parser__is_oper(str) == OP_NONE)
+	while (*str && parser__is_oper(str) == OP_NONE)
 	{
 		qoute_flag = 0;
 		if (*str == '\'' || *str == '\"')

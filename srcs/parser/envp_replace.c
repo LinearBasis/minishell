@@ -48,6 +48,7 @@ static void		replace_keys(char *str, char *dest, char **envp[2])
 	size_t	key_len;
 	int		squotes_flag;
 
+	squotes_flag = 0;
 	while (*str)
 	{
 		if (*str == '\'')

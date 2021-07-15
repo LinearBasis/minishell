@@ -10,6 +10,7 @@ int	parse_input(char **str, t_commlist **out_commlist, t_envp *envp)
 {
 	t_operation	error_token;
 
+	*out_commlist = NULL;
 	if (parser__syntax_analys(*str, &error_token) != CHECK_SUCCESS)
 	{
 		parser__print_syntax_error(error_token);
