@@ -11,7 +11,9 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 
-int		command_processing(t_commlist *commands, t_envp *envp);
+int		command_processing(t_commlist **commands, t_envp *envp);
+int		commands__pipe_parser(t_commlist *commands);
+int		commands__redir_parser(t_commlist **commands);
 int		handle_command(char **command, t_envp *envp);
 
 // builtin commands

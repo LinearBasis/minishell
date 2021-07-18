@@ -11,6 +11,7 @@ SRCS_DIRS	= ./srcs $(addprefix ./srcs, \
 								/ \
 								/builtin \
 								/exec\
+								/parser\
 							)\
 							/envp \
 							/utils \
