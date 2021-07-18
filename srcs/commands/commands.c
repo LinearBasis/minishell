@@ -1,5 +1,9 @@
 #include "commands.h"
 
+static int	pipe_parse(t_commlist *commands);
+static int	redir_parse(t_commlist *commands);
+static int	exec_process(t_commlist, t_envp *envp);
+
 int	command_processing(t_commlist *commands, t_envp *envp)
 {
 	int		pipe_fds[2];
@@ -28,7 +32,7 @@ int	command_processing(t_commlist *commands, t_envp *envp)
 				dup2(prev_fd, STDIN_FILENO);
 			if (commands->op_next == OP_PIPE)
 				dup2(pipe_fds[1], STDOUT_FILENO);
-			handle_command(commands->data, envp);
+			handle_command(commands->argv, envp);
 		}
 		if (prev_fd >= 0)
 			close(prev_fd);
@@ -47,6 +51,5 @@ int	command_processing(t_commlist *commands, t_envp *envp)
 		perror("Wait error ");
 		return (-3);
 	}
-	printf("\n");
 	return (0);
 }
