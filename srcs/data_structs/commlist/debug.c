@@ -26,13 +26,13 @@ void	commlist_print(t_commlist *lst)
 		printf("\n----------------------------------------\n");
 		printf_oper(lst->op_prev);
 		copy = lst->argv;
-		printf("\t[");
+		printf("\t %d > [", lst->fd_in);
 		while (*(copy + 1))
 		{
 			printf("%s|", *copy);
 			copy++;
 		}
-		printf("%s]\t", *copy);
+		printf("%s] > %d \t", *copy, lst->fd_out);
 		printf_oper(lst->op_next);
 		printf("\n");
 		lst = lst->next;

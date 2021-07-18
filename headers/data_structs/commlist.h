@@ -2,6 +2,7 @@
 # define COMMLIST_H
 
 # include <stdlib.h>
+# include <unistd.h>
 
 typedef unsigned char t_operation;
 
@@ -12,8 +13,8 @@ typedef struct s_commlist
 	t_operation			op_prev;
 	t_operation			op_next;
 	char				**argv;
-	int					stdin_fd;
-	int					stdout_fd;
+	int					fd_in;
+	int					fd_out;
 }				t_commlist;
 
 # define OP_NONE		0
