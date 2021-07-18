@@ -11,6 +11,8 @@ t_commlist	*commlist_create(char **argv)
 	out->next = NULL;
 	out->op_prev = OP_NONE;
 	out->op_next = OP_NONE;
+	out->fd_in = STDIN_FILENO;
+	out->fd_out = STDOUT_FILENO;
 	out->argv = argv;
 	return (out);
 }
@@ -43,28 +45,26 @@ void	commlist_push_front(t_commlist **list, t_commlist *to_add)
 
 void	commlist_remove_elem(t_commlist **list, t_commlist *to_delete)
 {
-	t_commlist	*tmp;
 	size_t		index;
 
 	if (!list || !*list || !to_delete)
 		return ;
-	tmp = *to_delete;
-	if (tmp->prev)
-		tmp->prev->next = tmp->next;
-	if (tmp->next)
-		tmp->next->prev = tmp->prev;
+	if (to_delete->prev)
+		to_delete->prev->next = to_delete->next;
+	if (to_delete->next)
+		to_delete->next->prev = to_delete->prev;
 	if (to_delete == *list)
 	{
-		if (tmp->prev)
-			*list = tmp->prev;
+		if (to_delete->prev)
+			*list = to_delete->prev;
 		else
-			*list = tmp->next;
+			*list = to_delete->next;
 	}
 	index = 0;
-	while (tmp->argv[index++])
-		free(tmp->argv[index - 1]);
-	free(tmp->argv);
-	free(tmp);
+	while (to_delete->argv[index++])
+		free(to_delete->argv[index - 1]);
+	free(to_delete->argv);
+	free(to_delete);
 }
 
 void	commlist_clear(t_commlist *list)
