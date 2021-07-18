@@ -1,7 +1,5 @@
 #include "commands.h"
 
-static int	open_file(int *fd, const char *filename);
-
 int	command_processing(t_commlist *commands, t_envp *envp)
 {
 	int		pipe_fds[2];
@@ -52,17 +50,3 @@ int	command_processing(t_commlist *commands, t_envp *envp)
 	printf("\n");
 	return (0);
 }
-
-static int	open_file(int *fd, const char *filename)
-{
-	*fd = open(filename, O_RDONLY);
-	if (*fd == -1)
-	{
-		write(2, "minishell: ", 11);
-		write(2, filename, ft_strlen(filename));
-		write(2, ": No such file or directory\n", 28);
-		return (-1);
-	}
-	return (0);
-}
-
