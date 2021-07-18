@@ -24,7 +24,7 @@ int	handle_command(char **command, t_envp *envp)
 	else
 		status = exec_command(command, envp);
 	if (status != 0)
-		perror("Exec error ");
+		perror__exec(command[0], 0);
 	index = 0;
 	while (command[index++])
 		free(command[index - 1]);

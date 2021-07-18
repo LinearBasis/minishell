@@ -43,8 +43,7 @@ int	main(int argc, char **argv, char **envp)
 			add_history(input);
 		}
 		if (parse_input(&input, &commands, envp_copy) == 0)
-			if (command_processing(&commands, envp_copy) != 0)
-				perror("Error ");
+			command_processing(&commands, envp_copy);
 		commlist_clear(commands);
 		free(input);
 	}

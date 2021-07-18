@@ -12,7 +12,6 @@ typedef unsigned char	t_operation;
 # define OP_REDIR2L 	4
 # define OP_REDIR2R 	5
 
-
 typedef struct s_commlist
 {
 	struct s_commlist	*prev;

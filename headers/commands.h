@@ -1,15 +1,17 @@
 #ifndef COMMANDS_H
 # define COMMANDS_H
 
-# include "data_structs/commlist.h"
-# include "envp.h"
-# include "utils.h"
+# include <sys/stat.h>
+# include <sys/wait.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include <errno.h>
 # include <stdio.h>
-# include <sys/stat.h>
-# include <sys/wait.h>
+
+# include "data_structs/commlist.h"
+# include "envp.h"
+# include "utils.h"
+# include "error.h"
 
 int		command_processing(t_commlist **commands, t_envp *envp);
 int		commands__pipe_parser(t_commlist *commands);
