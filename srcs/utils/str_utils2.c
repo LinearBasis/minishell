@@ -44,7 +44,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (out);
 }
 
-char	*ft_strdup(char *str)
+char	*ft_strdup(const char *str)
 {
 	char	*out;
 	size_t	len;
@@ -57,13 +57,14 @@ char	*ft_strdup(char *str)
 	return (out);
 }
 
-//podarok [2,4) = da
+//podarok [2,4) = "da"
+//podarok [2, 2) = "" (empty)
 char	*ft_substr_from_to(char *str, size_t begin, size_t end)
 {
 	char		*out;
 	size_t		begin_cpy;
 
-	if (end <= begin || begin > ft_strlen(str) || end > ft_strlen(str))
+	if (end < begin || begin > ft_strlen(str) || end > ft_strlen(str))
 		return (NULL);
 	out = malloc(sizeof(char) * (end - begin + 1));
 	if (!out)

@@ -9,7 +9,7 @@ int		exec_command(char **argv, t_envp *envp)
 	char	*binary;
 	size_t	index;
 
-	path_dirs = ft_smart_split(get_env(envp, "PATH"), &is_colon, "/");
+	path_dirs = ft_smart_split(envp_get_value(envp, "PATH"), &is_colon, "/");
 	if (!path_dirs)
 		return (-1);
 	binary = bruteforce_binary(argv[0], path_dirs);

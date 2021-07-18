@@ -82,7 +82,7 @@ static int	print_envp(t_envp *exp)
 		size++;
 	indexes = get_sort_indexes(exp->envp_key_value[0], size);
 	if (!indexes)
-		return (-1);
+		return (MALLOC_ERROR);
 	i = 0;
 	while (i < size)
 	{

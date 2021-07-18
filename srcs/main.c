@@ -14,7 +14,21 @@ int	main(int argc, char **argv, char **envp)
 		return (0);
 	signal(SIGINT, handler_sigint);
 	rl_catch_signals = 0;
-	envp_copy = create_export(envp);
+	envp_copy = envp_create(envp);
+
+	for (int i = 0; envp_copy->envp_key_value[0][0]; i++)
+			{
+				envp_remove(envp_copy, envp_copy->envp_key_value[0][0]);
+			}
+	envp_add(envp_copy, "asd=bef");
+	envp_add(envp_copy, "asd=");
+	envp_add(envp_copy, "bef");
+	envp_print(envp_copy);
+	sleep(100);
+	return (0);
+
+
+
 	while(1)
 	{
 		input = readline(SHELL_NAME);
@@ -71,7 +85,7 @@ int	main(int argc, char **argv, char **envp)
 // 		return (0);
 // 	signal(SIGINT, handler_sigint);
 // 	rl_catch_signals = 0;
-// 	exp = create_export(envp);
+// 	exp = envp_create(envp);
 // 	for (int i = 0; i < 9; i++)
 // 	{
 // 		handle_command(arr[i], exp);
@@ -86,20 +100,20 @@ int	main(int argc, char **argv, char **envp)
 // 		return (1);
 // 	t_envp	*exp;
 
-// 	exp = create_export(envp);
-// 	// add_to_env(exp, "a=b");
-// 	// add_to_env(exp, "TERM=prikol");
-// 	// add_to_env(exp, "_=HERE");
-// 	// add_to_env(exp, "a");
-// 	// add_to_env(exp, "c");
-// 	// add_to_env(exp, "a=d");
-// 	add_to_env(exp, "b=");
-// 	print_env(exp);
+// 	exp = envp_create(envp);
+// 	// envp_add(exp, "a=b");
+// 	// envp_add(exp, "TERM=prikol");
+// 	// envp_add(exp, "_=HERE");
+// 	// envp_add(exp, "a");
+// 	// envp_add(exp, "c");
+// 	// envp_add(exp, "a=d");
+// 	envp_add(exp, "b=");
+// 	envp_print(exp);
 
-// 	clear_export(exp);
+// 	envp_clear(exp);
 
-// 	// printf("%s - a\n", get_env(exp, "a"));
-// 	// printf("%s - z\n", get_env(exp, "z"));
+// 	// printf("%s - a\n", envp_get_value(exp, "a"));
+// 	// printf("%s - z\n", envp_get_value(exp, "z"));
 // 	sleep(10);
 // }
 

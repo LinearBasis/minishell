@@ -12,5 +12,5 @@ int		builtin_pwd(char **command)
 		return (1);
 	}
 	printf("%s\n", buf);
-	return (1);
+	return (GOOD_RETURN);
 }

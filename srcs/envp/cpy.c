@@ -29,7 +29,7 @@ int		_fill_one_export(t_envp *ans, char *env, int i)
 	return (0);
 }
 
-int	_copy_envp(t_envp *ans, char **envp, int i)
+int	_envp_copy(t_envp *ans, char **envp, int i)
 {
 	int		j;
 
@@ -38,7 +38,7 @@ int	_copy_envp(t_envp *ans, char **envp, int i)
 	{
 		if (_fill_one_export(ans, envp[j], j) != 0)
 		{
-			clear_export(ans);
+			envp_clear(ans);
 			return (-1);
 		}
 		j++;
@@ -46,4 +46,21 @@ int	_copy_envp(t_envp *ans, char **envp, int i)
 	ans->envp_key_value[0][i] = 0;
 	ans->envp_key_value[1][i] = 0;
 	return (0);
+}
+
+int	_copy_envp_orig(t_envp *ans, char **envp, int i)
+{
+	char	*add_to;
+	int		j;
+
+	j = 0;
+	while (j < i)
+	{
+		add_to = ft_strdup(envp[j]);
+		if (!add_to)
+			return (MALLOC_ERROR);
+		ans->envp_cpy[j] = add_to;
+		++j;
+	}
+	return (GOOD_RETURN);
 }

@@ -41,7 +41,7 @@ static int	do_cd_to_user(t_envp *exp)
 {
 	char	*path;
 	
-	path = get_env(exp, "HOME");
+	path = envp_get_value(exp, "HOME");
 	printf("asd\n");
 	printf("path - %s\n", path);
 	if (!path)							//		ОБЯЗАТЕЛЬНО ОБРАБОТАТЬ ОШИБКУ
