@@ -30,18 +30,13 @@ static int	fill_commlist(char *str, t_commlist **commlist)
 	*commlist = NULL;
 	while (ft_isspace(*str))
 		++str;
-	op = parser__is_oper(str);
-	if (op != OP_NONE && op != OP_PIPE)
-	{
-		str += 1 + (op == OP_REDIR2L || op == OP_REDIR2R);
-		fill_commlist__push_wrd_elem(&str, commlist, op);
-	}
 	while (*str)
 	{
 		op = parser__is_oper(str);
 		if (op != OP_NONE)
 			str += 1 + (op == OP_REDIR2L || op == OP_REDIR2R);
-		if (fill_commlist__push_elem(&str, commlist, op) != 0)
+		if (((op == OP_NONE || op == OP_PIPE) && fill_commlist__push_elem(&str, commlist, op) != 0)
+			|| ((op != OP_NONE && op != OP_PIPE) && fill_commlist__push_wrd_elem(&str, commlist, op) != 0))
 		{
 			commlist_clear(*commlist);
 			return (-1);
@@ -70,6 +65,8 @@ static int		fill_commlist__push_wrd_elem(char **str, t_commlist **commlist,
 		return (-3);
 	commlist_push_back(commlist, tmp);
 	tmp->op_prev = oper;
+	if (tmp->prev)
+		tmp->prev->op_next = oper;
 	return (0);
 }
 
