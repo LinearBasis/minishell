@@ -11,10 +11,10 @@ int		exec_command(char **argv, t_envp *envp)
 
 	path_dirs = ft_smart_split(get_env(envp, "PATH"), &is_colon, "/");
 	if (!path_dirs)
-		return (-1);
+		return (perror__errno("sys", EXECERR__PATHDIRS));
 	binary = bruteforce_binary(argv[0], path_dirs);
 	if (!binary)
-		return (-2);
+		return (perror__exec(argv[0], EXECERR__NOT_FOUNT));
 	if (binary != argv[0])
 	{
 		free(argv[0]);
@@ -26,9 +26,9 @@ int		exec_command(char **argv, t_envp *envp)
 		while (path_dirs[index++])
 			free(path_dirs[index - 1]);
 		free(path_dirs);
-		return (-3);
+		return (perror__errno("sys", EXECERR__EXECVE));
 	}
-	return (0);
+	return (EXECERR__SUCCESS);
 }
 
 int		is_colon(char c)

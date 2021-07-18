@@ -6,7 +6,7 @@ t_commlist	*commlist_create(char **argv)
 
 	out = malloc(sizeof(t_commlist));
 	if (!out)
-		return (out);
+		return (NULL);
 	out->prev = NULL;
 	out->next = NULL;
 	out->op_prev = OP_NONE;
