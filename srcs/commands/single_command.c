@@ -3,6 +3,7 @@
 int	handle_command(char **command, t_envp *envp)
 {
 	int		status;
+	size_t	index;
 
 	if (!command || !command[0])
 		status = 1;
@@ -24,5 +25,9 @@ int	handle_command(char **command, t_envp *envp)
 		status = exec_command(command, envp);
 	if (status != 0)
 		perror("Exec error ");
+	index = 0;
+	while (command[index++])
+		free(command[index - 1]);
+	free(command);
 	exit(status);
 }

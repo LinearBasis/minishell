@@ -7,6 +7,7 @@ int		exec_command(char **argv, t_envp *envp)
 {
 	char	**path_dirs;
 	char	*binary;
+	size_t	index;
 
 	path_dirs = ft_smart_split(get_env(envp, "PATH"), &is_colon, "/");
 	if (!path_dirs)
@@ -20,7 +21,13 @@ int		exec_command(char **argv, t_envp *envp)
 		argv[0] = binary;
 	}
 	if (execve(binary, argv, NULL) < 0)
+	{
+		index = 0;
+		while (path_dirs[index++])
+			free(path_dirs[index - 1]);
+		free(path_dirs);
 		return (-3);
+	}
 	return (0);
 }
 
