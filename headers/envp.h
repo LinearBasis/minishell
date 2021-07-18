@@ -4,13 +4,15 @@
 # include <stddef.h>
 # include <stdlib.h>
 # include "utils.h"
+# include "error.h"
 
-# define MALLOC_ERROR 113
 # define GOOD_RETURN 0
 
 
+# define VALID_VAR 1
+# define INVALID_VAR 0
 # define INVALID_INDEX -1
-# define NOT_A_VALID_EXPORT_ERROR 12
+
 typedef struct s_envp
 {
 	char	**envp_key_value[2];
