@@ -12,6 +12,8 @@ typedef struct s_commlist
 	t_operation			op_prev;
 	t_operation			op_next;
 	char				**argv;
+	int					stdin_fd;
+	int					stdout_fd;
 }				t_commlist;
 
 # define OP_NONE		0
@@ -25,6 +27,8 @@ t_commlist	*commlist_create(char **argv);
 
 void		commlist_push_back(t_commlist **list, t_commlist *to_add);
 void		commlist_push_front(t_commlist **list, t_commlist *to_add);
+
+void		commlist_remove_elem(t_commlist **to_delete);
 
 void		commlist_clear(t_commlist *list);
 

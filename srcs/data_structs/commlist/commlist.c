@@ -41,9 +41,30 @@ void	commlist_push_front(t_commlist **list, t_commlist *to_add)
 	*list = to_add;
 }
 
+void	commlist_remove_elem(t_commlist **to_delete)
+{
+	t_commlist	*tmp;
+	size_t		index;
+
+	if (!to_delete || !*to_delete)
+		return ;
+	tmp = *to_delete;
+	if (tmp->prev)
+		tmp->prev->next = tmp->next;
+	if (tmp->next)
+		tmp->next->prev = tmp->prev;
+	*to_delete = tmp->prev;
+	index = 0;
+	while (tmp->argv[index++])
+		free(tmp->argv[index - 1]);
+	free(tmp->argv);
+	free(tmp);
+}
+
 void	commlist_clear(t_commlist *list)
 {
 	t_commlist	*tmp;
+	size_t		index;
 
 	if (!list)
 		return ;
@@ -51,6 +72,9 @@ void	commlist_clear(t_commlist *list)
 	{
 		tmp = list;
 		list = list->next;
+		index = 0;
+		while (tmp->argv[index++])
+			free(tmp->argv[index - 1]);
 		free(tmp->argv);
 		free(tmp);
 	}
