@@ -26,18 +26,19 @@ t_operation	parser__is_oper(const char *str)
 
 void	parser__print_syntax_error(t_operation error_token)
 {
-	write(2, "minishell: syntax error near unexpected token `", 47);
+	const char	*str_token;
+
 	if (error_token == OP_NONE)
-		write(2, "newline", 7);
+		str_token = "newline";
 	else if (error_token == OP_PIPE)
-		write(2, "|", 1);
+		str_token = "|";
 	else if (error_token == OP_REDIRL)
-		write(2, "<", 1);
+		str_token = "<";
 	else if (error_token == OP_REDIRR)
-		write(2, ">", 1);
+		str_token = ">";
 	else if (error_token == OP_REDIR2L)
-		write(2, "<<", 2);
+		str_token = "<<";
 	else if (error_token == OP_REDIR2R)
-		write(2, ">>", 2);
-	write(2, "\'\n", 2);
+		str_token = ">>";
+	perror__syntax(str_token, 0);
 }

@@ -6,6 +6,7 @@ CFLAGS =  -Wall -Wextra -fsanitize=address #-Werror
 HDRS_DIRS	= ./headers $(addprefix ./headers, /data_structs /readline)
 OBJS_DIR	= ./objs
 SRCS_DIRS	= ./srcs $(addprefix ./srcs, \
+							/errors \
 							/signals \
 							$(addprefix /commands,\
 								/ \

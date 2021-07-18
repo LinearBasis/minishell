@@ -17,10 +17,7 @@ int	command_processing(t_commlist **commands, t_envp *envp)
 		return (-3);
 	wait(&status);
 	if (status == -1)
-	{
-		perror("Wait error");
-		return (-4);
-	}
+		return (perror__errno("sys/wait", -4));
 	return (0);
 }
 
@@ -32,10 +29,7 @@ static int	exec_process(t_commlist *commands, t_envp *envp)
 	{
 		pid = fork();
 		if (pid < 0)
-		{
-			perror("Can't fork");
-			return (-1);
-		}
+			return (perror__errno("sys/fork", -1));
 		else if (pid == 0)
 		{
 			if (commands->fd_in != STDIN_FILENO)

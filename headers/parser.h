@@ -5,6 +5,7 @@
 # include "unistd.h"
 # include "data_structs/commlist.h"
 # include "envp.h"
+# include "error.h"
 
 # define CHECK_FAILED_QUOTES	-1
 # define CHECK_FAILED_OPERS		-2
