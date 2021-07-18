@@ -2,7 +2,7 @@
 
 static int	pipe_parse(t_commlist *commands);
 static int	redir_parse(t_commlist *commands);
-static int	exec_process(t_commlist, t_envp *envp);
+static int	exec_process(t_commlist *commands, t_envp *envp);
 
 int	command_processing(t_commlist *commands, t_envp *envp)
 {
@@ -51,5 +51,20 @@ int	command_processing(t_commlist *commands, t_envp *envp)
 		perror("Wait error ");
 		return (-3);
 	}
+	return (0);
+}
+
+static int	pipe_parse(t_commlist *commands)
+{
+	return (0);
+}
+
+static int	redir_parse(t_commlist *commands)
+{
+	return (0);
+}
+
+static int	exec_process(t_commlist *commands, t_envp *envp)
+{
 	return (0);
 }
