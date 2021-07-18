@@ -25,7 +25,7 @@ void	commlist_print(t_commlist *lst)
 	{
 		printf("\n----------------------------------------\n");
 		printf_oper(lst->op_prev);
-		copy = lst->data;
+		copy = lst->argv;
 		printf("\t[");
 		while (*(copy + 1))
 		{

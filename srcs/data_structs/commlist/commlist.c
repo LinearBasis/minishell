@@ -1,6 +1,6 @@
 #include "data_structs/commlist.h"
 
-t_commlist	*commlist_create(char **data)
+t_commlist	*commlist_create(char **argv)
 {
 	t_commlist	*out;
 
@@ -11,7 +11,7 @@ t_commlist	*commlist_create(char **data)
 	out->next = NULL;
 	out->op_prev = OP_NONE;
 	out->op_next = OP_NONE;
-	out->data = data;
+	out->argv = argv;
 	return (out);
 }
 
@@ -51,7 +51,7 @@ void	commlist_clear(t_commlist *list)
 	{
 		tmp = list;
 		list = list->next;
-		free(tmp->data);
+		free(tmp->argv);
 		free(tmp);
 	}
 }
