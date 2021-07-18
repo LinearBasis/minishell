@@ -23,8 +23,6 @@ int	handle_command(char **command, t_envp *envp)
 	// 	builtin_exit(command);
 	else
 		status = exec_command(command, envp);
-	if (status != 0)
-		perror__exec(command[0], 0);
 	index = 0;
 	while (command[index++])
 		free(command[index - 1]);

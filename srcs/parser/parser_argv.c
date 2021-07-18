@@ -82,9 +82,9 @@ char	*parser__get_word(char **str)
 		++size;
 	}
 	out = malloc(sizeof(char) * (size + 1));
-	out[size] = '\0';
 	if (!out)
 		return (NULL);
+	out[size] = '\0';
 	tmp = out;
 	while (size--)
 	{

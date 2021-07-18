@@ -42,10 +42,7 @@ static int	fill_commlist(char *str, t_commlist **commlist)
 				(op != OP_NONE && op != OP_PIPE)
 				&& fill_commlist__push_wrd_elem(&str, commlist, op) != 0)
 		)
-		{
-			commlist_clear(*commlist);
 			return (-1);
-		}
 		while (ft_isspace(*str))
 			++str;
 	}
@@ -60,14 +57,14 @@ static int	fill_commlist__push_wrd_elem(char **str, t_commlist **commlist,
 
 	argv = malloc(sizeof(char *) * 2);
 	if (!argv)
-		return (-1);
+		return (perror__errno("sys", -1));
 	argv[1] = NULL;
 	argv[0] = parser__get_word(str);
 	if (!*argv)
-		return (-2);
+		return (perror__errno("sys", -2));
 	tmp = commlist_create(argv);
 	if (!tmp)
-		return (-3);
+		return (perror__errno("sys", -3));
 	commlist_push_back(commlist, tmp);
 	tmp->op_prev = oper;
 	if (tmp->prev)
@@ -83,10 +80,10 @@ static int	fill_commlist__push_elem(char **str, t_commlist **commlist,
 
 	argv = parser__get_argv(str);
 	if (!argv)
-		return (-1);
+		return (perror__errno("sys", -1));
 	tmp = commlist_create(argv);
 	if (!tmp)
-		return (-2);
+		return (perror__errno("sys", -2));
 	commlist_push_back(commlist, tmp);
 	tmp->op_prev = oper;
 	if (tmp->prev)
