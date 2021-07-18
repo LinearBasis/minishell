@@ -4,7 +4,14 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-typedef unsigned char t_operation;
+typedef unsigned char	t_operation;
+# define OP_NONE		0
+# define OP_PIPE		1
+# define OP_REDIRL		2
+# define OP_REDIRR		3
+# define OP_REDIR2L 	4
+# define OP_REDIR2R 	5
+
 
 typedef struct s_commlist
 {
@@ -16,13 +23,6 @@ typedef struct s_commlist
 	int					fd_in;
 	int					fd_out;
 }				t_commlist;
-
-# define OP_NONE		0
-# define OP_PIPE		1
-# define OP_REDIRL		2
-# define OP_REDIRR		3
-# define OP_REDIR2L 	4
-# define OP_REDIR2R 	5
 
 t_commlist	*commlist_create(char **argv);
 

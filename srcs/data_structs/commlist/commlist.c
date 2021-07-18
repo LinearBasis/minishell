@@ -54,15 +54,13 @@ void	commlist_remove_elem(t_commlist **list, t_commlist *to_delete)
 	if (to_delete->next)
 		to_delete->next->prev = to_delete->prev;
 	if (to_delete == *list)
-	{
-		if (to_delete->prev)
-			*list = to_delete->prev;
-		else
-			*list = to_delete->next;
-	}
+		*list = to_delete->next;
 	index = 0;
-	while (to_delete->argv[index++])
-		free(to_delete->argv[index - 1]);
+	while (to_delete->argv[index])
+	{
+		free(to_delete->argv[index]);
+		index++;
+	}
 	free(to_delete->argv);
 	free(to_delete);
 }

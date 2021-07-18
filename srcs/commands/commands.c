@@ -1,20 +1,19 @@
 #include "commands.h"
 
-static int	pipe_parse(t_commlist *commands);
-static int	redir_parse(t_commlist **commands);
 static int	exec_process(t_commlist *commands, t_envp *envp);
 
-int	command_processing(t_commlist *commands, t_envp *envp)
+int	command_processing(t_commlist **commands, t_envp *envp)
 {
 	int		status;
 
-	commlist_print(commands);
-	if (pipe_parse(commands) != 0)
+	//commlist_print(*commands);
+	if (commands__pipe_parser(*commands) != 0)
 		return (-1);
-	commlist_print(commands);
-	if (redir_parse(&commands) != 0)
+	//commlist_print(*commands);
+	if (commands__redir_parser(commands) != 0)
 		return (-2);
-	if (exec_process(commands, envp) != 0)
+	//commlist_print(*commands);
+	if (exec_process(*commands, envp) != 0)
 		return (-3);
 	wait(&status);
 	if (status == -1)
@@ -25,38 +24,31 @@ int	command_processing(t_commlist *commands, t_envp *envp)
 	return (0);
 }
 
-static int	pipe_parse(t_commlist *commands)
-{
-	int			pipe_fds[2];
-	t_commlist	*iter;
-
-	iter = commands;
-	while (iter)
-	{
-		if (iter->op_next == OP_PIPE)
-		{
-			if (pipe(pipe_fds) != 0)
-			{
-				perror("Can't create pipe");
-				return (-1);
-			}
-			iter->fd_out = pipe_fds[1];
-			iter->next->fd_in = pipe_fds[0];
-		}
-		iter = iter->next;
-	}
-	return (0);
-}
-
-static int	redir_parse(t_commlist **commands)
-{
-	
-	return (0);
-}
-
 static int	exec_process(t_commlist *commands, t_envp *envp)
 {
-	(void)commands;
-	(void)envp;
+	int		pid;
+
+	while (commands)
+	{
+		pid = fork();
+		if (pid < 0)
+		{
+			perror("Can't fork");
+			return (-1);
+		}
+		else if (pid == 0)
+		{
+			if (commands->fd_in != STDIN_FILENO)
+				dup2(commands->fd_in, STDIN_FILENO);
+			if (commands->fd_out != STDIN_FILENO)
+				dup2(commands->fd_out, STDOUT_FILENO);
+			handle_command(commands->argv, envp);
+		}
+		if (commands->fd_in != STDIN_FILENO)
+			close(commands->fd_in);
+		if (commands->fd_out != STDOUT_FILENO)
+			close(commands->fd_out);
+		commands = commands->next;
+	}
 	return (0);
 }
