@@ -47,5 +47,6 @@ int	command_processing(t_commlist *commands, t_envp *envp)
 		perror("Wait error ");
 		return (-3);
 	}
+	printf("\n");
 	return (0);
 }
