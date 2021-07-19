@@ -38,13 +38,9 @@ int	main(int argc, char **argv, char **envp)
 		g_flag = 0;
 		if (input == NULL)
 		{
-			printf("exit\n", SHELL_NAME);
-			//printf("\e[A%sexit\n", SHELL_NAME);
-			rl_on_new_line();
-			rl_redisplay();
+			printf("\e[A%sexit\n", SHELL_NAME);
 			break;
 		}
-		// rl_replace_line("123#############", 0);
 		if (*input && !g_flag)
 		{
 			add_history(input);

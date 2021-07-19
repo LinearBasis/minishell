@@ -1,10 +1,14 @@
 #include "commands.h"
 
-static int	exec_process(t_commlist *commands, t_envp *envp);
+static int		exec_process(t_commlist *commands, t_envp *envp, int *pids);
+static size_t	count_procesess(t_commlist *commands);
 
 int	command_processing(t_commlist **commands, t_envp *envp)
 {
 	int		status;
+	int		*pids;
+	size_t	size;
+	size_t	index;
 
 	//commlist_print(*commands);
 	if (commands__pipe_parser(*commands) != 0)
@@ -13,24 +17,35 @@ int	command_processing(t_commlist **commands, t_envp *envp)
 	if (commands__redir_parser(commands) != 0)
 		return (-2);
 	//commlist_print(*commands);
-	if (exec_process(*commands, envp) != 0)
+	size = count_procesess(*commands);
+	pids = malloc(sizeof(int) * size);
+	if (!pids)
+		return (perror__errno("sys/malloc", -4));
+	if (exec_process(*commands, envp, pids) != 0)
+	{
+		free(pids);
 		return (-3);
-	wait(&status);
+	}
+	index = 0;
+	while (index++ < size)
+		waitpid(pids[index - 1], &status, 0);
+	free(pids);
 	if (status == -1)
-		return (perror__errno("sys/wait", -4));
+		return (perror__errno("sys/wait", -5));
 	return (0);
 }
 
-static int	exec_process(t_commlist *commands, t_envp *envp)
+static int	exec_process(t_commlist *commands, t_envp *envp, int *pids)
 {
-	int		pid;
+	size_t	index;
 
+	index = 0;
 	while (commands)
 	{
-		pid = fork();
-		if (pid < 0)
+		pids[index] = fork();
+		if (pids[index] < 0)
 			return (perror__errno("sys/fork", -1));
-		else if (pid == 0)
+		else if (pids[index] == 0)
 		{
 			if (commands->fd_in != STDIN_FILENO)
 				dup2(commands->fd_in, STDIN_FILENO);
@@ -43,6 +58,21 @@ static int	exec_process(t_commlist *commands, t_envp *envp)
 		if (commands->fd_out != STDOUT_FILENO)
 			close(commands->fd_out);
 		commands = commands->next;
+		index++;
 	}
+	
 	return (0);
+}
+
+static size_t	count_procesess(t_commlist *commands)
+{
+	size_t	count;
+
+	count = 0;
+	while (commands)
+	{
+		count++;
+		commands = commands->next;
+	}
+	return (count);
 }
