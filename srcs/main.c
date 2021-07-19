@@ -7,6 +7,7 @@ int	main(int argc, char **argv, char **envp)
 	t_commlist	*commands;
 	t_envp		*envp_copy;
 	char		*input;
+	int			last_exit_code;
 
 	(void)argc;
 	(void)argv;
@@ -14,24 +15,8 @@ int	main(int argc, char **argv, char **envp)
 		return (0);
 	signal(SIGINT, handler_sigint);
 	rl_catch_signals = 0;
+	last_exit_code = 0;
 	envp_copy = envp_create(envp);
-// <<<<<<< exec_debug
-// =======
-
-// 	// for (int i = 0; envp_copy->envp_key_value[0][0]; i++)
-// 	// 		{
-// 	// 			envp_remove(envp_copy, envp_copy->envp_key_value[0][0]);
-// 	// 		}
-// 	// envp_add(envp_copy, "asd=bef");
-// 	// envp_add(envp_copy, "asd=");
-// 	// envp_add(envp_copy, "bef");
-// 	// envp_print(envp_copy);
-// 	// sleep(100);
-// 	// return (0);
-
-
-
-// >>>>>>> master
 	while(1)
 	{
 		input = readline(SHELL_NAME);
@@ -45,8 +30,8 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(input);
 		}
-		if (parse_input(&input, &commands, envp_copy) == 0)
-			command_processing(&commands, envp_copy);
+		if (parse_input(&input, &commands, envp_copy, last_exit_code) == 0)
+			last_exit_code = command_processing(&commands, envp_copy);
 		commlist_clear(commands);
 		free(input);
 	}

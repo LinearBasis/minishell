@@ -1,26 +1,33 @@
 #include "parser.h"
 
 static char		*envp__get_value(char **envp[2], char *key, size_t *key_len);
-static void		replace_keys(char *str, char *dest, char **envp[2]);
-static size_t	get_new_len(char *str, char **envp[2]);
+static void		replace_keys(char *str, char *dest, char **envp[2],
+					char *exit_code);
+static size_t	get_new_len(char *str, char **envp[2], char *exit_code);
 
-int	parser__envp_replace(char **str, t_envp *envp)
+int	parser__envp_replace(char **str, t_envp *envp, int last_exit_code)
 {
 	size_t	size;
 	char	*out;
+	char	*exit_code;
 
-	size = get_new_len(*str, envp->envp_key_value);
+	exit_code = ft_itoa(last_exit_code);
+	size = get_new_len(*str, envp->envp_key_value, exit_code);
 	out = malloc(sizeof(char) * (size + 1));
 	if (!out)
+	{
+		free(exit_code);
 		return (-1);
+	}
 	out[size] = '\0';
-	replace_keys(*str, out, envp->envp_key_value);
+	replace_keys(*str, out, envp->envp_key_value, exit_code);
+	free(exit_code);
 	free(*str);
 	*str = out;
 	return (0);
 }
 
-static size_t	get_new_len(char *str, char **envp[2])
+static size_t	get_new_len(char *str, char **envp[2], char *exit_code)
 {
 	size_t	size;
 	size_t	key_len;
@@ -33,8 +40,13 @@ static size_t	get_new_len(char *str, char **envp[2])
 		key_len = 0;
 		if (*str == '\'')
 			squotes_flag = !squotes_flag;
-		if (*str == '$' && !squotes_flag && *(str + 1))
-			size += ft_strlen(envp__get_value(envp, str + 1, &key_len));
+		if (*str == '$' && !squotes_flag)
+		{
+			if (*(str + 1) == '?')
+				size += ft_strlen(exit_code);	
+			else if (*(str + 1))
+				size += ft_strlen(envp__get_value(envp, str + 1, &key_len));
+		}
 		else
 			++size;
 		str += key_len + 1;
@@ -42,7 +54,8 @@ static size_t	get_new_len(char *str, char **envp[2])
 	return (size);
 }
 
-static void		replace_keys(char *str, char *dest, char **envp[2])
+static void		replace_keys(char *str, char *dest, char **envp[2],
+					char *exit_code)
 {
 	char	*value;
 	size_t	key_len;
@@ -55,7 +68,15 @@ static void		replace_keys(char *str, char *dest, char **envp[2])
 			squotes_flag = !squotes_flag;
 		if (*str == '$' && !squotes_flag && *(str + 1))
 		{
-			value = envp__get_value(envp, str + 1, &key_len);
+			value = NULL;
+			key_len = 0;
+			if (*(str + 1) == '?')
+			{
+				value = exit_code;
+				key_len = 1;
+			}
+			else if (*(str + 1))
+				value = envp__get_value(envp, str + 1, &key_len);
 			if (value)
 				while (*value)
 				{
