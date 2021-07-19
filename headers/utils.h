@@ -24,4 +24,9 @@ char	**ft_split(char const *s, char c);
 char	**ft_smart_split(const char *s, int (*cmp)(char), const char *tail);
 char	*ft_strchr(char *str, int sep);
 
+int		ft_islower(char c);
+int		ft_isupper(char c);
+int		ft_isalpha(char c);
+int		ft_isdigit(char c);
+
 #endif
