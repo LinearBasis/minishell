@@ -7,6 +7,7 @@ int	main(int argc, char **argv, char **envp)
 	t_commlist	*commands;
 	t_envp		*envp_copy;
 	char		*input;
+	int			pid;
 
 	(void)argc;
 	(void)argv;
@@ -15,44 +16,32 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGINT, handler_sigint);
 	rl_catch_signals = 0;
 	envp_copy = envp_create(envp);
-
-	// for (int i = 0; envp_copy->envp_key_value[0][0]; i++)
-	// 		{
-	// 			envp_remove(envp_copy, envp_copy->envp_key_value[0][0]);
-	// 		}
-	// envp_add(envp_copy, "asd=bef");
-	// envp_add(envp_copy, "asd=");
-	// envp_add(envp_copy, "bef");
-	// envp_print(envp_copy);
-	// sleep(100);
-	// return (0);
-
-
-
+	
 	while(1)
 	{
 		input = readline(SHELL_NAME);
 		g_flag = 0;
 		if (input == NULL)
 		{
-			// sleep(2);
-			// printf("\033[A\n");
-			// fflush(stdout);
-			// sleep(2);
-			// printf("\n");
-			// sleep(2);
-			printf("\033[A%sexit\n", SHELL_NAME);
-			sleep(2);
-			exit(0);	//исправить
+			// printf("exit\n", SHELL_NAME);
+			printf("\e[A%sexit\n", SHELL_NAME);
+			// rl_on_new_line();
+			// rl_redisplay();
+			break;
 		}
 		// rl_replace_line("123#############", 0);
 		if (*input && !g_flag)
 		{
 			add_history(input);
 		}
-		if (parse_input(&input, &commands, envp_copy) == 0)
-			command_processing(&commands, envp_copy);
-		commlist_clear(commands);
+		pid = fork();
+		if (pid == 0)
+			if (execve(input, argv, envp_copy->envp_cpy) < 0)
+				perror__errno(input, EXECERR__EXECVE);
+		wait(NULL);
+		// if (parse_input(&input, &commands, envp_copy) == 0)
+			// command_processing(&commands, envp_copy);
+		//commlist_clear(commands);
 		free(input);
 	}
 	return (0);
