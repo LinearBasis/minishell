@@ -4,7 +4,7 @@ static int	_envp_add_new_key(t_envp *env, char *key, char *value, char *str)
 {
 	int	i;
 
-	printf("ADDING NEW VARIABLE TO ENVP, NAME - %s\n", key);
+	// printf("ADDING NEW VARIABLE TO ENVP, NAME - %s\n", key);
 	i = ft_envplen(env);
 	env->envp_cpy = ft_realloc(env->envp_cpy, i * sizeof(char *), (i + 2) * sizeof(char *));
 	env->envp_key_value[0] = ft_realloc(env->envp_key_value[0], i * sizeof(char *), (i + 2) * sizeof(char *));
@@ -32,7 +32,7 @@ static int	_envp_add(t_envp *env, char *key, char *value, char *str)
 	index = envp_find_key_index(env, key);
 	if (index == -1)
 		return (_envp_add_new_key(env, key, value, str));
-	printf("REPLACING AN EXISTING VARIABLE, NAME - %s\n", key);
+	// printf("REPLACING AN EXISTING VARIABLE, NAME - %s\n", key);
 	free(key);
 	free(env->envp_key_value[1][index]);
 	env->envp_key_value[1][index] = value;
@@ -58,6 +58,6 @@ int	envp_add(t_envp *env, char *str)
 		free(value);
 		return (MALLOC_ERROR);
 	}
-	printf("%s - key, %s - value, %s - string\n", key, value, key_value);
+	// printf("%s - key, %s - value, %s - string\n", key, value, key_value);
 	return (_envp_add(env, key, value, key_value));
 }
