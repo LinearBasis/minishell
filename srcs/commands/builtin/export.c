@@ -20,15 +20,26 @@ static int	print_envp(t_envp *exp);
 int		builtin_export(char **command, t_envp *exp)
 {
 	size_t	size;
+	int		returned_value;
+	int		ans;
 
 	size = 0;
+	ans = GOOD_RETURN;
 	while (command[size])
 		size++;
 	if (size == 1)
-	{
 		return (print_envp(exp));
+	size = 1;
+	while (command[size])
+	{
+		returned_value = envp_add(exp, command[size]);
+		if (returned_value != GOOD_RETURN)
+			perror__builtin(command, (int)size, returned_value);
+		if (ans == GOOD_RETURN)
+			ans = returned_value;
+		size++;
 	}
-	return (0);
+	return (ans);
 }
 
 static void	_swap(int *a1, int *a2)
