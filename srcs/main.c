@@ -15,15 +15,36 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGINT, handler_sigint);
 	rl_catch_signals = 0;
 	envp_copy = envp_create(envp);
+// <<<<<<< exec_debug
+// =======
+
+// 	// for (int i = 0; envp_copy->envp_key_value[0][0]; i++)
+// 	// 		{
+// 	// 			envp_remove(envp_copy, envp_copy->envp_key_value[0][0]);
+// 	// 		}
+// 	// envp_add(envp_copy, "asd=bef");
+// 	// envp_add(envp_copy, "asd=");
+// 	// envp_add(envp_copy, "bef");
+// 	// envp_print(envp_copy);
+// 	// sleep(100);
+// 	// return (0);
+
+
+
+// >>>>>>> master
 	while(1)
 	{
 		input = readline(SHELL_NAME);
 		g_flag = 0;
 		if (input == NULL)
 		{
-			printf("\e[A%sexit\n", SHELL_NAME);
+			printf("exit\n", SHELL_NAME);
+			//printf("\e[A%sexit\n", SHELL_NAME);
+			rl_on_new_line();
+			rl_redisplay();
 			break;
 		}
+		// rl_replace_line("123#############", 0);
 		if (*input && !g_flag)
 		{
 			add_history(input);
