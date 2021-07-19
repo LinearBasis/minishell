@@ -28,11 +28,10 @@ int	command_processing(t_commlist **commands, t_envp *envp)
 	}
 	index = 0;
 	while (index++ < size)
-		waitpid(pids[index - 1], &status, 0);
+		if (waitpid(pids[index - 1], &status, 0) == -1)
+			return (perror__errno("sys/wait", -5));
 	free(pids);
-	if (status == -1)
-		return (perror__errno("sys/wait", -5));
-	return (0);
+	return (WEXITSTATUS(status));
 }
 
 static int	exec_process(t_commlist *commands, t_envp *envp, int *pids)

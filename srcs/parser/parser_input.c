@@ -6,7 +6,8 @@ static int		fill_commlist__push_elem(char **str, t_commlist **commlist,
 static int		fill_commlist__push_wrd_elem(char **str, t_commlist **commlist,
 					t_operation oper);
 
-int	parse_input(char **str, t_commlist **out_commlist, t_envp *envp)
+int	parse_input(char **str, t_commlist **out_commlist,
+		t_envp *envp, int last_exit_code)
 {
 	t_operation	error_token;
 
@@ -16,7 +17,7 @@ int	parse_input(char **str, t_commlist **out_commlist, t_envp *envp)
 		parser__print_syntax_error(error_token);
 		return (-1);
 	}
-	if (parser__envp_replace(str, envp) != 0)
+	if (parser__envp_replace(str, envp, last_exit_code) != 0)
 		return (-2);
 	if (fill_commlist(*str, out_commlist) != 0)
 		return (-3);
