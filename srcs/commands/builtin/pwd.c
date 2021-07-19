@@ -6,6 +6,7 @@ int		builtin_pwd(char **command)
 	char	buf[25565];
 
 	(void)command;
+	ft_bzero(buf, 25565);
 	if (getcwd(buf, 25565) == NULL)
 	{
 		write(2, "i dont know where are you\n", 26);

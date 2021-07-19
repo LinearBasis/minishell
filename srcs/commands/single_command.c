@@ -14,11 +14,11 @@ int	handle_command(char **command, t_envp *envp)
 	else if (!ft_strcmp(command[0], "pwd"))
 		status = builtin_pwd(command);
 	else if (!ft_strcmp(command[0], "export"))
-		builtin_export(command, envp);
+		status = builtin_export(command, envp);
 	else if (!ft_strcmp(command[0], "unset"))
-		builtin_unset(command, envp);
+		status = builtin_unset(command, envp);
 	else if (!ft_strcmp(command[0], "env"))
-		builtin_env(command, envp);
+		status = builtin_env(command, envp);
 	// else if (!ft_strcmp(command[0], "exit"))
 	// 	builtin_exit(command);
 	else

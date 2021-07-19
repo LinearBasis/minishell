@@ -14,13 +14,8 @@ static int	do_cd_to_path(char **command);
 
 int	builtin_cd(char **command, t_envp *exp)
 {
-	char	buf[25565];
-
-	getcwd(buf, 25565);
 	if (command[1] == NULL)
-	{
 		return (do_cd_to_user(command, exp));
-	}
 	
 	return(do_cd_to_path(command));
 }
@@ -32,13 +27,15 @@ static int	do_cd_to_user(char **command, t_envp *exp)
 	path = envp_get_value(exp, "HOME");
 	printf("asd\n");
 	printf("path - %s\n", path);
-	if (!path)							//		ОБЯЗАТЕЛЬНО ОБРАБОТАТЬ ОШИБКУ
-		return (perror__builtin(command, 0, HOME_NOT_SET));
-	if (chdir(path) == -1)
+	if (!path)
+		return (perror__builtin((const char **)command, 0, HOME_NOT_SET));
+	if (chdir("/Users/dnicki/") == -1)
 	{
 		free(path);
 		return (perror__errno("cd", CD_CHDIR_ERROR));
 	}
+	printf("doljen bil\n");
+	printf("%s - this dir\n", getcwd(NULL, 0));
 	free(path);
 	return (0);
 }
@@ -47,4 +44,5 @@ static int	do_cd_to_path(char **command)
 {
 	if (chdir(command[1]) == -1)
 		return (perror__errno("cd", CD_CHDIR_ERROR));
+	return (GOOD_RETURN);
 }
