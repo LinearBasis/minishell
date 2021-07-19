@@ -16,7 +16,8 @@
 # define EXECERR__SUCCESS	0
 # define EXECERR__NOT_FOUNT -1
 # define EXECERR__PATHDIRS	-2
-# define EXECERR__EXECVE	-3
+# define EXECERR__HOMEDIR	-3
+# define EXECERR__EXECVE	-4
 
 int		command_processing(t_commlist **commands, t_envp *envp);
 int		commands__pipe_parser(t_commlist *commands);

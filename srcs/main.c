@@ -15,20 +15,23 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGINT, handler_sigint);
 	rl_catch_signals = 0;
 	envp_copy = envp_create(envp);
+// <<<<<<< exec_debug
+// =======
 
-	// for (int i = 0; envp_copy->envp_key_value[0][0]; i++)
-	// 		{
-	// 			envp_remove(envp_copy, envp_copy->envp_key_value[0][0]);
-	// 		}
-	// envp_add(envp_copy, "asd=bef");
-	// envp_add(envp_copy, "asd=");
-	// envp_add(envp_copy, "bef");
-	// envp_print(envp_copy);
-	// sleep(100);
-	// return (0);
+// 	// for (int i = 0; envp_copy->envp_key_value[0][0]; i++)
+// 	// 		{
+// 	// 			envp_remove(envp_copy, envp_copy->envp_key_value[0][0]);
+// 	// 		}
+// 	// envp_add(envp_copy, "asd=bef");
+// 	// envp_add(envp_copy, "asd=");
+// 	// envp_add(envp_copy, "bef");
+// 	// envp_print(envp_copy);
+// 	// sleep(100);
+// 	// return (0);
 
 
 
+// >>>>>>> master
 	while(1)
 	{
 		input = readline(SHELL_NAME);
