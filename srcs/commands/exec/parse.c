@@ -23,7 +23,7 @@ int	exec_command(char **argv, t_envp *envp)
 		free(argv[0]);
 		argv[0] = binary;
 	}
-	if (execve(binary, argv, NULL) < 0)
+	if (execve(binary, argv, envp->envp_cpy) < 0)
 	{
 		index = 0;
 		while (path_dirs[index++])
