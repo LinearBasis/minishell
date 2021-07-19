@@ -2,27 +2,30 @@
 
 int	is_valid_key(char *key)
 {
-	// int	i;
+	int	i;
 
-	// i = 1;
-	// if (!ft_isalpha(key[0]) && key[0] != '_')
-	// 	return (INVALID_VAR);
-	// while (key[i])
-	// {
-	// 	if (!ft_isalpha(key[i]) && key[i] != '_' && !ft_isdigit(key[i]))
-	// 		return (INVALID_VAR);
-	// 	i++;
-	// }
-	// return (VALID_VAR);
+	i = 1;
+	if (!ft_isalpha(key[0]) && key[0] != '_')
+		return (INVALID_VAR);
+	while (key[i])
+	{
+		if (!ft_isalpha(key[i]) && key[i] != '_' && !ft_isdigit(key[i]))
+			return (INVALID_VAR);
+		i++;
+	}
+	return (VALID_VAR);
 }
 
 int	is_valid_envp_str(char *str)
 {
-	if (!ft_isalpha(key[0]) && key[0] != '_')
+	int	i;
+
+	i = 1;
+	if (!ft_isalpha(str[0]) && str[0] != '_')
 		return (INVALID_VAR);
-	while (key[i] && key[i] != '=')
+	while (str[i] && str[i] != '=')
 	{
-		if (!ft_isalpha(key[i]) && key[i] != '_' && !ft_isdigit(key[i]))
+		if (!ft_isalpha(str[i]) && str[i] != '_' && !ft_isdigit(str[i]))
 			return (INVALID_VAR);
 		i++;
 	}
