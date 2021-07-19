@@ -35,6 +35,11 @@ static int	redir_left_uno(t_commlist **commands)
 			tmp = iter;
 			iter = iter->next;
 			commlist_remove_elem(commands, tmp);
+			if (iter && iter->op_prev == OP_NONE && iter->prev)
+			{
+				iter = iter->prev;
+				commlist_merge_two(commands, iter);
+			}
 		}
 		else
 		{
@@ -57,7 +62,11 @@ static int	redir_left_uno2(t_commlist *iter, t_commlist **redir_target,
 	if (iter->op_next != OP_REDIRL)
 	{
 		if (*redir_target)
+		{
+			if ((*redir_target)->fd_in != STDOUT_FILENO)
+				close ((*redir_target)->fd_out);
 			(*redir_target)->fd_in = *last_fd;
+		}
 		else if (iter->op_next == OP_NONE && iter->next)
 			iter->next->fd_in = *last_fd;
 		*last_fd = 0;
@@ -85,11 +94,18 @@ static int	redir_right_all(t_commlist **commands)
 			tmp = iter;
 			iter = iter->next;
 			commlist_remove_elem(commands, tmp);
-			continue ;
+			if (iter && iter->op_prev == OP_NONE && iter->prev)
+			{
+				iter = iter->prev;
+				commlist_merge_two(commands, iter);
+			}
 		}
-		else if (iter->op_next == OP_REDIRR || iter->op_next == OP_REDIR2R)
-			redir_target = iter;
-		iter = iter->next;
+		else
+		{
+			if (iter->op_next == OP_REDIRR || iter->op_next == OP_REDIR2R)
+				redir_target = iter;
+			iter = iter->next;
+		}
 	}
 	return (0);
 }
@@ -100,15 +116,19 @@ static int	redir_right_all2( t_commlist *iter, t_commlist **redir_target,
 	if (*last_fd)
 		close(*last_fd);
 	if (iter->op_prev == OP_REDIRR)
-		*last_fd = open(iter->argv[0], O_WRONLY | O_CREAT);
+		*last_fd = open(iter->argv[0], O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	else
-		*last_fd = open(iter->argv[0], O_WRONLY | O_APPEND | O_CREAT);
+		*last_fd = open(iter->argv[0], O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (*last_fd < 0)
 		return (perror__errno(iter->argv[0], -1));
 	if (iter->op_next != OP_REDIRR && iter->op_next != OP_REDIR2R)
 	{
 		if (*redir_target)
+		{
+			if ((*redir_target)->fd_out != STDOUT_FILENO)
+				close ((*redir_target)->fd_out);
 			(*redir_target)->fd_out = *last_fd;
+		}
 		else  if (iter->op_next == OP_NONE && iter->next)
 			iter->next->fd_out = *last_fd;
 		*last_fd = 0;

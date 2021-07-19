@@ -1,7 +1,7 @@
 NAME = minishell
 
 CC = gcc
-CFLAGS =  -Wall -Wextra #-fsanitize=address #-Werror
+CFLAGS = -Wall -Wextra #-fsanitize=address #-Werror
 
 HDRS_DIRS	= ./headers $(addprefix ./headers, /data_structs /readline)
 OBJS_DIR	= ./objs
@@ -41,7 +41,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	@if [[ "$$LOGNAME" == "mgroot" ]]; \
 	then \
-		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L/Users/mgroot/.brew/Cellar/readline/8.1/lib; \
+		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L-L/Users/mgroot/.brew/Cellar/readline/8.1/lib; \
 	elif [[ "$$LOGNAME" == "dnicki" ]]; \
 	then \
 		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L/Users/dnicki/.brew/Cellar/readline/8.1/lib; \
