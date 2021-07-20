@@ -1,16 +1,19 @@
 #include "utils.h"
 
-static int		num_of_digits(int n)
+static int	num_of_digits(int n)
 {
 	int		len;
 
 	len = 0;
-	while ((n /= 10))
+	while ((n / 10))
+	{
+		n /= 10;
 		len++;
+	}
 	return (len + 1);
 }
 
-static void		get_sign(int n, int *sign)
+static void	get_sign(int n, int *sign)
 {
 	if (n < 0)
 		*sign = 1;
@@ -18,7 +21,7 @@ static void		get_sign(int n, int *sign)
 		*sign = 0;
 }
 
-char			*ft_itoa(int n)
+char	*ft_itoa(int n)
 {
 	char	*out;
 	int		sign;
