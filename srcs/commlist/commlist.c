@@ -1,4 +1,4 @@
-#include "data_structs/commlist.h"
+#include "commlist.h"
 
 t_commlist	*commlist_create(char **argv)
 {

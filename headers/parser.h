@@ -3,7 +3,7 @@
 
 # include "utils.h"
 # include "unistd.h"
-# include "data_structs/commlist.h"
+# include "commlist.h"
 # include "envp.h"
 # include "error.h"
 

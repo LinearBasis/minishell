@@ -1,4 +1,4 @@
-#include "data_structs/commlist.h"
+#include "commlist.h"
 
 static size_t	get_newargv_len(const t_commlist *iter);
 static int		copy_argvs(t_commlist *iter, char **argv);

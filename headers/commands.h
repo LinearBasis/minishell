@@ -8,7 +8,7 @@
 # include <errno.h>
 # include <stdio.h>
 
-# include "data_structs/commlist.h"
+# include "commlist.h"
 # include "envp.h"
 # include "utils.h"
 # include "error.h"

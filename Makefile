@@ -16,10 +16,8 @@ SRCS_DIRS	= ./srcs $(addprefix ./srcs, \
 							)\
 							/envp \
 							/utils \
-							/parser\
-							$(addprefix /data_structs, \
-								/commlist\
-							)\
+							/parser \
+							/commlist \
 						)
 
 HDRS = $(wildcard $(addsuffix /*.h, $(HDRS_DIRS)))

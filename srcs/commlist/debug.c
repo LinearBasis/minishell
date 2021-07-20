@@ -1,4 +1,4 @@
-#include "data_structs/commlist.h"
+#include "commlist.h"
 #include <stdio.h>
 
 static void	printf_oper(t_operation op)
