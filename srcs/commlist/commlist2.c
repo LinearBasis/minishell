@@ -4,7 +4,7 @@ static size_t	get_newargv_len(const t_commlist *iter);
 static int		copy_argvs(t_commlist *iter, char **argv);
 static int		clear_argv(char **argv, int size, int error_code);
 
-int		commlist_merge_two(t_commlist **list, t_commlist *iter)
+int	commlist_merge_two(t_commlist **list, t_commlist *iter)
 {
 	char	**tmp_argv;
 	size_t	index;
@@ -70,7 +70,7 @@ static int	copy_argvs(t_commlist *iter, char **argv)
 	return (0);
 }
 
-static int		clear_argv(char **argv, int size, int error_code)
+static int	clear_argv(char **argv, int size, int error_code)
 {
 	while (size-- >= 0)
 		free(argv[size]);

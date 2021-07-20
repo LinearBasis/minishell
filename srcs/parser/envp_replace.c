@@ -3,7 +3,11 @@
 static char		*envp__get_value(char **envp[2], char *key, size_t *key_len);
 static void		replace_keys(char *str, char *dest, char **envp[2],
 					char *exit_code);
+static char		*replace_keys__key(char *str, char **envp[2],
+					char *exit_code, size_t *key_len);
 static size_t	get_new_len(char *str, char **envp[2], char *exit_code);
+static size_t	get_new_len__key(char *str, char **envp[2],
+					char *exit_code, size_t *key_len);
 
 int	parser__envp_replace(char **str, t_envp *envp, int last_exit_code)
 {
@@ -40,17 +44,9 @@ static size_t	get_new_len(char *str, char **envp[2], char *exit_code)
 		key_len = 0;
 		if (*str == '\'')
 			squotes_flag = !squotes_flag;
-		if (*str == '$' && !squotes_flag && *(str + 1)
+		else if (*str == '$' && !squotes_flag && *(str + 1)
 			&& !ft_isspace(*(str + 1)) && *(str + 1) != '=')
-		{
-			if (*(str + 1) == '?')
-			{
-				size += ft_strlen(exit_code);
-				key_len = 1;
-			}
-			else if (*(str + 1))
-				size += ft_strlen(envp__get_value(envp, str + 1, &key_len));
-		}
+			size += get_new_len__key(str, envp, exit_code, &key_len);
 		else
 			++size;
 		str += key_len + 1;
@@ -58,7 +54,22 @@ static size_t	get_new_len(char *str, char **envp[2], char *exit_code)
 	return (size);
 }
 
-static void		replace_keys(char *str, char *dest, char **envp[2],
+static size_t	get_new_len__key(char *str, char **envp[2],
+					char *exit_code, size_t *key_len)
+{
+	size_t	out_size;
+
+	if (*(str + 1) == '?')
+	{
+		out_size += ft_strlen(exit_code);
+		key_len = 1;
+	}
+	else if (*(str + 1))
+		out_size += ft_strlen(envp__get_value(envp, str + 1, key_len));
+	return (out_size);
+}
+
+static void	replace_keys(char *str, char *dest, char **envp[2],
 					char *exit_code)
 {
 	char	*value;
@@ -73,22 +84,13 @@ static void		replace_keys(char *str, char *dest, char **envp[2],
 		if (*str == '$' && !squotes_flag && *(str + 1)
 			&& !ft_isspace(*(str + 1)) && *(str + 1) != '=')
 		{
-			value = NULL;
-			key_len = 0;
-			if (*(str + 1) == '?')
+			value = replace_keys__key(str, envp, exit_code, &key_len);
+			while (value && *value)
 			{
-				value = exit_code;
-				key_len = 1;
+				*dest = *value;
+				++dest;
+				++value;
 			}
-			else if (*(str + 1))
-				value = envp__get_value(envp, str + 1, &key_len);
-			if (value)
-				while (*value)
-				{
-					*dest = *value;
-					++dest;
-					++value;
-				}
 			str += key_len + 1;
 		}
 		else
@@ -100,14 +102,31 @@ static void		replace_keys(char *str, char *dest, char **envp[2],
 	}
 }
 
-static char		*envp__get_value(char **envp[2], char *key, size_t *key_len)
+static char	*replace_keys__key(char *str, char **envp[2],
+					char *exit_code, size_t *key_len)
+{
+	char	*value;
+
+	value = NULL;
+	*key_len = 0;
+	if (*(str + 1) == '?')
+	{
+		value = exit_code;
+		*key_len = 1;
+	}
+	else if (*(str + 1))
+		value = envp__get_value(envp, str + 1, key_len);
+	return (value);
+}
+
+static char	*envp__get_value(char **envp[2], char *key, size_t *key_len)
 {
 	size_t	index;
 
 	*key_len = 0;
 	while (key[*key_len] && !ft_isspace(key[*key_len])
-		&& parser__is_oper(key) == OP_NONE
-		&& key[*key_len] != '\"' && key[*key_len] != '$' && key[*key_len] != '=')
+		&& parser__is_oper(key) == OP_NONE && key[*key_len] != '\"'
+		&& key[*key_len] != '$' && key[*key_len] != '=')
 		++(*key_len);
 	index = 0;
 	while (envp[KEY][index])
