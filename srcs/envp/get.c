@@ -1,7 +1,6 @@
 #include "envp.h"
 
-
-int		envp_find_key_index(t_envp *exp, char *key)
+int	envp_find_key_index(t_envp *exp, char *key)
 {
 	int	i;
 
