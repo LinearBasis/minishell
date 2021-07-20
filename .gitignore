@@ -3,4 +3,3 @@ minishell
 *.out
 .vscode
 *.dSYM
-readline-*

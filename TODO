@@ -1,11 +1,5 @@
-1. Add 'char **' null-terminated list of 'key=value' env params to 't_envp'.
+1. Test builtin
 
-2. Test input parser with ENVP (now in commented in parser_input.c)
+2. Heredoc
 
-3. Test builtin
-
-4. Complete IPC
-
-5. Heredoc
-
-6. Print error
+3. Handle Ctrl + \ (SIGQUIT)
