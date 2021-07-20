@@ -13,7 +13,6 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (!envp)
 		return (0);
-
 	rl_catch_signals = 0;
 	last_exit_code = 0;
 	envp_copy = envp_create(envp);
