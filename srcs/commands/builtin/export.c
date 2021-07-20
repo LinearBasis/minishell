@@ -17,7 +17,7 @@ static void	_swap(int *a1, int *a2);
 static int	*get_sort_indexes(char **export, size_t size);
 static int	print_envp(t_envp *exp);
 
-int		builtin_export(char **command, t_envp *exp)
+int	builtin_export(char **command, t_envp *exp)
 {
 	size_t	size;
 	int		returned_value;
@@ -61,12 +61,9 @@ static int	*get_sort_indexes(char **export, size_t size)
 	if (!ans)
 		return (NULL);
 	i = 0;
-	j = 0;
-	while (j < size)
-	{
+	j = -1;
+	while (++j < size)
 		ans[j] = j;
-		j++;
-	}
 	while (i < size)
 	{
 		j = 0;
