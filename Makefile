@@ -31,10 +31,12 @@ $(OBJS_DIR)/%.o: %.c $(HDRS)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@if [[ `uname -s` == "Darwin" ]]; \
+	@if [[ "$$LOGNAME" == "mgroot" ]]; \
 	then \
-		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L./readline-8.1/lib; \
-	else \
+		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L/Users/mgroot/.brew/Cellar/readline/8.1/lib; \
+	elif [[ "$$LOGNAME" == "dnicki" ]]; \
+		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L/Users/dnicki/.brew/Cellar/readline/8.1/lib; \
+	else\
 		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline;\
 	fi
 
