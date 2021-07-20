@@ -40,7 +40,7 @@ static size_t	get_new_len(char *str, char **envp[2], char *exit_code)
 		key_len = 0;
 		if (*str == '\'')
 			squotes_flag = !squotes_flag;
-		if (*str == '$' && !squotes_flag)
+		if (*str == '$' && !squotes_flag && *(str + 1))
 		{
 			if (*(str + 1) == '?')
 				size += ft_strlen(exit_code);	
