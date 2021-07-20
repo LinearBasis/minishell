@@ -1,4 +1,6 @@
-1. Test builtin
+1. Test builtin:
+	- export =value
+	- export ''
 
 2. Heredoc
 
