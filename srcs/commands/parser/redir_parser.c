@@ -9,10 +9,12 @@ static int	redir_right_all2(t_commlist *iter, t_commlist **redir_target,
 
 int	commands__redir_parser(t_commlist **commands)
 {
-	if (redir_left_uno(commands) != 0)
+	if (redir_left_double(commands) != 0)
 		return (-1);
-	if (redir_right_all(commands) != 0)
+	if (redir_left_uno(commands) != 0)
 		return (-2);
+	if (redir_right_all(commands) != 0)
+		return (-3);
 	return (0);
 }
 
