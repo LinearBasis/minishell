@@ -1,4 +1,5 @@
 #include "commands.h"
+#include "signals.h"
 
 static int		exec_processes_prepare(t_commlist *commands, t_envp *envp);
 static int		exec_processes(t_commlist *commands, t_envp *envp, int *pids);
@@ -51,11 +52,15 @@ static int	exec_processes(t_commlist *commands, t_envp *envp, int *pids)
 	index = 0;
 	while (commands)
 	{
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 		pids[index] = fork();
 		if (pids[index] < 0)
 			return (perror__errno("sys/fork", -1));
 		else if (pids[index] == 0)
 		{
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
 			if (commands->fd_in != STDIN_FILENO)
 				dup2(commands->fd_in, STDIN_FILENO);
 			if (commands->fd_out != STDIN_FILENO)

@@ -9,5 +9,7 @@ extern int	g_flag;
 
 void	handler_sigint(int status);
 void	handler_sigquit(int status);
+void	fork_handler_sigint(int status);
+void	fork_handler_sigquit(int status);
 
 #endif

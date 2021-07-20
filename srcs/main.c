@@ -13,15 +13,18 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	if (!envp)
 		return (0);
-	signal(SIGINT, handler_sigint);
-	signal(SIGQUIT, handler_sigquit);
+
 	rl_catch_signals = 0;
 	last_exit_code = 0;
 	envp_copy = envp_create(envp);
 
 	while (1)
 	{
+		signal(SIGINT, handler_sigint);
+		signal(SIGQUIT, handler_sigquit);
 		input = readline(SHELL_NAME);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		g_flag = 0;
 		if (input == NULL)
 		{
