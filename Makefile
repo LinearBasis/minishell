@@ -30,21 +30,12 @@ VPATH = $(SRCS_DIRS)
 $(OBJS_DIR)/%.o: %.c $(HDRS)
 	$(CC) $(CFLAGS) -o $@ -c $< -I./headers
 
-# print_info:
-# 	@echo $(SRCS_DIRS)
-# 	@echo $(SRCS)
-# 	@echo $(HDRS)
-# 	@echo $(OBJS)
-
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@if [[ "$$LOGNAME" == "mgroot" ]]; \
+	@if [[ `uname -s` == "Darwin" ]]; \
 	then \
-		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L/Users/mgroot/.brew/Cellar/readline/8.1/lib; \
-	elif [[ "$$LOGNAME" == "dnicki" ]]; \
-	then \
-		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L/Users/dnicki/.brew/Cellar/readline/8.1/lib; \
+		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L./readline-8.1/lib; \
 	else \
 		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline;\
 	fi
