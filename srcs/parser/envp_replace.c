@@ -43,7 +43,10 @@ static size_t	get_new_len(char *str, char **envp[2], char *exit_code)
 		if (*str == '$' && !squotes_flag && *(str + 1))
 		{
 			if (*(str + 1) == '?')
-				size += ft_strlen(exit_code);	
+			{
+				size += ft_strlen(exit_code);
+				key_len = 1;
+			}
 			else if (*(str + 1))
 				size += ft_strlen(envp__get_value(envp, str + 1, &key_len));
 		}
@@ -81,8 +84,8 @@ static void		replace_keys(char *str, char *dest, char **envp[2],
 				while (*value)
 				{
 					*dest = *value;
-					dest++;
-					value++;
+					++dest;
+					++value;
 				}
 			str += key_len + 1;
 		}
