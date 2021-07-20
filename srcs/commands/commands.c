@@ -1,15 +1,11 @@
 #include "commands.h"
 
-static int		exec_process(t_commlist *commands, t_envp *envp, int *pids);
+static int		exec_processes_prepare(t_commlist *commands, t_envp *envp);
+static int		exec_processes(t_commlist *commands, t_envp *envp, int *pids);
 static size_t	count_procesess(t_commlist *commands);
 
 int	command_processing(t_commlist **commands, t_envp *envp)
 {
-	int		status;
-	int		*pids;
-	size_t	size;
-	size_t	index;
-
 	//commlist_print(*commands);
 	if (commands__pipe_parser(*commands) != 0)
 		return (-1);
@@ -17,11 +13,25 @@ int	command_processing(t_commlist **commands, t_envp *envp)
 	if (commands__redir_parser(commands) != 0)
 		return (-2);
 	//commlist_print(*commands);
-	size = count_procesess(*commands);
+	return (exec_processes_prepare(*commands, envp));
+}
+
+static int	exec_processes_prepare(t_commlist *commands, t_envp *envp)
+{
+	int		status;
+	int		*pids;
+	size_t	size;
+	size_t	index;
+	
+	size = count_procesess(commands);
+	if (size == 0)
+		return (0);
+	if (size == 1 && is_builtin_command(commands->argv))
+		return (handle_command(commands->argv, envp));
 	pids = malloc(sizeof(int) * size);
 	if (!pids)
 		return (perror__errno("sys/malloc", -4));
-	if (exec_process(*commands, envp, pids) != 0)
+	if (exec_processes(commands, envp, pids) != 0)
 	{
 		free(pids);
 		return (-3);
@@ -34,7 +44,7 @@ int	command_processing(t_commlist **commands, t_envp *envp)
 	return (WEXITSTATUS(status));
 }
 
-static int	exec_process(t_commlist *commands, t_envp *envp, int *pids)
+static int	exec_processes(t_commlist *commands, t_envp *envp, int *pids)
 {
 	size_t	index;
 
@@ -50,7 +60,7 @@ static int	exec_process(t_commlist *commands, t_envp *envp, int *pids)
 				dup2(commands->fd_in, STDIN_FILENO);
 			if (commands->fd_out != STDIN_FILENO)
 				dup2(commands->fd_out, STDOUT_FILENO);
-			handle_command(commands->argv, envp);
+			exit (handle_command(commands->argv, envp));
 		}
 		if (commands->fd_in != STDIN_FILENO)
 			close(commands->fd_in);
