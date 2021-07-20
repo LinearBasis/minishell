@@ -4,7 +4,7 @@
 # include <stddef.h>
 # include <stdlib.h>
 
-char	*ft_substr_from_to(char *str, size_t begin, size_t end);		//	[begin, end)
+char	*ft_substr_from_to(char *str, size_t begin, size_t end);//[begin, end)
 size_t	ft_strlen(const char *str);
 int		ft_isspace(char c);
 
