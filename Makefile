@@ -35,9 +35,10 @@ $(NAME): $(OBJS)
 	then \
 		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L/Users/mgroot/.brew/Cellar/readline/8.1/lib; \
 	elif [[ "$$LOGNAME" == "dnicki" ]]; \
+	then \
 		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L/Users/dnicki/.brew/Cellar/readline/8.1/lib; \
-	else\
-		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline;\
+	else \
+		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline; \
 	fi
 
 	@echo "Build done"
