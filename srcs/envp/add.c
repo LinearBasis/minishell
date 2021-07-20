@@ -47,6 +47,11 @@ int	envp_add(t_envp *env, char *str)
 	char	*value;
 	char	*key_value;
 
+
+	if (is_valid_envp_str(str) == INVALID_VAR)
+	{
+		return (NOT_A_VALID_IDENTIFIER);
+	}
 	key_value = ft_strdup(str);
 	key = NULL;
 	value = NULL;

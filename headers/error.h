@@ -10,8 +10,8 @@
 //	for unset and export
 # define NOT_A_VALID_IDENTIFIER 12
 # define HOME_NOT_SET 13
-# define CD_CHDIR_ERROR 117
-
+# define CD_CHDIR_ERROR 14
+# define NO_SUCH_FILE 15
 
 
 

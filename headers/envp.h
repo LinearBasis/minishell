@@ -38,4 +38,7 @@ int			get_key_from_envp_string(char *envp_str, char **rewrite);
 int			get_value_from_envp_string(char *envp_str, char **rewrite);
 int			ft_envplen(t_envp *env);
 
+
+int			is_valid_envp_str(char *str);
+int			is_valid_key(char *key);
 #endif

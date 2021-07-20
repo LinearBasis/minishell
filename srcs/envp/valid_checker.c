@@ -5,7 +5,7 @@ int	is_valid_key(char *key)
 	int	i;
 
 	i = 1;
-	if (!ft_isalpha(key[0]) && key[0] != '_')
+	if ((!ft_isalpha(key[0]) && key[0] != '_') || !key[0])
 		return (INVALID_VAR);
 	while (key[i])
 	{
@@ -21,7 +21,7 @@ int	is_valid_envp_str(char *str)
 	int	i;
 
 	i = 1;
-	if (!ft_isalpha(str[0]) && str[0] != '_')
+	if ((!ft_isalpha(str[0]) && str[0] != '_') || !str[0])
 		return (INVALID_VAR);
 	while (str[i] && str[i] != '=')
 	{

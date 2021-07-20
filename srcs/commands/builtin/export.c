@@ -97,7 +97,6 @@ static int	print_envp(t_envp *exp)
 	i = 0;
 	while (i < size)
 	{
-		printf("indexes[%zu] - %d,    ", i, indexes[i]);
 		printf("declare -x %s", exp->envp_key_value[0][indexes[i]]);
 		if (exp->envp_key_value[1][indexes[i]])
 			printf("=\"%s\"", exp->envp_key_value[1][indexes[i]]);
