@@ -40,7 +40,7 @@ static int	replace_home_dir(char **command, t_envp *envp)
 {
 	char	*tmp;
 
-	if (ft_strncmp(*command, "~/", 2) == 0)
+	if (!ft_strncmp(*command, "~/", 2))
 	{
 		tmp = ft_strjoin(envp_get_value(envp, "HOME"), *command + 1);
 		if (!tmp)
@@ -56,13 +56,11 @@ static char	*bruteforce_binary(char *command, char **path_dirs)
 	struct stat	buff;
 	char		*tmp;
 
-	if (
-		(
-			ft_strncmp(command, "/", 1) == 0
-			|| ft_strncmp(command, "./", 2) == 0
-			|| ft_strncmp(command, "../", 2) == 0
-		)
-		&& stat(command, &buff) == 0 && (buff.st_mode & S_IXUSR))
+	tmp = command;
+	while (*tmp)
+		if (*(tmp++) == '/')
+			return (command);
+	if (stat(command, &buff) == 0 && (buff.st_mode & S_IXUSR))
 		return (command);
 	while (*path_dirs)
 	{

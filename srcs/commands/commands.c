@@ -3,19 +3,9 @@
 
 static int		exec_processes_prepare(t_commlist *commands, t_envp *envp);
 static int		exec_processes(t_commlist *commands, t_envp *envp, int *pids);
-static int		exec_single_builtin(t_commlist *commands, t_envp *envp);
+static int		exec_single_builtin(t_commlist *commands, t_envp *envp,
+					int *status);
 static size_t	count_procesess(t_commlist *commands);
-
-int	commands__redir_parser(t_commlist **commands)
-{
-	if (redir_left_double(commands) != 0)
-		return (-1);
-	if (redir_left_uno(commands) != 0)
-		return (-2);
-	if (redir_right_all(commands) != 0)
-		return (-3);
-	return (0);
-}
 
 int	command_processing(t_commlist **commands, t_envp *envp)
 {
@@ -23,9 +13,13 @@ int	command_processing(t_commlist **commands, t_envp *envp)
 	if (commands__pipe_parser(*commands) != 0)
 		return (-1);
 	// commlist_print(*commands);
-	if (commands__redir_parser(commands) != 0)
+	if (redir_left_double(commands) != 0)
 		return (-2);
-	// commlist_print(*commands);
+	if (redir_left_uno(commands) != 0)
+		return (-3);
+	if (redir_right_all(commands) != 0)
+		return (-4);
+	commlist_print(*commands);
 	return (exec_processes_prepare(*commands, envp));
 }
 
@@ -40,7 +34,7 @@ static int	exec_processes_prepare(t_commlist *commands, t_envp *envp)
 	if (size == 0)
 		return (0);
 	if (size == 1 && is_builtin_command(commands->argv))
-		return (exec_single_builtin(commands, envp));
+		return (exec_single_builtin(commands, envp, &status));
 	pids = malloc(sizeof(int) * size);
 	if (!pids)
 		return (perror__errno("sys/malloc", -4));
@@ -86,24 +80,34 @@ static int	exec_processes(t_commlist *commands, t_envp *envp, int *pids)
 	return (0);
 }
 
-static int		exec_single_builtin(t_commlist *commands, t_envp *envp)
+static int	exec_single_builtin(t_commlist *commands, t_envp *envp,
+					int *status)
 {
-	int	status;
 	int	stdout_fd;
-	int stdin_fd;
+	int	stdin_fd;
 
-	stdin_fd = dup (STDIN_FILENO);
-	stdout_fd = dup(STDOUT_FILENO);
-	dup2(commands->fd_in, STDIN_FILENO);
-	dup2(commands->fd_out, STDOUT_FILENO);
-	status = handle_command(commands->argv, envp);
 	if (commands->fd_in)
-		close(commands->fd_in);
+	{
+		stdin_fd = dup (STDIN_FILENO);
+		dup2(commands->fd_in, STDIN_FILENO);
+	}
 	if (commands->fd_out)
+	{
+		stdout_fd = dup(STDOUT_FILENO);
+		dup2(commands->fd_out, STDOUT_FILENO);
+	}
+	*status = handle_command(commands->argv, envp);
+	if (commands->fd_in)
+	{
+		close(commands->fd_in);
+		dup2(stdin_fd, STDIN_FILENO);
+	}
+	if (commands->fd_out)
+	{
 		close(commands->fd_out);
-	dup2(stdin_fd, STDIN_FILENO);
-	dup2(stdout_fd, STDOUT_FILENO);
-	return (status);
+		dup2(stdout_fd, STDOUT_FILENO);
+	}
+	return (*status);
 }
 
 static size_t	count_procesess(t_commlist *commands)
