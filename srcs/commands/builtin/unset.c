@@ -14,7 +14,7 @@ int	builtin_unset(char **commands, t_envp *envp)
 		if (error_code != GOOD_RETURN)
 		{
 			ans = 1;
-			perror__builtin((const char **)commands, i, error_code);
+			perror__builtin((const char **)commands, i, NOT_A_VALID_IDENTIFIER);
 		}
 		i++;
 	}

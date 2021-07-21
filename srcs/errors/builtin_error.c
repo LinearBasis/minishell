@@ -38,5 +38,6 @@ int	perror__builtin(const char **commands, int id_of_error_arg, int error_code)
 	}
 	a = get_const_error_str(error_code);
 	write(2, a, ft_strlen(a));
+	write(2, "\n", 1);
 	return (get_error_code_from_my_error_code(error_code));
 }

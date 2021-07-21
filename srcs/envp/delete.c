@@ -20,7 +20,7 @@ int	envp_remove(t_envp *exp, char *key)
 	int	delete_index;
 
 	if (is_valid_key(key) == INVALID_VAR)
-		return (INVALID_VAR);
+		return (NOT_A_VALID_IDENTIFIER);
 	delete_index = envp_find_key_index(exp, key);
 	if (delete_index < 0)
 		return (GOOD_RETURN);

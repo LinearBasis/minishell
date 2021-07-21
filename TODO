@@ -1,10 +1,8 @@
 1. Error codes
 
-2. unset
+2. exit
 
-3. exit
-
-4. Specific cases:
+3. Specific cases:
 	* echo -n safas > file	-> Doesnt redir to file
 	
 	* sometext/				-> No such file or directory
@@ -13,3 +11,8 @@
 		ls					-> No such file or directory
 
 	* yes | yes | head
+
+
+4. c-d with echo -n		(!!!!!)
+
+5. c-d with "<< "

@@ -75,6 +75,12 @@ static void	redir_left_double__delete_n_merge(t_commlist **commands,
 	}
 }
 
+static void	handler_in_heredoc(int status)
+{
+	if (status == 2)
+		printf("\n");
+}
+
 static int	builtin_heredoc(char *command)
 {
 	char	*input;
@@ -84,11 +90,16 @@ static int	builtin_heredoc(char *command)
 	fd_heredoc = open(HEREDOC_FILE, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (!fd_heredoc)
 		return (perror__errno("heredoc", 1));
+	signal(SIGINT, handler_in_heredoc);
+	signal(SIGQUIT, handler_in_heredoc);
 	while (1)
 	{
 		input = readline("> ");
 		if (!input || !ft_strcmp(input, command))
+		{
+			printf("\033[A> ");
 			break ;
+		}
 		write(fd_heredoc, input, ft_strlen(input));
 		write(fd_heredoc, "\n", 1);
 	}
