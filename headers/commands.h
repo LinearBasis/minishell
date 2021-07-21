@@ -23,8 +23,11 @@
 
 int		command_processing(t_commlist **commands, t_envp *envp);
 int		commands__pipe_parser(t_commlist *commands);
+
 int		commands__redir_parser(t_commlist **commands);
 int		redir_left_double(t_commlist **commands);
+int		redir_left_uno(t_commlist **commands);
+int		redir_right_all(t_commlist **commands);
 
 int		is_builtin_command(char **command);
 int		handle_command(char **command, t_envp *envp);

@@ -5,6 +5,17 @@ static int		exec_processes_prepare(t_commlist *commands, t_envp *envp);
 static int		exec_processes(t_commlist *commands, t_envp *envp, int *pids);
 static size_t	count_procesess(t_commlist *commands);
 
+int	commands__redir_parser(t_commlist **commands)
+{
+	if (redir_left_double(commands) != 0)
+		return (-1);
+	if (redir_left_uno(commands) != 0)
+		return (-2);
+	if (redir_right_all(commands) != 0)
+		return (-3);
+	return (0);
+}
+
 int	command_processing(t_commlist **commands, t_envp *envp)
 {
 	//commlist_print(*commands);
@@ -65,7 +76,7 @@ static int	exec_processes(t_commlist *commands, t_envp *envp, int *pids)
 				dup2(commands->fd_in, STDIN_FILENO);
 			if (commands->fd_out != STDIN_FILENO)
 				dup2(commands->fd_out, STDOUT_FILENO);
-			exit (handle_command(commands->argv, envp));
+			exit(handle_command(commands->argv, envp));
 		}
 		if (commands->fd_in != STDIN_FILENO)
 			close(commands->fd_in);

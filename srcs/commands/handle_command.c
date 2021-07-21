@@ -10,7 +10,6 @@ int	is_builtin_command(char **command)
 int	handle_command(char **command, t_envp *envp)
 {
 	int		status;
-	size_t	index;
 
 	if (!command || !command[0])
 		status = 1;

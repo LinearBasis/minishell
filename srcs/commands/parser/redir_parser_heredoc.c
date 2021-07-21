@@ -2,13 +2,14 @@
 #include "signals.h"
 
 static int		builtin_heredoc(char *command);
-static int		redir_left_double2(t_commlist *iter, t_commlist **redir_target,
-					int *last_fd);
+static int		redir_left_double__fd_proc(t_commlist *iter,
+					t_commlist **redir_target, int *last_fd);
+static void		redir_left_double__delete_n_merge(t_commlist **commands,
+					t_commlist **iter);
 
 int	redir_left_double(t_commlist **commands)
 {
 	t_commlist	*iter;
-	t_commlist	*tmp;
 	t_commlist	*redir_target;
 	int			last_fd;
 
@@ -19,16 +20,9 @@ int	redir_left_double(t_commlist **commands)
 	{
 		if (iter->op_prev == OP_REDIR2L)
 		{
-			if (redir_left_double2(iter, &redir_target, &last_fd) != 0)
+			if (redir_left_double__fd_proc(iter, &redir_target, &last_fd) != 0)
 				return (-1);
-			tmp = iter;
-			iter = iter->next;
-			commlist_remove_elem(commands, tmp);
-			if (iter && iter->op_prev == OP_NONE && iter->prev)
-			{
-				iter = iter->prev;
-				commlist_merge_two(commands, iter);
-			}
+			redir_left_double__delete_n_merge(commands, &iter);
 		}
 		else
 		{
@@ -40,8 +34,8 @@ int	redir_left_double(t_commlist **commands)
 	return (0);
 }
 
-static int	redir_left_double2(t_commlist *iter, t_commlist **redir_target,
-				int *last_fd)
+static int	redir_left_double__fd_proc(t_commlist *iter,
+				t_commlist **redir_target, int *last_fd)
 {
 	if (*last_fd)
 		close(*last_fd);
@@ -64,7 +58,22 @@ static int	redir_left_double2(t_commlist *iter, t_commlist **redir_target,
 	return (0);
 }
 
-static int		builtin_heredoc(char *command)
+static void	redir_left_double__delete_n_merge(t_commlist **commands,
+				t_commlist **iter)
+{
+	t_commlist	*tmp;
+
+	tmp = *iter;
+	*iter = (*iter)->next;
+	commlist_remove_elem(commands, tmp);
+	if ((*iter) && (*iter)->op_prev == OP_NONE && (*iter)->prev)
+	{
+		*iter = (*iter)->prev;
+		commlist_merge_two(commands, *iter);
+	}
+}
+
+static int	builtin_heredoc(char *command)
 {
 	char	*input;
 	int		fd_heredoc;
