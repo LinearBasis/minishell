@@ -11,13 +11,14 @@ void	minishell(t_envp *envp, int last_exit_code)
 	{
 		signal(SIGINT, handler_sigint);
 		signal(SIGQUIT, handler_sigquit);
+		printf("\e[s");
 		input = readline(SHELL_NAME);
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		g_flag = 0;
 		if (input == NULL)
 		{
-			printf("\e[A%sexit\n", SHELL_NAME);
+			printf("\e[u%sexit\n", SHELL_NAME);
 			break ;
 		}
 		if (*input && !g_flag)
@@ -28,6 +29,7 @@ void	minishell(t_envp *envp, int last_exit_code)
 		free(input);
 	}
 }
+
 
 int	main(int argc, char **argv, char **envp)
 {

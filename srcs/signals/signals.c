@@ -6,6 +6,7 @@ void	handler_sigint(int status)
 	(void)status;
 	rl_replace_line("", 0);
 	printf("\n");
+	printf("\e[s");
 	rl_on_new_line();
 	rl_redisplay();
 	g_flag = 1;

@@ -1,4 +1,5 @@
 #include "commands.h"
+#include "minishell.h"
 
 static void		builtin_heredoc_exec(char *command, int fd_out);
 
@@ -7,6 +8,7 @@ static void	handler_in_heredoc(int status)
 	if (status == 2)
 	{
 		printf("\n");
+		readline(NULL);
 		exit(1);
 	}
 }
@@ -43,10 +45,12 @@ static void	builtin_heredoc_exec(char *command, int fd_out)
 	signal(SIGQUIT, handler_in_heredoc);
 	while (1)
 	{
+		printf("\e[s");
 		input = readline("> ");
 		if (!input || !ft_strcmp(input, command))
 		{
-			printf("\033[A> ");
+			if (!input)
+				printf("\e[u> \n");
 			break ;
 		}
 		write(fd_out, input, ft_strlen(input));
