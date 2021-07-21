@@ -2,7 +2,7 @@
 #include "signals.h"
 
 static int		builtin_heredoc(char *command);
-static int		builtin_heredoc_exec(char *command);
+static void		builtin_heredoc_exec(char *command, int fd_out);
 static int		redir_left_double__fd_proc(t_commlist *iter,
 					t_commlist **redir_target, int *last_fd);
 static void		redir_left_double__delete_n_merge(t_commlist **commands,
@@ -79,36 +79,40 @@ static void	redir_left_double__delete_n_merge(t_commlist **commands,
 static void	handler_in_heredoc(int status)
 {
 	if (status == 2)
+	{
 		printf("\n");
+		exit(1);
+	}
 }
 
 static int	builtin_heredoc(char *command)
 {
+	int	pipe_fds[2];
 	int	pid;
 
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
+	if (pipe(pipe_fds) < 0)
+		return (perror__errno("sys/pipe", -1));
 	pid = fork();
 	if (pid < 0)
 		return (perror__errno("sys/fork", -1));
 	else if (pid == 0)
 	{
-		builtin_heredoc_exec(command);
+		close(pipe_fds[0]);
+		builtin_heredoc_exec(command, pipe_fds[1]);
 		exit(0);
 	}
+	close(pipe_fds[1]);
 	waitpid(pid, NULL, 0);
-	return (open(HEREDOC_FILE, O_RDONLY));
+	return (pipe_fds[0]);
 }
 
-static int	builtin_heredoc_exec(char *command)
+static void	builtin_heredoc_exec(char *command, int fd_out)
 {
 	char	*input;
-	int		fd_heredoc;
 
 	input = NULL;
-	fd_heredoc = open(HEREDOC_FILE, O_WRONLY | O_TRUNC | O_CREAT, 0644);
-	if (!fd_heredoc)
-		return (perror__errno("heredoc", 1));
 	signal(SIGINT, handler_in_heredoc);
 	signal(SIGQUIT, handler_in_heredoc);
 	while (1)
@@ -119,9 +123,8 @@ static int	builtin_heredoc_exec(char *command)
 			printf("\033[A> ");
 			break ;
 		}
-		write(fd_heredoc, input, ft_strlen(input));
-		write(fd_heredoc, "\n", 1);
+		write(fd_out, input, ft_strlen(input));
+		write(fd_out, "\n", 1);
 	}
-	close(fd_heredoc);
-	return (open(HEREDOC_FILE, O_RDONLY));
+	close(fd_out);
 }
