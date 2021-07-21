@@ -2,6 +2,7 @@
 #include "signals.h"
 
 static int		builtin_heredoc(char *command);
+static int		builtin_heredoc_exec(char *command);
 static int		redir_left_double__fd_proc(t_commlist *iter,
 					t_commlist **redir_target, int *last_fd);
 static void		redir_left_double__delete_n_merge(t_commlist **commands,
@@ -82,6 +83,24 @@ static void	handler_in_heredoc(int status)
 }
 
 static int	builtin_heredoc(char *command)
+{
+	int	pid;
+
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	pid = fork();
+	if (pid < 0)
+		return (perror__errno("sys/fork", -1));
+	else if (pid == 0)
+	{
+		builtin_heredoc_exec(command);
+		exit(0);
+	}
+	waitpid(pid, NULL, 0);
+	return (open(HEREDOC_FILE, O_RDONLY));
+}
+
+static int	builtin_heredoc_exec(char *command)
 {
 	char	*input;
 	int		fd_heredoc;

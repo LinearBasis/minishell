@@ -19,7 +19,7 @@ int	command_processing(t_commlist **commands, t_envp *envp)
 		return (-3);
 	if (redir_right_all(commands) != 0)
 		return (-4);
-	commlist_print(*commands);
+	//commlist_print(*commands);
 	return (exec_processes_prepare(*commands, envp));
 }
 
