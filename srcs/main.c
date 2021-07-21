@@ -2,20 +2,10 @@
 
 int	g_flag;
 
-int	main(int argc, char **argv, char **envp)
+void	minishell(t_envp *envp, int last_exit_code)
 {
 	t_commlist	*commands;
-	t_envp		*envp_copy;
 	char		*input;
-	int			last_exit_code;
-
-	(void)argc;
-	(void)argv;
-	if (!envp)
-		return (0);
-	rl_catch_signals = 0;
-	last_exit_code = 0;
-	envp_copy = envp_create(envp);
 
 	while (1)
 	{
@@ -28,17 +18,28 @@ int	main(int argc, char **argv, char **envp)
 		if (input == NULL)
 		{
 			printf("\e[A%sexit\n", SHELL_NAME);
-			break;
+			break ;
 		}
 		if (*input && !g_flag)
-		{
 			add_history(input);
-		}
-		if (parse_input(&input, &commands, envp_copy, last_exit_code) == 0)
-			last_exit_code = command_processing(&commands, envp_copy);
+		if (parse_input(&input, &commands, envp, last_exit_code) == 0)
+			last_exit_code = command_processing(&commands, envp);
 		commlist_clear(commands);
 		free(input);
 	}
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_envp		*envp_copy;
+
+	(void)argc;
+	(void)argv;
+	if (!envp)
+		return (0);
+	rl_catch_signals = 0;
+	envp_copy = envp_create(envp);
+	minishell(envp_copy, 0);
 	return (0);
 }
 

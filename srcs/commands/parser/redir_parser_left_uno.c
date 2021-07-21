@@ -54,7 +54,6 @@ static int	redir_left_uno__fd_proc(t_commlist *iter, t_commlist **redir_target,
 			iter->next->fd_in = *last_fd;
 		*last_fd = 0;
 		*redir_target = NULL;
-		
 	}
 	return (0);
 }
