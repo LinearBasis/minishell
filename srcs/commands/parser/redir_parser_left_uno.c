@@ -47,7 +47,7 @@ static int	redir_left_uno__fd_proc(t_commlist *iter, t_commlist **redir_target,
 			if ((*redir_target)->fd_in != STDIN_FILENO)
 				close ((*redir_target)->fd_in);
 			(*redir_target)->fd_in = *last_fd;
-			if (iter->fd_out)
+			if (iter->fd_out != STDOUT_FILENO)
 				(*redir_target)->fd_out = iter->fd_out;
 		}
 		else if (iter->op_next == OP_NONE && iter->next)
