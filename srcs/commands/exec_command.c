@@ -3,12 +3,12 @@
 static int		is_colon(char c);
 static int		replace_home_dir(char **command, t_envp *envp);
 static char		*bruteforce_binary(char *command, char **path_dirs);
+static void		free_path(char **path_dirs);
 
 int	exec_command(char **argv, t_envp *envp)
 {
 	char	**path_dirs;
 	char	*binary;
-	size_t	index;
 
 	path_dirs = ft_smart_split(envp_get_value(envp, "PATH"), &is_colon, "/");
 	if (!path_dirs)
@@ -25,10 +25,7 @@ int	exec_command(char **argv, t_envp *envp)
 	}
 	if (execve(binary, argv, envp->envp_cpy) < 0)
 	{
-		index = 0;
-		while (path_dirs[index++])
-			free(path_dirs[index - 1]);
-		free(path_dirs);
+		free_path(path_dirs);
 		return (perror__errno(binary, EXECERR__EXECVE));
 	}
 	return (EXECERR__SUCCESS);
@@ -39,7 +36,7 @@ static int	is_colon(char c)
 	return (c == ':');
 }
 
-static int		replace_home_dir(char **command, t_envp *envp)
+static int	replace_home_dir(char **command, t_envp *envp)
 {
 	char	*tmp;
 
@@ -76,4 +73,14 @@ static char	*bruteforce_binary(char *command, char **path_dirs)
 		path_dirs++;
 	}
 	return (NULL);
+}
+
+static void	free_path(char **path_dirs)
+{
+	size_t	index;
+
+	index = 0;
+	while (path_dirs[index++])
+		free(path_dirs[index - 1]);
+	free(path_dirs);
 }

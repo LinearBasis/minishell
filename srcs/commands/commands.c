@@ -23,7 +23,7 @@ static int	exec_processes_prepare(t_commlist *commands, t_envp *envp)
 	int		*pids;
 	size_t	size;
 	size_t	index;
-	
+
 	size = count_procesess(commands);
 	if (size == 0)
 		return (0);
@@ -74,7 +74,6 @@ static int	exec_processes(t_commlist *commands, t_envp *envp, int *pids)
 		commands = commands->next;
 		index++;
 	}
-	
 	return (0);
 }
 

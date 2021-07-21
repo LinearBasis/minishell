@@ -30,5 +30,5 @@ int	handle_command(char **command, t_envp *envp)
 	// 	builtin_exit(command);
 	else
 		status = exec_command(command, envp);
-	return(status);
+	return (status);
 }
