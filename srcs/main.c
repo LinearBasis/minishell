@@ -2,40 +2,44 @@
 
 int	g_flag;
 
-int	main(int argc, char **argv, char **envp)
+void	minishell(t_envp *envp, int last_exit_code)
 {
 	t_commlist	*commands;
-	t_envp		*envp_copy;
 	char		*input;
-	int			last_exit_code;
+
+	while (1)
+	{
+		signal(SIGINT, handler_sigint);
+		signal(SIGQUIT, handler_sigquit);
+		input = readline(SHELL_NAME);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		g_flag = 0;
+		if (input == NULL)
+		{
+			printf("\e[A%sexit\n", SHELL_NAME);
+			break ;
+		}
+		if (*input && !g_flag)
+			add_history(input);
+		if (parse_input(&input, &commands, envp, last_exit_code) == 0)
+			last_exit_code = command_processing(&commands, envp);
+		commlist_clear(commands);
+		free(input);
+	}
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_envp		*envp_copy;
 
 	(void)argc;
 	(void)argv;
 	if (!envp)
 		return (0);
-	signal(SIGINT, handler_sigint);
 	rl_catch_signals = 0;
-	last_exit_code = 0;
 	envp_copy = envp_create(envp);
-
-	while (1)
-	{
-		input = readline(SHELL_NAME);
-		g_flag = 0;
-		if (input == NULL)
-		{
-			printf("\e[A%sexit\n", SHELL_NAME);
-			break;
-		}
-		if (*input && !g_flag)
-		{
-			add_history(input);
-		}
-		if (parse_input(&input, &commands, envp_copy, last_exit_code) == 0)
-			last_exit_code = command_processing(&commands, envp_copy);
-		commlist_clear(commands);
-		free(input);
-	}
+	minishell(envp_copy, 0);
 	return (0);
 }
 

@@ -20,7 +20,7 @@ int	get_key_from_envp_string(char *envp_str, char **rewrite)
 	return (GOOD_RETURN);
 }
 
-int		get_value_from_envp_string(char *envp_str, char **rewrite)
+int	get_value_from_envp_string(char *envp_str, char **rewrite)
 {
 	int	i;
 

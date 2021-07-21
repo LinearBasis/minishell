@@ -9,7 +9,7 @@ int	perror__errno(const char *error_token, int error_code)
 	write(STDERR_FILENO, error_token, ft_strlen(error_token));
 	write(STDERR_FILENO, ": ", 2);
 	write(STDERR_FILENO, error_text, ft_strlen(error_text));
-	write(STDERR_FILENO, "\n", 1); 
+	write(STDERR_FILENO, "\n", 1);
 	return (error_code);
 }
 

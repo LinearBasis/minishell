@@ -1,6 +1,6 @@
 #include "envp.h"
 
-int		_fill_one_export(t_envp *ans, char *env, int i)
+int	_fill_one_export(t_envp *ans, char *env, int i)
 {
 	size_t	len;
 	char	*a2;

@@ -1,7 +1,7 @@
 #include "commands.h"
 #include <unistd.h>
 
-int		builtin_pwd(char **command)
+int	builtin_pwd(char **command)
 {
 	char	buf[25565];
 
@@ -12,6 +12,7 @@ int		builtin_pwd(char **command)
 		write(2, "i dont know where are you\n", 26);
 		return (1);
 	}
-	printf("%s\n", buf);
+	write(1, buf, ft_strlen(buf));
+	write(1, "\n", 1);
 	return (GOOD_RETURN);
 }

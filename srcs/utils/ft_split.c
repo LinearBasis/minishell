@@ -1,6 +1,6 @@
 #include "utils.h"
 
-static size_t		count_words(char const *s, char c)
+static size_t	count_words(char const *s, char c)
 {
 	size_t	count;
 
@@ -15,7 +15,7 @@ static size_t		count_words(char const *s, char c)
 	return (count);
 }
 
-static size_t		get_word(char **dest, char const *s, char c)
+static size_t	get_word(char **dest, char const *s, char c)
 {
 	size_t	len;
 	int		i;
@@ -36,7 +36,7 @@ static size_t		get_word(char **dest, char const *s, char c)
 	return (i);
 }
 
-static void			free_words(char **words, size_t size)
+static void	free_words(char **words, size_t size)
 {
 	while (size--)
 		free(words[size]);
@@ -50,7 +50,7 @@ static const char	*skip_sep(char const *s, char c)
 	return (s);
 }
 
-char				**ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
 	char	**words;
 	size_t	n_o_w;
@@ -60,7 +60,8 @@ char				**ft_split(char const *s, char c)
 	if (!s)
 		return (ft_calloc(1, sizeof(char *)));
 	n_o_w = count_words(s, c);
-	if (!(words = (char **)malloc(sizeof(char *) * (n_o_w + 1))))
+	words = (char **)malloc(sizeof(char *) * (n_o_w + 1));
+	if (!words)
 		return (NULL);
 	s = skip_sep(s, c);
 	i = -1;

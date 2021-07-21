@@ -3,4 +3,6 @@ minishell
 *.out
 .vscode
 *.dSYM
-readline-*
+.heredoc
+*.swp
+*.swo

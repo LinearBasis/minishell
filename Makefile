@@ -1,7 +1,7 @@
 NAME = minishell
 
 CC = gcc
-CFLAGS = -Wall -Wextra -fsanitize=address #-Werror
+CFLAGS = -Wall -Wextra #-fsanitize=address #-Werror
 
 HDRS_DIRS	= ./headers $(addprefix ./headers, /data_structs /readline)
 OBJS_DIR	= ./objs
@@ -16,10 +16,8 @@ SRCS_DIRS	= ./srcs $(addprefix ./srcs, \
 							)\
 							/envp \
 							/utils \
-							/parser\
-							$(addprefix /data_structs, \
-								/commlist\
-							)\
+							/parser \
+							/commlist \
 						)
 
 HDRS = $(wildcard $(addsuffix /*.h, $(HDRS_DIRS)))
@@ -33,11 +31,14 @@ $(OBJS_DIR)/%.o: %.c $(HDRS)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@if [[ `uname -s` == "Darwin" ]]; \
+	@if [[ "$$LOGNAME" == "mgroot" ]]; \
 	then \
-		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L./readline-8.1/lib; \
+		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -Lreadline-8.1/lib; \
+	elif [[ "$$LOGNAME" == "dnicki" ]]; \
+	then \
+		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline -L/Users/dnicki/.brew/Cellar/readline/8.1/lib; \
 	else \
-		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline;\
+		$(CC) $(CFLAGS) $(OBJS) -o $(NAME) -lreadline; \
 	fi
 
 	@echo "Build done"
