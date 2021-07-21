@@ -1,8 +1,6 @@
 #include "commands.h"
 #include "signals.h"
 
-static int		builtin_heredoc(char *command);
-static void		builtin_heredoc_exec(char *command, int fd_out);
 static int		redir_left_double__fd_proc(t_commlist *iter,
 					t_commlist **redir_target, int *last_fd);
 static void		redir_left_double__delete_n_merge(t_commlist **commands,
@@ -76,55 +74,3 @@ static void	redir_left_double__delete_n_merge(t_commlist **commands,
 	}
 }
 
-static void	handler_in_heredoc(int status)
-{
-	if (status == 2)
-	{
-		printf("\n");
-		exit(1);
-	}
-}
-
-static int	builtin_heredoc(char *command)
-{
-	int	pipe_fds[2];
-	int	pid;
-
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-	if (pipe(pipe_fds) < 0)
-		return (perror__errno("sys/pipe", -1));
-	pid = fork();
-	if (pid < 0)
-		return (perror__errno("sys/fork", -1));
-	else if (pid == 0)
-	{
-		close(pipe_fds[0]);
-		builtin_heredoc_exec(command, pipe_fds[1]);
-		exit(0);
-	}
-	close(pipe_fds[1]);
-	waitpid(pid, NULL, 0);
-	return (pipe_fds[0]);
-}
-
-static void	builtin_heredoc_exec(char *command, int fd_out)
-{
-	char	*input;
-
-	input = NULL;
-	signal(SIGINT, handler_in_heredoc);
-	signal(SIGQUIT, handler_in_heredoc);
-	while (1)
-	{
-		input = readline("> ");
-		if (!input || !ft_strcmp(input, command))
-		{
-			printf("\033[A> ");
-			break ;
-		}
-		write(fd_out, input, ft_strlen(input));
-		write(fd_out, "\n", 1);
-	}
-	close(fd_out);
-}

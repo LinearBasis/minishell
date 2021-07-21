@@ -1,7 +1,7 @@
 NAME = minishell
 
 CC = gcc
-CFLAGS = -Wall -Wextra -fsanitize=address #-Werror
+CFLAGS = -Wall -Wextra #-fsanitize=address #-Werror
 
 HDRS_DIRS	= ./headers $(addprefix ./headers, /data_structs /readline)
 OBJS_DIR	= ./objs
