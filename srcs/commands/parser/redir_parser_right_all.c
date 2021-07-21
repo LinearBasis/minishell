@@ -35,6 +35,8 @@ int	redir_right_all(t_commlist **commands)
 static int	redir_right_all__fd_proc( t_commlist *iter,
 				t_commlist **redir_target, int *last_fd)
 {
+	if (iter->fd_out)
+		close(iter->fd_out);
 	if (*last_fd)
 		close(*last_fd);
 	if (iter->op_prev == OP_REDIRR)
