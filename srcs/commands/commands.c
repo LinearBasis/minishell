@@ -25,7 +25,7 @@ int	command_processing(t_commlist **commands, t_envp *envp)
 	// commlist_print(*commands);
 	if (commands__redir_parser(commands) != 0)
 		return (-2);
-	//commlist_print(*commands);
+	// commlist_print(*commands);
 	return (exec_processes_prepare(*commands, envp));
 }
 

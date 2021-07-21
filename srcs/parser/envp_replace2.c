@@ -8,13 +8,17 @@ size_t	replace_keys__get_new_len(char *str, char **envp[2], char *exit_code)
 	size_t	size;
 	size_t	key_len;
 	int		squotes_flag;
+	int		dquotes_flag;
 
 	squotes_flag = 0;
+	dquotes_flag = 0;
 	size = 0;
 	while (*str)
 	{
 		key_len = 0;
-		if (*str == '\'')
+		if (!squotes_flag && *str == '\"')
+			dquotes_flag = !dquotes_flag;
+		else if (!dquotes_flag && *str == '\'')
 			squotes_flag = !squotes_flag;
 		else if (*str == '$' && !squotes_flag && *(str + 1)
 			&& !ft_isspace(*(str + 1)) && *(str + 1) != '=')

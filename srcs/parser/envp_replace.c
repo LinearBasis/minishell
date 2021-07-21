@@ -35,31 +35,16 @@ char	*replace_keys__get_value(char **envp[2], char *key, size_t *key_len)
 
 	*key_len = 0;
 	while (key[*key_len] && !ft_isspace(key[*key_len])
-		&& parser__is_oper(key) == OP_NONE && key[*key_len] != '\"'
+		&& parser__is_oper(key) == OP_NONE
+		&& key[*key_len] != '\"' && key[*key_len] != '\''
 		&& key[*key_len] != '$' && key[*key_len] != '=')
 		++(*key_len);
 	index = 0;
 	while (envp[KEY][index])
 	{
-<<<<<<< HEAD
-		key_len = 0;
-		if (*str == '\'')
-			squotes_flag = !squotes_flag;
-		if (*str == '$' && !squotes_flag && *(str + 1))
-		{
-			if (*(str + 1) == '?')
-				size += ft_strlen(exit_code);	
-			else if (*(str + 1))
-				size += ft_strlen(envp__get_value(envp, str + 1, &key_len));
-		}
-		else
-			++size;
-		str += key_len + 1;
-=======
 		if (ft_strncmp(envp[KEY][index], key, *key_len) == 0)
 			return (envp[VALUE][index]);
 		index++;
->>>>>>> origin/master
 	}
 	return (NULL);
 }
@@ -70,14 +55,18 @@ static void	replace_keys(char *str, char *dest, char **envp[2],
 	char	*value;
 	size_t	key_len;
 	int		squotes_flag;
+	int		dquotes_flag;
 
+	dquotes_flag = 0;
 	squotes_flag = 0;
 	while (*str)
 	{
-		if (*str == '\'')
+		if (!squotes_flag && *str == '\"' && ++str)
+			dquotes_flag = !dquotes_flag;
+		else if (!dquotes_flag && *str == '\'' && ++str)
 			squotes_flag = !squotes_flag;
-		if (*str == '$' && !squotes_flag && *(str + 1)
-			&& !ft_isspace(*(str + 1)) && *(str + 1) != '=')
+		else if (*str == '$' && !squotes_flag && *(str + 1)
+			&& !ft_isspace(*(str + 1)))
 		{
 			value = replace_keys__key(str, envp, exit_code, &key_len);
 			if (value)
