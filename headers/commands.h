@@ -19,8 +19,6 @@
 # define EXECERR__EXECVE	126
 # define EXECERR__NOT_FOUNT 127
 
-# define HEREDOC_FILE	".heredoc"
-
 int		command_processing(t_commlist **commands, t_envp *envp);
 int		commands__pipe_parser(t_commlist *commands);
 
