@@ -4,3 +4,5 @@ minishell
 .vscode
 *.dSYM
 .heredoc
+*.swp
+*.swo
