@@ -10,11 +10,11 @@ int	builtin_unset(char **commands, t_envp *envp)
 	ans = 0;
 	while (commands[i])
 	{
-		error_code = envp_remove(commands[i], envp);
+		error_code = envp_remove(envp, commands[i]);
 		if (error_code != GOOD_RETURN)
 		{
 			ans = 1;
-			perror__builtin(commands, i, error_code);
+			perror__builtin((const char **)commands, i, error_code);
 		}
 		i++;
 	}

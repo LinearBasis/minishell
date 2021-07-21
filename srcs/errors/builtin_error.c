@@ -15,11 +15,14 @@ char	*get_const_error_str(int code)
 
 int	get_error_code_from_my_error_code(int code)
 {
+	(void)code;
 	return (1);
 }
 
 int	perror__builtin(const char **commands, int id_of_error_arg, int error_code)
 {
+	char	*a;
+
 	write(2, "minishell: ", 11);
 	write(2, commands[0], ft_strlen(commands[0]));
 	write(2, ": ", 2);
@@ -33,6 +36,7 @@ int	perror__builtin(const char **commands, int id_of_error_arg, int error_code)
 			write(2, "\'", 1);
 		write(2, ": ", 2);
 	}
-	printf("%s\n", get_const_error_str(error_code));
+	a = get_const_error_str(error_code);
+	write(2, a, ft_strlen(a));
 	return (get_error_code_from_my_error_code(error_code));
 }
