@@ -49,8 +49,8 @@ static size_t	parser__get_word__get_len(char **str)
 	quote_flag = 0;
 	size = 0;
 	tmp = *str;
-	while (*tmp && !ft_isspace(*tmp)
-		&& ((!quote_flag && parser__is_oper(tmp) == OP_NONE) || quote_flag))
+	while (*tmp && ((!quote_flag && !ft_isspace(*tmp)
+		&& parser__is_oper(tmp) == OP_NONE) || quote_flag))
 	{
 		printf("%d |%s\n", (int)quote_flag, tmp);
 		if (!parser__get_word__check_quote(tmp, &quote_flag, &curr_quote))
@@ -67,8 +67,8 @@ static void	parser__get_word__copy_word(char **str, char *dest)
 
 	curr_quote = 1;
 	quote_flag = 0;
-	while (**str && !ft_isspace(**str)
-		&& ((!quote_flag && parser__is_oper(*str) == OP_NONE) || quote_flag))
+	while (**str && ((!quote_flag && !ft_isspace(**str)
+		&& parser__is_oper(*str) == OP_NONE) || quote_flag))
 	{
 		if (!parser__get_word__check_quote(*str, &quote_flag, &curr_quote)
 			&& **str != curr_quote)
