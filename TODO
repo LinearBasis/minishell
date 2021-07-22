@@ -4,12 +4,7 @@
 
 3. Specific cases:
 	* echo -n safas > file	-> Doesnt redir to file
-	
+
 	* sometext/				-> No such file or directory
-
-	*	unset PATH
-		ls					-> No such file or directory
-
-	* yes | yes | head
 
 4. c-d with "<< "
