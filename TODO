@@ -1,13 +1,6 @@
-1. Error codes
+1. Error codes (???)
 
-2. exit
-
-3. Specific cases:
-	* echo -n safas > file	-> Doesnt redir to file
-
-4. c-d with "<< "
-
-5. Bash exit code:
+2. Bash exit code:		(LINUX TROUBLE)
 
 	* case:
 		minishell: ^C
