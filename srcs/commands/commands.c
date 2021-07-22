@@ -8,15 +8,20 @@ static size_t	count_procesess(t_commlist *commands);
 int	command_processing(t_commlist **commands, t_envp *envp)
 {
 	int		status;
+	int		exit_status;
 
 	//commlist_print(*commands);
 	if (err_assign(commands__pipe_parser(*commands), &status) != EX_OK)
 		return (status);
-	// commlist_print(*commands);
-	if (err_assign(redir_left_double(commands), &status)!= EX_OK)
+	//commlist_print(*commands);
+	if (err_assign(redir_left_double(commands, &exit_status), &status) != EX_OK)
 		return (status);
+	if (exit_status != EX_OK)
+		return (exit_status);
+	//commlist_print(*commands);
 	if (err_assign(redir_left_uno(commands), &status) != EX_OK)
 		return (status);
+	//commlist_print(*commands);
 	if (err_assign(redir_right_all(commands), &status) != EX_OK)
 		return (status);
 	//commlist_print(*commands);
@@ -46,7 +51,7 @@ static int	exec_processes_prepare(t_commlist *commands, t_envp *envp)
 	}
 	index = 0;
 	while (index++ < size)
-		if (waitpid(pids[index - 1], &status, 0) == -1)
+		if (waitpid(pids[index - 1], &status, 0) < 0)
 			return (perror__errno("sys", EX_OSERR));
 	free(pids);
 	return (WEXITSTATUS(status));

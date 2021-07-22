@@ -9,11 +9,11 @@ static void	handler_in_heredoc(int status)
 	{
 		printf("\n");
 		readline(NULL);
-		exit(1);
+		exit(EX_CATCHALL);
 	}
 }
 
-int	builtin_heredoc(char *command)
+int	builtin_heredoc(char *command, int *status)
 {
 	int	pipe_fds[2];
 	int	pid;
@@ -21,10 +21,10 @@ int	builtin_heredoc(char *command)
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	if (pipe(pipe_fds) < 0)
-		return (perror__errno("sys/pipe", -1));
+		return (perror__errno("sys", EX_OSERR));
 	pid = fork();
 	if (pid < 0)
-		return (perror__errno("sys/fork", -1));
+		return (perror__errno("sys", EX_OSERR));
 	else if (pid == 0)
 	{
 		close(pipe_fds[0]);
@@ -32,7 +32,8 @@ int	builtin_heredoc(char *command)
 		exit(0);
 	}
 	close(pipe_fds[1]);
-	waitpid(pid, NULL, 0);
+	waitpid(pid, status, 0);
+	*status = WEXITSTATUS(*status);
 	return (pipe_fds[0]);
 }
 
