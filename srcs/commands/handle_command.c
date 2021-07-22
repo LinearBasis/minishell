@@ -4,7 +4,8 @@ int	is_builtin_command(char **command)
 {
 	return (!ft_strcmp(command[0], "echo") || !ft_strcmp(command[0], "cd")
 		|| !ft_strcmp(command[0], "pwd") || !ft_strcmp(command[0], "export")
-		|| !ft_strcmp(command[0], "unset") || !ft_strcmp(command[0], "env"));
+		|| !ft_strcmp(command[0], "unset") || !ft_strcmp(command[0], "env")
+		|| !ft_strcmp(command[0], "exit"));
 }
 
 int	handle_command(char **command, t_envp *envp)

@@ -18,9 +18,9 @@ int	builtin_echo(char **command)
 	}
 	while (command[i])
 	{
-		printf("%s", command[i]);
+		write(1, command[i], ft_strlen(command[i]));
 		if (command[i + 1])
-			printf(" ");
+			write(1, " ", 1);
 		++i;
 	}
 	if (!flag)

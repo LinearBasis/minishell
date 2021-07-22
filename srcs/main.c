@@ -20,8 +20,10 @@ int	minishell(t_envp *envp, int last_exit_code)
 			printf("\e[u%sexit\n", SHELL_NAME);
 			return (g_flag);
 		}
+
 		if (*input && !g_flag)
 			add_history(input);
+		g_flag = 0;
 		if (parse_input(&input, &commands, envp, last_exit_code) == 0)
 			last_exit_code = command_processing(&commands, envp);
 		commlist_clear(commands);

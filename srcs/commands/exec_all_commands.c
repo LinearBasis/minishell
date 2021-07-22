@@ -14,7 +14,6 @@ int	exec_all_processes(t_commlist *commands, t_envp *envp, int *pids)
 	{
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
-		printf("forking\n");
 		pids[++index] = fork();
 		if (pids[index] < 0)
 			return (perror__errno("sys", EX_OSERR));

@@ -23,9 +23,11 @@ int		builtin_exit(char **command)
 
 	exit_status = 0;
 	if (command[1] != NULL && command[2] != NULL)
-		return (perror__builtin((const char **)command, -1,  TOO_MANY_ARGS));
-	printf("imhere\n");
-	if (!ft_is_digit(command[2], &exit_status))
+		return (perror__builtin((const char **)command, 1,  TOO_MANY_ARGS));
+	if (command[1] && !ft_is_digit(command[1], &exit_status))
 		perror__builtin((const char **)command, -1, NUMERIC_ARG_REQUIRED);
+	exit_status %= 256;
+	if (exit_status < 0)
+		exit_status += 256;
 	exit(exit_status);
 }
