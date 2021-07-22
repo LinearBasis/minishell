@@ -1,7 +1,7 @@
 #include "commands.h"
 
-static void		close_fds_n_switch(t_commlist **commands);
-static void		close_next_fds(t_commlist *commands);
+static int	close_fds_n_switch(t_commlist **commands,
+				t_commlist *command_copy, int all_flag);
 
 int	exec_all_processes(t_commlist *commands, t_envp *envp, int *pids)
 {
@@ -23,27 +23,40 @@ int	exec_all_processes(t_commlist *commands, t_envp *envp, int *pids)
 			signal(SIGQUIT, SIG_DFL);
 			err_assign2(dup2(commands->fd_in, STDIN_FILENO), EX_OSERR, &st);
 			err_assign2(dup2(commands->fd_out, STDOUT_FILENO), EX_OSERR, &st);
-			close_next_fds(commands);
+			err_assign2(close_fds_n_switch(NULL, commands, 1), EX_OSFILE, &st);
 			if (st == EX_OK)
 				st = handle_command(commands->argv, envp);
 			exit(st);
 		}
-		close_fds_n_switch(&commands);
+		close_fds_n_switch(&commands, NULL, 0);
 	}
 	return (st);
 }
 
-static void	close_fds_n_switch(t_commlist **commands)
+static int	close_fds_n_switch(t_commlist **commands,
+				t_commlist *commands_copy, int all_flag)
 {
-	if ((*commands)->fd_in != STDIN_FILENO)
-		close((*commands)->fd_in);
-	if ((*commands)->fd_out != STDOUT_FILENO)
-		close((*commands)->fd_out);
-	*commands = (*commands)->next;
-}
+	int	status;
 
-static void	close_next_fds(t_commlist *commands)
-{
-	while (commands)
-		close_fds_n_switch(&commands);
+	status = EX_OK;
+	if (all_flag)
+	{
+		while (commands_copy)
+		{
+			if (commands_copy->fd_in != STDIN_FILENO)
+				err_assign2(close(commands_copy->fd_in), EX_OSFILE, &status);;
+			if (commands_copy->fd_out != STDOUT_FILENO)
+				err_assign2(close(commands_copy->fd_out), EX_OSFILE, &status);
+			commands_copy= commands_copy->next;
+		}
+	}
+	else
+	{
+		if ((*commands)->fd_in != STDIN_FILENO)
+			err_assign2(close((*commands)->fd_in), EX_OSFILE, &status);
+		if ((*commands)->fd_out != STDOUT_FILENO)
+			err_assign2(close((*commands)->fd_out), EX_OSFILE, &status);
+		*commands = (*commands)->next;
+	}
+	return (status);
 }

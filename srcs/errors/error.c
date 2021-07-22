@@ -2,7 +2,8 @@
 
 int	err_assign(int status, int *out_status)
 {
-	*out_status = status;
+	if (*out_status != EX_OK)
+		*out_status = status;
 	return (status);
 }
 
