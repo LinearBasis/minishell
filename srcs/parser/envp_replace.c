@@ -42,7 +42,8 @@ char	*replace_keys__get_value(char **envp[2], char *key, size_t *key_len)
 	index = 0;
 	while (envp[KEY][index])
 	{
-		if (ft_strncmp(envp[KEY][index], key, *key_len) == 0)
+		if (ft_strncmp(envp[KEY][index], key, *key_len) == 0
+			&& !envp[KEY][index][*key_len])
 			return (envp[VALUE][index]);
 		index++;
 	}
