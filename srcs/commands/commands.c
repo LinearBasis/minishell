@@ -39,7 +39,7 @@ static int	exec_processes_prepare(t_commlist *commands, t_envp *envp)
 	if (!pids)
 		return (perror__errno("sys", EX_OSERR));
 	status = exec_all_processes(commands, envp, pids);
-	if (status != 0)
+	if (status != EX_OK)
 	{
 		free(pids);
 		return (status);
@@ -47,7 +47,7 @@ static int	exec_processes_prepare(t_commlist *commands, t_envp *envp)
 	index = 0;
 	while (index++ < size)
 		if (waitpid(pids[index - 1], &status, 0) == -1)
-			return (perror__errno("sys/wait", -5));
+			return (perror__errno("sys", EX_OSERR));
 	free(pids);
 	return (WEXITSTATUS(status));
 }
@@ -58,6 +58,7 @@ static int	exec_single_builtin(t_commlist *commands, t_envp *envp)
 	int	stdin_fd;
 	int	st;
 
+	st = EX_OK;
 	if (commands->fd_in)
 	{
 		stdin_fd = dup(STDIN_FILENO);

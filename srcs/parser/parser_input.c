@@ -13,7 +13,7 @@ int	parse_input(char **str, t_commlist **out_commlist,
 	int			status;
 
 	*out_commlist = NULL;
-	if (parser__syntax_analys(*str, &error_token) != CHECK_SUCCESS)
+	if (parser__syntax_analys(*str, &error_token) != EX_OK)
 	{
 		parser__print_syntax_error(error_token);
 		return (EX_MISUSE_BUILTIN);
