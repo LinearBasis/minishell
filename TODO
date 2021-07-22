@@ -10,3 +10,8 @@
 		130
 
 		(128 + ^C code)
+
+3. echo "$PWD$"
+
+4. export PATH=$PATH:/dev/null
+
