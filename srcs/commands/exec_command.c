@@ -2,22 +2,28 @@
 
 static int		is_colon(char c);
 static int		replace_home_dir(char **command, t_envp *envp);
-static char		*bruteforce_binary(char *command, char **path_dirs);
+static char		*bruteforce_binary(char *command, char **path_dirs, int *status);
 static void		free_path(char **path_dirs);
 
 int	exec_command(char **argv, t_envp *envp)
 {
 	char	**path_dirs;
 	char	*binary;
+	int		status;
 
+	status = EX_OK;
 	path_dirs = ft_smart_split(envp_get_value(envp, "PATH"), &is_colon, "/");
 	if (!path_dirs)
-		return (perror__errno("path_dirs: sys", EXECERR__PATHDIRS));
-	if (replace_home_dir(argv, envp) != EXECERR__SUCCESS)
-		return (EXECERR__HOMEDIR);
-	binary = bruteforce_binary(argv[0], path_dirs);
+		return (perror__errno("sys", EX_OSERR));
+	if (err_assign(replace_home_dir(argv, envp), &status) != EX_OK)
+		return (status);
+	binary = bruteforce_binary(argv[0], path_dirs, &status);
+	if (status == ENOENT)
+		return (perror__errno(argv[0], EX_CMD_NOTFOUND));
+	if (status != EX_OK)
+		return (status);
 	if (!binary)
-		return (perror__exec(argv[0], EXECERR__NOT_FOUNT));
+		return (perror__exec(argv[0], EX_CMD_NOTFOUND));
 	if (binary != argv[0])
 	{
 		free(argv[0]);
@@ -26,9 +32,9 @@ int	exec_command(char **argv, t_envp *envp)
 	if (execve(binary, argv, envp->envp_cpy) < 0)
 	{
 		free_path(path_dirs);
-		return (perror__errno(binary, EXECERR__EXECVE));
+		return (perror__errno(binary, EX_CMD_NOTEXEC));
 	}
-	return (EXECERR__SUCCESS);
+	return (EX_OK);
 }
 
 static int	is_colon(char c)
@@ -44,14 +50,14 @@ static int	replace_home_dir(char **command, t_envp *envp)
 	{
 		tmp = ft_strjoin(envp_get_value(envp, "HOME"), *command + 1);
 		if (!tmp)
-			return (perror__errno("home_dir: sys", EXECERR__HOMEDIR));
+			return (perror__errno("sys", EX_OSERR));
 		free(*command);
 		*command = tmp;
 	}
 	return (0);
 }
 
-static char	*bruteforce_binary(char *command, char **path_dirs)
+static char	*bruteforce_binary(char *command, char **path_dirs, int *status)
 {
 	struct stat	buff;
 	char		*tmp;
@@ -59,12 +65,21 @@ static char	*bruteforce_binary(char *command, char **path_dirs)
 	tmp = command;
 	while (*tmp)
 		if (*(tmp++) == '/')
+		{
+			if (stat(command, &buff) != 0)
+				*status = ENOENT;
 			return (command);
+		}
 	if (stat(command, &buff) == 0 && (buff.st_mode & S_IXUSR))
 		return (command);
 	while (*path_dirs)
 	{
 		tmp = ft_strjoin(*path_dirs, command);
+		if (!tmp)
+		{
+			*status = perror__errno("sys", EX_OSERR);
+			return (NULL);
+		}
 		if (stat(tmp, &buff) == 0 && (buff.st_mode & S_IXUSR))
 			return (tmp);
 		free(tmp);

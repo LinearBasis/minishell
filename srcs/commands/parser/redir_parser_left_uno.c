@@ -39,7 +39,7 @@ static int	redir_left_uno__fd_proc(t_commlist *iter, t_commlist **redir_target,
 		close(*last_fd);
 	*last_fd = open(iter->argv[0], O_RDONLY);
 	if (*last_fd < 0)
-		return (perror__errno(iter->argv[0], -1));
+		return (perror__errno(iter->argv[0], errno));
 	if (iter->op_next != OP_REDIRL)
 	{
 		if (*redir_target)

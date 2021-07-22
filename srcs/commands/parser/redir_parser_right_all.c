@@ -44,7 +44,7 @@ static int	redir_right_all__fd_proc( t_commlist *iter,
 	else
 		*last_fd = open(iter->argv[0], O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (*last_fd < 0)
-		return (perror__errno(iter->argv[0], -1));
+		return (perror__errno(iter->argv[0], errno));
 	if (iter->op_next != OP_REDIRR && iter->op_next != OP_REDIR2R)
 	{
 		if (*redir_target)
