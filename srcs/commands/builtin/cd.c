@@ -39,6 +39,6 @@ static int	do_cd_to_user(char **command, t_envp *exp)
 static int	do_cd_to_path(char **command)
 {
 	if (chdir(command[1]) == -1)
-		return (perror__builtin((const char **)command, 1, NO_SUCH_FILE));
+		return (perror__builtin((const char **)command, 1, errno));
 	return (GOOD_RETURN);
 }

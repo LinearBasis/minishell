@@ -10,13 +10,13 @@ char	*get_const_error_str(int code)
 		return ("HOME not set");
 	if (code == NO_SUCH_FILE)
 		return ("No such file or directory");
-	return ("(undefined)");
+	return (strerror(errno));
 }
 
 int	get_error_code_from_my_error_code(int code)
 {
 	(void)code;
-	return (1);
+	return (EX_CATCHALL);
 }
 
 int	perror__builtin(const char **commands, int id_of_error_arg, int error_code)

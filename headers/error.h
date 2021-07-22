@@ -15,12 +15,12 @@
 # define EX_FATAL_ERROR_SIG(c)	(128 + c * (c >= 0) - c * (c < 0))
 # define EX_SIGQUIT				130
 
-# define MALLOC_ERROR 11
+# define MALLOC_ERROR -11
 //	for unset and export
-# define NOT_A_VALID_IDENTIFIER 12
-# define HOME_NOT_SET 13
-# define CD_CHDIR_ERROR 14
-# define NO_SUCH_FILE 15
+# define NOT_A_VALID_IDENTIFIER -12
+# define HOME_NOT_SET -13
+# define CD_CHDIR_ERROR -14
+# define NO_SUCH_FILE -15
 
 int	perror__syntax(const char *error_token, int error_code);
 int	perror__errno(const char *error_token, int error_code);
