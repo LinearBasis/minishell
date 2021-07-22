@@ -2,7 +2,8 @@
 #include "signals.h"
 
 static int		redir_left_double__fd_proc(t_commlist *iter,
-					t_commlist **redir_target, int *last_fd, int *last_exit_code);
+					t_commlist **redir_target, int *last_fd,
+					int *last_exit_code);
 static void		redir_left_double__delete_n_merge(t_commlist **commands,
 					t_commlist **iter);
 
@@ -11,7 +12,7 @@ int	redir_left_double(t_commlist **commands, int *last_exit_code)
 	t_commlist	*iter;
 	t_commlist	*redir_target;
 	int			last_fd;
-	
+
 	*last_exit_code = EX_OK;
 	last_fd = 0;
 	redir_target = NULL;
@@ -20,7 +21,8 @@ int	redir_left_double(t_commlist **commands, int *last_exit_code)
 	{
 		if (iter->op_prev == OP_REDIR2L)
 		{
-			if (redir_left_double__fd_proc(iter, &redir_target, &last_fd, last_exit_code) != 0)
+			if (redir_left_double__fd_proc(iter, &redir_target,
+					&last_fd, last_exit_code) != 0)
 				return (-1);
 			redir_left_double__delete_n_merge(commands, &iter);
 		}
@@ -74,4 +76,3 @@ static void	redir_left_double__delete_n_merge(t_commlist **commands,
 		commlist_merge_two(commands, *iter);
 	}
 }
-

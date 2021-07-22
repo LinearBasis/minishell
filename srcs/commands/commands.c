@@ -3,6 +3,8 @@
 
 static int		exec_processes_prepare(t_commlist *commands, t_envp *envp);
 static int		exec_single_builtin(t_commlist *commands, t_envp *envp);
+static void		exec_single_builtin__restore_fds(t_commlist *commands,
+					int stdin_fd, int stdout_fd);
 static size_t	count_procesess(t_commlist *commands);
 
 int	command_processing(t_commlist **commands, t_envp *envp)
@@ -10,7 +12,7 @@ int	command_processing(t_commlist **commands, t_envp *envp)
 	int		status;
 	int		exit_status;
 
-	commlist_print(*commands);
+	//commlist_print(*commands);
 	if (err_assign(commands__pipe_parser(*commands), &status) != EX_OK)
 		return (status);
 	//commlist_print(*commands);
@@ -64,11 +66,13 @@ static int	exec_single_builtin(t_commlist *commands, t_envp *envp)
 	int	st;
 
 	st = EX_OK;
+	stdin_fd = STDIN_FILENO;
 	if (commands->fd_in)
 	{
 		stdin_fd = dup(STDIN_FILENO);
 		err_assign2(dup2(commands->fd_in, STDIN_FILENO), EX_OSERR, &st);
 	}
+	stdout_fd = STDOUT_FILENO;
 	if (commands->fd_out)
 	{
 		stdout_fd = dup(STDOUT_FILENO);
@@ -76,6 +80,13 @@ static int	exec_single_builtin(t_commlist *commands, t_envp *envp)
 	}
 	if (st == EX_OK)
 		st = handle_command(commands->argv, envp);
+	exec_single_builtin__restore_fds(commands, stdin_fd, stdout_fd);
+	return (st);
+}
+
+static void	exec_single_builtin__restore_fds(t_commlist *commands,
+				int stdin_fd, int stdout_fd)
+{
 	if (commands->fd_in)
 	{
 		close(commands->fd_in);
@@ -86,7 +97,6 @@ static int	exec_single_builtin(t_commlist *commands, t_envp *envp)
 		close(commands->fd_out);
 		dup2(stdout_fd, STDOUT_FILENO);
 	}
-	return (st);
 }
 
 static size_t	count_procesess(t_commlist *commands)

@@ -9,7 +9,6 @@ char	*parser__get_word(char **str)
 	char	*out;
 
 	size = parser__get_word__get_len(str);
-	printf("%zu\n", size);
 	out = malloc(sizeof(char) * (size + 1));
 	if (!out)
 		return (NULL);
@@ -50,9 +49,8 @@ static size_t	parser__get_word__get_len(char **str)
 	size = 0;
 	tmp = *str;
 	while (*tmp && ((!quote_flag && !ft_isspace(*tmp)
-		&& parser__is_oper(tmp) == OP_NONE) || quote_flag))
+				&& parser__is_oper(tmp) == OP_NONE) || quote_flag))
 	{
-		printf("%d |%s\n", (int)quote_flag, tmp);
 		if (!parser__get_word__check_quote(tmp, &quote_flag, &curr_quote))
 			++size;
 		++tmp;
@@ -68,7 +66,7 @@ static void	parser__get_word__copy_word(char **str, char *dest)
 	curr_quote = 1;
 	quote_flag = 0;
 	while (**str && ((!quote_flag && !ft_isspace(**str)
-		&& parser__is_oper(*str) == OP_NONE) || quote_flag))
+				&& parser__is_oper(*str) == OP_NONE) || quote_flag))
 	{
 		if (!parser__get_word__check_quote(*str, &quote_flag, &curr_quote)
 			&& **str != curr_quote)

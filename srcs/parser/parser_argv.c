@@ -43,7 +43,7 @@ static size_t	count_words(char *str)
 	while (*str && parser__is_oper(str) == OP_NONE)
 	{
 		while (*str && ((!quote_flag && !ft_isspace(*str)
-			&& parser__is_oper(str) == OP_NONE) || quote_flag))
+					&& parser__is_oper(str) == OP_NONE) || quote_flag))
 		{
 			parser__get_word__check_quote(str, &quote_flag, &curr_quote);
 			str++;

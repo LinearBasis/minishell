@@ -1,5 +1,6 @@
 #include "commands.h"
 
+static void	child_process_handler(t_commlist *commands, t_envp *envp);
 static int	close_fds_n_switch(t_commlist **commands,
 				t_commlist *command_copy, int all_flag);
 
@@ -18,19 +19,25 @@ int	exec_all_processes(t_commlist *commands, t_envp *envp, int *pids)
 		if (pids[index] < 0)
 			return (perror__errno("sys", EX_OSERR));
 		else if (pids[index] == 0)
-		{
-			signal(SIGINT, SIG_DFL);
-			signal(SIGQUIT, SIG_DFL);
-			err_assign2(dup2(commands->fd_in, STDIN_FILENO), EX_OSERR, &st);
-			err_assign2(dup2(commands->fd_out, STDOUT_FILENO), EX_OSERR, &st);
-			err_assign2(close_fds_n_switch(NULL, commands, 1), EX_OSFILE, &st);
-			if (st == EX_OK)
-				st = handle_command(commands->argv, envp);
-			exit(st);
-		}
+			child_process_handler(commands, envp);
 		close_fds_n_switch(&commands, NULL, 0);
 	}
 	return (st);
+}
+
+static void	child_process_handler(t_commlist *commands, t_envp *envp)
+{
+	int		st;
+
+	st = EX_OK;
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	err_assign2(dup2(commands->fd_in, STDIN_FILENO), EX_OSERR, &st);
+	err_assign2(dup2(commands->fd_out, STDOUT_FILENO), EX_OSERR, &st);
+	err_assign2(close_fds_n_switch(NULL, commands, 1), EX_OSFILE, &st);
+	if (st == EX_OK)
+		st = handle_command(commands->argv, envp);
+	exit(st);
 }
 
 static int	close_fds_n_switch(t_commlist **commands,
@@ -44,10 +51,10 @@ static int	close_fds_n_switch(t_commlist **commands,
 		while (commands_copy)
 		{
 			if (commands_copy->fd_in != STDIN_FILENO)
-				err_assign2(close(commands_copy->fd_in), EX_OSFILE, &status);;
+				err_assign2(close(commands_copy->fd_in), EX_OSFILE, &status);
 			if (commands_copy->fd_out != STDOUT_FILENO)
 				err_assign2(close(commands_copy->fd_out), EX_OSFILE, &status);
-			commands_copy= commands_copy->next;
+			commands_copy = commands_copy->next;
 		}
 	}
 	else

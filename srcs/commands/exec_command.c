@@ -2,7 +2,8 @@
 
 static int		is_colon(char c);
 static int		replace_home_dir(char **command, t_envp *envp);
-static char		*bruteforce_binary(char *command, char **path_dirs, int *status);
+static char		*bruteforce_binary(char *command, char **path_dirs,
+					int *status);
 static void		free_path(char **path_dirs);
 
 int	exec_command(char **argv, t_envp *envp)
@@ -63,13 +64,19 @@ static char	*bruteforce_binary(char *command, char **path_dirs, int *status)
 	char		*tmp;
 
 	tmp = command;
+	while (*command && ft_isspace(*command))
+		command++;
+	if (!*command)
+		return (NULL);
 	while (*tmp)
+	{
 		if (*(tmp++) == '/' || !*path_dirs)
 		{
 			if (stat(command, &buff) != 0)
 				*status = ENOENT;
 			return (command);
 		}
+	}
 	if (stat(command, &buff) == 0 && (buff.st_mode & S_IXUSR))
 		return (command);
 	while (*path_dirs)

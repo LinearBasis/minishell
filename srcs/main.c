@@ -20,7 +20,6 @@ int	minishell(t_envp *envp, int last_exit_code)
 			printf("\e[u%sexit\n", SHELL_NAME);
 			return (g_flag);
 		}
-
 		if (*input && !g_flag)
 			add_history(input);
 		g_flag = 0;
@@ -30,7 +29,6 @@ int	minishell(t_envp *envp, int last_exit_code)
 		free(input);
 	}
 }
-
 
 int	main(int argc, char **argv, char **envp)
 {
