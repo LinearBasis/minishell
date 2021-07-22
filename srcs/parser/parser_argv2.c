@@ -2,8 +2,6 @@
 
 static size_t	parser__get_word__get_len(char **str);
 static void		parser__get_word__copy_word(char **s, char *dst);
-static int		parser__get_word__check_quote(char *s,
-					char *q_flag, char *q_var);
 
 char	*parser__get_word(char **str)
 {
@@ -11,6 +9,7 @@ char	*parser__get_word(char **str)
 	char	*out;
 
 	size = parser__get_word__get_len(str);
+	printf("%zu\n", size);
 	out = malloc(sizeof(char) * (size + 1));
 	if (!out)
 		return (NULL);
@@ -19,8 +18,8 @@ char	*parser__get_word(char **str)
 	return (out);
 }
 
-static int	parser__get_word__check_quote(char *s,
-					char *quote_flag, char *quote_var)
+int	parser__get_word__check_quote(char *s,
+		char *quote_flag, char *quote_var)
 {
 	if (*quote_flag && *s == *quote_var)
 	{
@@ -50,10 +49,11 @@ static size_t	parser__get_word__get_len(char **str)
 	quote_flag = 0;
 	size = 0;
 	tmp = *str;
-	while (*tmp && !ft_isspace(*tmp) && parser__is_oper(tmp) == OP_NONE)
+	while (*tmp && !ft_isspace(*tmp)
+		&& ((!quote_flag && parser__is_oper(tmp) == OP_NONE) || quote_flag))
 	{
-		if (!parser__get_word__check_quote(tmp, &quote_flag, &curr_quote)
-			&& *tmp != curr_quote)
+		printf("%d |%s\n", (int)quote_flag, tmp);
+		if (!parser__get_word__check_quote(tmp, &quote_flag, &curr_quote))
 			++size;
 		++tmp;
 	}
@@ -67,7 +67,8 @@ static void	parser__get_word__copy_word(char **str, char *dest)
 
 	curr_quote = 1;
 	quote_flag = 0;
-	while (**str && !ft_isspace(**str) && parser__is_oper(*str) == OP_NONE)
+	while (**str && !ft_isspace(**str)
+		&& ((!quote_flag && parser__is_oper(*str) == OP_NONE) || quote_flag))
 	{
 		if (!parser__get_word__check_quote(*str, &quote_flag, &curr_quote)
 			&& **str != curr_quote)

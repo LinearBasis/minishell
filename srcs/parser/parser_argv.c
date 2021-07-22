@@ -32,14 +32,22 @@ char	**parser__get_argv(char **str)
 static size_t	count_words(char *str)
 {
 	size_t	count;
+	char	quote_flag;
+	char	curr_quote;
 
 	while (ft_isspace(*str))
 		++str;
+	quote_flag = 0;
+	curr_quote = 1;
 	count = 0;
 	while (*str && parser__is_oper(str) == OP_NONE)
 	{
-		while (*str && !ft_isspace(*str) && parser__is_oper(str) == OP_NONE)
+		while (*str && !ft_isspace(*str)
+			&& ((!quote_flag && parser__is_oper(str) == OP_NONE) || quote_flag))
+		{
+			parser__get_word__check_quote(str, &quote_flag, &curr_quote);
 			str++;
+		}
 		++count;
 		while (*str && ft_isspace(*str))
 			str++;

@@ -20,7 +20,7 @@ size_t	replace_keys__get_new_len(char *str, char **envp[2], char *exit_code)
 			dquotes_flag = !dquotes_flag;
 		else if (!dquotes_flag && *str == '\'')
 			squotes_flag = !squotes_flag;
-		else if (*str == '$' && !squotes_flag && *(str + 1)
+		if (*str == '$' && !squotes_flag && *(str + 1)
 			&& !ft_isspace(*(str + 1)) && *(str + 1) != '=')
 			size += replace_keys__get_new_len__key(str, envp,
 					exit_code, &key_len);

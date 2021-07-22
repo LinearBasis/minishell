@@ -62,11 +62,11 @@ static void	replace_keys(char *str, char *dest, char **envp[2],
 	squotes_flag = 0;
 	while (*str)
 	{
-		if (!squotes_flag && *str == '\"' && ++str)
+		if (!squotes_flag && *str == '\"')
 			dquotes_flag = !dquotes_flag;
-		else if (!dquotes_flag && *str == '\'' && ++str)
+		else if (!dquotes_flag && *str == '\'')
 			squotes_flag = !squotes_flag;
-		else if (*str == '$' && !squotes_flag && *(str + 1)
+		if (*str == '$' && !squotes_flag && *(str + 1)
 			&& !ft_isspace(*(str + 1)))
 		{
 			value = replace_keys__key(str, envp, exit_code, &key_len);

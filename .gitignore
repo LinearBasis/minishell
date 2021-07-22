@@ -6,3 +6,6 @@ minishell
 .heredoc
 *.swp
 *.swo
+.cache
+compile_commands.json
+.gitignore

@@ -26,5 +26,7 @@ size_t		replace_keys__get_new_len(char *str, char **envp[2],
 // parser_argv.c
 char		**parser__get_argv(char **str);
 char		*parser__get_word(char **str);
+int			parser__get_word__check_quote(char *s,
+				char *quote_flag, char *quote_var);
 
 #endif

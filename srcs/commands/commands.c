@@ -10,7 +10,7 @@ int	command_processing(t_commlist **commands, t_envp *envp)
 	int		status;
 	int		exit_status;
 
-	//commlist_print(*commands);
+	commlist_print(*commands);
 	if (err_assign(commands__pipe_parser(*commands), &status) != EX_OK)
 		return (status);
 	//commlist_print(*commands);
