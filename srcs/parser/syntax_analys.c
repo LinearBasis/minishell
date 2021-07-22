@@ -14,6 +14,7 @@ int	parser__syntax_analys(const char *str, t_operation *error_token)
 		str++;
 	if (!*str)
 		return (EX_OK);
+	*error_token = OP_NONE;
 	if (quotes_analys(str) != EX_OK)
 		return (EX_MISUSE_BUILTIN);
 	else if (operations_analys(str, error_token) != EX_OK)
@@ -30,9 +31,9 @@ static int	quotes_analys(const char *str)
 	double_q = 0;
 	while (*str)
 	{
-		if (*str == '\"')
+		if (!single_q && *str == '\"')
 			double_q = !double_q;
-		else if (*str == '\'' && !double_q)
+		else if (!double_q && *str == '\'')
 			single_q = !single_q;
 		str++;
 	}
