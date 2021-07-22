@@ -10,6 +10,10 @@ char	*get_const_error_str(int code)
 		return ("HOME not set");
 	if (code == NO_SUCH_FILE)
 		return ("No such file or directory");
+	if (code == TOO_MANY_ARGS)
+		return ("too many arguments");
+	if (code == NUMERIC_ARG_REQUIRED)
+		return ("numeric argument required");
 	return (strerror(errno));
 }
 

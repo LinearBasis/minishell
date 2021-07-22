@@ -23,7 +23,7 @@ void	*ft_realloc(void *str1, size_t before, size_t after);
 char	**ft_split(char const *s, char c);
 char	**ft_smart_split(const char *s, int (*cmp)(char), const char *tail);
 char	*ft_itoa(int n);
-
+int		ft_atoi(const char *str);
 int		ft_islower(char c);
 int		ft_isupper(char c);
 int		ft_isalpha(char c);

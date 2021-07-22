@@ -21,6 +21,9 @@
 # define HOME_NOT_SET -13
 # define CD_CHDIR_ERROR -14
 # define NO_SUCH_FILE -15
+# define TOO_MANY_ARGS -16
+# define NUMERIC_ARG_REQUIRED -17
+
 
 int	perror__syntax(const char *error_token, int error_code);
 int	perror__errno(const char *error_token, int error_code);
