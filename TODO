@@ -6,3 +6,14 @@
 	* echo -n safas > file	-> Doesnt redir to file
 
 4. c-d with "<< "
+
+5. Bash exit code:
+
+	* case:
+		minishell: ^C
+		minishell: ^D (exit)
+
+		zsh% echo $?
+		130
+
+		(128 + ^C code)
