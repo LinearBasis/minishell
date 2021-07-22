@@ -7,6 +7,8 @@
 # include "envp.h"
 # include "error.h"
 
+extern int	g_flag;
+
 // parser.c
 int			parse_input(char **str, t_commlist **out_commlist,
 				t_envp *envp, int last_exit_code);

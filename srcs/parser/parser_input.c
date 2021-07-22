@@ -16,6 +16,7 @@ int	parse_input(char **str, t_commlist **out_commlist,
 	if (parser__syntax_analys(*str, &error_token) != EX_OK)
 	{
 		parser__print_syntax_error(error_token);
+		g_flag = 2;
 		return (EX_MISUSE_BUILTIN);
 	}
 	status = parser__envp_replace(str, envp, last_exit_code); 

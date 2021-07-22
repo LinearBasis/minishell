@@ -15,8 +15,6 @@ int	exec_command(char **argv, t_envp *envp)
 	path_dirs = ft_smart_split(envp_get_value(envp, "PATH"), &is_colon, "/");
 	if (!path_dirs)
 		return (perror__errno("sys", EX_OSERR));
-	for (int i = 0; path_dirs[i]; i++)
-		printf("%s\n", path_dirs[i]);
 	if (err_assign(replace_home_dir(argv, envp), &status) != EX_OK)
 		return (status);
 	binary = bruteforce_binary(argv[0], path_dirs, &status);
