@@ -10,25 +10,29 @@ int	parse_input(char **str, t_commlist **out_commlist,
 		t_envp *envp, int last_exit_code)
 {
 	t_operation	error_token;
+	int			status;
 
 	*out_commlist = NULL;
 	if (parser__syntax_analys(*str, &error_token) != CHECK_SUCCESS)
 	{
 		parser__print_syntax_error(error_token);
-		return (-1);
+		return (EX_MISUSE_BUILTIN);
 	}
-	if (parser__envp_replace(str, envp, last_exit_code) != 0)
-		return (-2);
-	if (fill_commlist(*str, out_commlist) != 0)
-		return (-3);
-	return (0);
+	status = parser__envp_replace(str, envp, last_exit_code); 
+	if (status != 0)
+		return (status);
+	*out_commlist = NULL;
+	status = fill_commlist(*str, out_commlist);
+	if (status != 0)
+		return (status);
+	return (EX_OK);
 }
 
 static int	fill_commlist(char *str, t_commlist **commlist)
 {
 	t_operation	op;
+	int			status;
 
-	*commlist = NULL;
 	while (ft_isspace(*str))
 		++str;
 	while (*str)
@@ -36,18 +40,22 @@ static int	fill_commlist(char *str, t_commlist **commlist)
 		op = parser__is_oper(str);
 		if (op != OP_NONE)
 			str += 1 + (op == OP_REDIR2L || op == OP_REDIR2R);
-		if ((
-				(op == OP_NONE || op == OP_PIPE)
-				&& fill_commlist__push_elem(&str, commlist, op) != 0)
-			|| (
-				(op != OP_NONE && op != OP_PIPE)
-				&& fill_commlist__push_wrd_elem(&str, commlist, op) != 0)
-		)
-			return (-1);
+		if (op == OP_NONE || op == OP_PIPE)
+		{
+			status = fill_commlist__push_elem(&str, commlist, op);
+			if (status != 0)
+				return(status);
+		}
+		else if (op != OP_NONE && op != OP_PIPE)
+		{
+			status = fill_commlist__push_wrd_elem(&str, commlist, op);
+			if (status != 0)
+				return (status);
+		}
 		while (ft_isspace(*str))
 			++str;
 	}
-	return (0);
+	return (EX_OK);
 }
 
 static int	fill_commlist__push_wrd_elem(char **str, t_commlist **commlist,
@@ -58,14 +66,14 @@ static int	fill_commlist__push_wrd_elem(char **str, t_commlist **commlist,
 
 	argv = malloc(sizeof(char *) * 2);
 	if (!argv)
-		return (perror__errno("sys", -1));
+		return (perror__errno("sys", EX_OSERR));
 	argv[1] = NULL;
 	argv[0] = parser__get_word(str);
 	if (!*argv)
-		return (perror__errno("sys", -2));
+		return (perror__errno("sys", EX_OSERR));
 	tmp = commlist_create(argv);
 	if (!tmp)
-		return (perror__errno("sys", -3));
+		return (perror__errno("sys", EX_OSERR));
 	commlist_push_back(commlist, tmp);
 	tmp->op_prev = oper;
 	if (tmp->prev)
@@ -81,10 +89,10 @@ static int	fill_commlist__push_elem(char **str, t_commlist **commlist,
 
 	argv = parser__get_argv(str);
 	if (!argv)
-		return (perror__errno("sys", -1));
+		return (perror__errno("sys", EX_OSERR));
 	tmp = commlist_create(argv);
 	if (!tmp)
-		return (perror__errno("sys", -2));
+		return (perror__errno("sys", EX_OSERR));
 	commlist_push_back(commlist, tmp);
 	tmp->op_prev = oper;
 	if (tmp->prev)

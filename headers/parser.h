@@ -7,10 +7,6 @@
 # include "envp.h"
 # include "error.h"
 
-# define CHECK_FAILED_QUOTES	-1
-# define CHECK_FAILED_OPERS		-2
-# define CHECK_SUCCESS			0
-
 // parser.c
 int			parse_input(char **str, t_commlist **out_commlist,
 				t_envp *envp, int last_exit_code);

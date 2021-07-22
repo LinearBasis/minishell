@@ -13,12 +13,12 @@ int	parser__syntax_analys(const char *str, t_operation *error_token)
 	while (ft_isspace(*str))
 		str++;
 	if (!*str)
-		return (CHECK_SUCCESS);
-	if (quotes_analys(str) != CHECK_SUCCESS)
-		return (CHECK_FAILED_QUOTES);
-	else if (operations_analys(str, error_token) != CHECK_SUCCESS)
-		return (CHECK_FAILED_OPERS);
-	return (CHECK_SUCCESS);
+		return (EX_OK);
+	if (quotes_analys(str) != EX_OK)
+		return (EX_MISUSE_BUILTIN);
+	else if (operations_analys(str, error_token) != EX_OK)
+		return (EX_MISUSE_BUILTIN);
+	return (EX_OK);
 }
 
 static int	quotes_analys(const char *str)
@@ -37,8 +37,8 @@ static int	quotes_analys(const char *str)
 		str++;
 	}
 	if (double_q || single_q)
-		return (CHECK_FAILED_QUOTES);
-	return (CHECK_SUCCESS);
+		return (EX_MISUSE_BUILTIN);
+	return (EX_OK);
 }
 
 static int	operations_redirects_analys(const char *str,
@@ -48,10 +48,10 @@ static int	operations_pipes_analys(const char *str,
 
 static int	operations_analys(const char *str, t_operation *error_token)
 {
-	if (operations_redirects_analys(str, error_token, 0) != CHECK_SUCCESS
-		|| operations_pipes_analys(str, error_token, 1) != CHECK_SUCCESS)
-		return (CHECK_FAILED_OPERS);
-	return (CHECK_SUCCESS);
+	if (operations_redirects_analys(str, error_token, 0) != EX_OK
+		|| operations_pipes_analys(str, error_token, 1) != EX_OK)
+		return (EX_MISUSE_BUILTIN);
+	return (EX_OK);
 }
 
 static int	operations_redirects_analys(const char *str,
@@ -67,7 +67,7 @@ static int	operations_redirects_analys(const char *str,
 			if (is_empty)
 			{
 				*error_token = op;
-				return (CHECK_FAILED_OPERS);
+				return (EX_MISUSE_BUILTIN);
 			}
 			else
 				is_empty = 1;
@@ -79,9 +79,9 @@ static int	operations_redirects_analys(const char *str,
 	if (is_empty)
 	{
 		*error_token = OP_NONE;
-		return (CHECK_FAILED_OPERS);
+		return (EX_MISUSE_BUILTIN);
 	}
-	return (CHECK_SUCCESS);
+	return (EX_OK);
 }
 
 static int	operations_pipes_analys(const char *str,
@@ -97,7 +97,7 @@ static int	operations_pipes_analys(const char *str,
 			if (is_empty)
 			{
 				*error_token = op;
-				return (CHECK_FAILED_OPERS);
+				return (EX_MISUSE_BUILTIN);
 			}
 			else
 				is_empty = 1;
@@ -109,7 +109,7 @@ static int	operations_pipes_analys(const char *str,
 	if (is_empty)
 	{
 		*error_token = OP_NONE;
-		return (CHECK_FAILED_OPERS);
+		return (EX_MISUSE_BUILTIN);
 	}
-	return (CHECK_SUCCESS);
+	return (EX_OK);
 }

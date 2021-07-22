@@ -6,6 +6,7 @@ static void		close_next_fds(t_commlist *commands);
 int	exec_all_processes(t_commlist *commands, t_envp *envp, int *pids)
 {
 	ssize_t	index;
+	int		st;
 
 	index = -1;
 	while (commands)
@@ -19,10 +20,12 @@ int	exec_all_processes(t_commlist *commands, t_envp *envp, int *pids)
 		{
 			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_DFL);
-			dup2(commands->fd_in, STDIN_FILENO);
-			dup2(commands->fd_out, STDOUT_FILENO);
+			err_assign2(dup2(commands->fd_in, STDIN_FILENO), EX_OSERR, &st);
+			err_assign2(dup2(commands->fd_out, STDOUT_FILENO), EX_OSERR, &st);
 			close_next_fds(commands);
-			exit(handle_command(commands->argv, envp));
+			if (st == ST_OK)
+				st = handle_command(commands->argv, envp));
+			exit(st)
 		}
 		close_fds_n_switch(&commands);
 	}

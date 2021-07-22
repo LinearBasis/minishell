@@ -19,7 +19,7 @@ int	parser__envp_replace(char **str, t_envp *envp, int last_exit_code)
 	if (!out)
 	{
 		free(exit_code);
-		return (-1);
+		return (EX_OSERR);
 	}
 	out[size] = '\0';
 	replace_keys(*str, out, envp->envp_key_value, exit_code);

@@ -4,7 +4,15 @@
 # include <unistd.h>
 # include <string.h>
 # include <errno.h>
+# include <sysexits.h>
 # include "utils.h"
+
+# define EX_MISUSE_BUILTIN		2
+# define EX_CMD_NOTEXEC			126
+# define EX_CMD_NOTFOUND		127
+# define EX_INVAL_EXIT_CODE		128
+# define EX_FATAL_ERROR_SIG(c)	(128 + c * (c >= 0) - c * (c < 0))
+# define EX_SIGQUIT				130
 
 # define MALLOC_ERROR 11
 //	for unset and export
@@ -18,5 +26,8 @@ int	perror__errno(const char *error_token, int error_code);
 int	perror__exec(const char *error_token, int error_code);
 
 int	perror__builtin(const char **commands, int id_of_error_arg, int error_code);
+
+int	err_assign(int status, int *out_status);
+int	err_assign2(int status, int ret_status, int *out_status);
 
 #endif
