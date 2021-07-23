@@ -7,11 +7,11 @@
 # include "envp.h"
 # include "error.h"
 
-extern int	g_flag;
+extern int	g_last_exit_code;
 
 // parser.c
 int			parse_input(char **str, t_commlist **out_commlist,
-				t_envp *envp, int last_exit_code);
+				t_envp *envp);
 
 // syntax_analys.c
 t_operation	parser__is_oper(const char *str);
@@ -19,7 +19,7 @@ int			parser__syntax_analys(const char *str, t_operation *error_token);
 void		parser__print_syntax_error(t_operation error_token);
 
 // envp_replace
-int			parser__envp_replace(char **str, t_envp *envp, int last_exit_code);
+int			parser__envp_replace(char **str, t_envp *envp);
 char		*replace_keys__get_value(char **envp[2], char *key,
 				size_t *key_len);
 size_t		replace_keys__get_new_len(char *str, char **envp[2],

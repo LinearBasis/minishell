@@ -1,7 +1,7 @@
 NAME = minishell
 
 CC = gcc
-CFLAGS = -Wall -Wextra -fsanitize=address #-Werror
+CFLAGS = -Wall -Wextra -Werror
 
 HDRS_DIRS	= ./headers $(addprefix ./headers, /data_structs /readline)
 OBJS_DIR	= ./objs
@@ -50,3 +50,6 @@ fclean:	clean
 	rm -f $(NAME)
 
 re:		fclean	$(NAME)
+
+norm:
+	@norminette $(SRCS) $(HDRS)

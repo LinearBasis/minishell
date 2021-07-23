@@ -8,7 +8,7 @@ static int		fill_commlist__push_wrd_elem(char **str, t_commlist **commlist,
 static void		skip_spaces(char **str);
 
 int	parse_input(char **str, t_commlist **out_commlist,
-		t_envp *envp, int last_exit_code)
+		t_envp *envp)
 {
 	t_operation	error_token;
 	int			status;
@@ -17,10 +17,10 @@ int	parse_input(char **str, t_commlist **out_commlist,
 	if (parser__syntax_analys(*str, &error_token) != EX_OK)
 	{
 		parser__print_syntax_error(error_token);
-		g_flag = 2;
+		g_last_exit_code = 2;
 		return (EX_MISUSE_BUILTIN);
 	}
-	status = parser__envp_replace(str, envp, last_exit_code);
+	status = parser__envp_replace(str, envp);
 	if (status != 0)
 		return (status);
 	*out_commlist = NULL;

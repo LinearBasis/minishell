@@ -37,6 +37,7 @@ static void	child_process_handler(t_commlist *commands, t_envp *envp)
 	err_assign2(close_fds_n_switch(NULL, commands, 1), EX_OSFILE, &st);
 	if (st == EX_OK)
 		st = handle_command(commands->argv, envp);
+	commlist_clear(commands);
 	exit(st);
 }
 

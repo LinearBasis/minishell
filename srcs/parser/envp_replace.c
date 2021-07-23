@@ -7,13 +7,13 @@ static char		*replace_keys__key(char *str, char **envp[2],
 static void		replace_keys__copy_n_move(char **dest, char **src,
 					int to_zero_flag);
 
-int	parser__envp_replace(char **str, t_envp *envp, int last_exit_code)
+int	parser__envp_replace(char **str, t_envp *envp)
 {
 	size_t	size;
 	char	*out;
 	char	*exit_code;
 
-	exit_code = ft_itoa(last_exit_code);
+	exit_code = ft_itoa(g_last_exit_code);
 	size = replace_keys__get_new_len(*str, envp->envp_key_value, exit_code);
 	out = malloc(sizeof(char) * (size + 1));
 	if (!out)

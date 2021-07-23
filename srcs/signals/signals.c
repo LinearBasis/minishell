@@ -9,7 +9,7 @@ void	handler_sigint(int status)
 	printf("\e[s");
 	rl_on_new_line();
 	rl_redisplay();
-	g_flag = 1;
+	g_last_exit_code = 1;
 }
 
 //	ctrl-backslash

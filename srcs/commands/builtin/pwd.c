@@ -14,5 +14,5 @@ int	builtin_pwd(char **command)
 	}
 	write(1, buf, ft_strlen(buf));
 	write(1, "\n", 1);
-	return (GOOD_RETURN);
+	return (EX_OK);
 }

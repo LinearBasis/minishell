@@ -13,6 +13,8 @@
 # include "utils.h"
 # include "error.h"
 
+extern int	g_last_exit_code;
+
 int		command_processing(t_commlist **commands, t_envp *envp);
 int		commands__pipe_parser(t_commlist *commands);
 

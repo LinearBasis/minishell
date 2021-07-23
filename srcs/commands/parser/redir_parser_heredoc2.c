@@ -50,8 +50,7 @@ static void	builtin_heredoc_exec(char *command, int fd_out)
 		input = readline("> ");
 		if (!input || !ft_strcmp(input, command))
 		{
-			if (!input)
-				printf("\e[u> \n");
+			free(input);
 			break ;
 		}
 		write(fd_out, input, ft_strlen(input));
