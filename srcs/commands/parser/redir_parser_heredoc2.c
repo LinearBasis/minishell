@@ -49,10 +49,7 @@ static void	builtin_heredoc_exec(char *command, int fd_out)
 		printf("\e[s");
 		input = readline("> ");
 		if (!input || !ft_strcmp(input, command))
-		{
-			free(input);
 			break ;
-		}
 		write(fd_out, input, ft_strlen(input));
 		write(fd_out, "\n", 1);
 		free(input);
