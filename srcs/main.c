@@ -18,9 +18,7 @@ int	minishell(t_envp *envp, int last_exit_code)
 		if (input == NULL)
 		{
 			printf("\e[u%sexit\n", SHELL_NAME);
-			if (g_flag)
-				return (g_flag);
-			return (last_exit_code);
+			return (g_flag * (g_flag != 0) + last_exit_code * (g_flag == 0));
 		}
 		if (*input && !g_flag)
 			add_history(input);

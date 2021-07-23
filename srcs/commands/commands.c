@@ -12,21 +12,16 @@ int	command_processing(t_commlist **commands, t_envp *envp)
 	int		status;
 	int		exit_status;
 
-	//commlist_print(*commands);
 	if (err_assign(commands__pipe_parser(*commands), &status) != EX_OK)
 		return (status);
-	//commlist_print(*commands);
 	if (err_assign(redir_left_double(commands, &exit_status), &status) != EX_OK)
 		return (status);
 	if (exit_status != EX_OK)
 		return (exit_status);
-	//commlist_print(*commands);
 	if (err_assign(redir_left_uno(commands), &status) != EX_OK)
 		return (status);
-	//commlist_print(*commands);
 	if (err_assign(redir_right_all(commands), &status) != EX_OK)
 		return (status);
-	//commlist_print(*commands);
 	return (exec_processes_prepare(*commands, envp));
 }
 
@@ -44,9 +39,7 @@ static int	exec_processes_prepare(t_commlist *commands, t_envp *envp)
 		return (exec_single_builtin(commands, envp));
 	pids = malloc(sizeof(int) * size);
 	if (!pids)
-	{
 		return (perror__errno("sys", EX_OSERR));
-	}
 	status = exec_all_processes(commands, envp, pids);
 	if (status != EX_OK)
 	{

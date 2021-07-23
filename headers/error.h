@@ -12,7 +12,6 @@
 # define EX_CMD_NOTEXEC			126
 # define EX_CMD_NOTFOUND		127
 # define EX_INVAL_EXIT_CODE		128
-# define EX_FATAL_ERROR_SIG(c)	(128 + c * (c >= 0) - c * (c < 0))
 # define EX_SIGQUIT				130
 
 # define MALLOC_ERROR -11
@@ -23,7 +22,6 @@
 # define NO_SUCH_FILE -15
 # define TOO_MANY_ARGS -16
 # define NUMERIC_ARG_REQUIRED -17
-
 
 int	perror__syntax(const char *error_token, int error_code);
 int	perror__errno(const char *error_token, int error_code);
