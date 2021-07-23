@@ -10,7 +10,7 @@ int	builtin_echo(char **command)
 	flag = 0;
 	if (command[i])
 	{
-		while (!ft_strcmp(command[i], "-n"))
+		while (command[i] && !ft_strcmp(command[i], "-n"))
 		{
 			++i;
 			++flag;
@@ -24,6 +24,6 @@ int	builtin_echo(char **command)
 		++i;
 	}
 	if (!flag)
-		printf("\n");
+		write(1, "\n", 1);
 	return (0);
 }

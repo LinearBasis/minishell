@@ -19,6 +19,7 @@ static char	*bruteforce_binary__preprocessing(char *command, char **path_dirs,
 				int *status)
 {
 	struct stat	buff;
+	char		*tmp;
 
 	if (!*path_dirs)
 	{
@@ -26,9 +27,10 @@ static char	*bruteforce_binary__preprocessing(char *command, char **path_dirs,
 			*status = ENOENT;
 		return (command);
 	}
-	while (*command)
+	tmp = command;
+	while (*tmp)
 	{
-		if (*(command++) == '/')
+		if (*(tmp++) == '/')
 		{
 			if (stat(command, &buff) != 0)
 				*status = ENOENT;
