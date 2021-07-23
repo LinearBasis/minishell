@@ -23,6 +23,8 @@ int			parser__envp_replace(char **str, t_envp *envp, int last_exit_code);
 char		*replace_keys__get_value(char **envp[2], char *key, size_t *key_len);
 size_t		replace_keys__get_new_len(char *str, char **envp[2],
 					char *exit_code);
+int			replace_keys__valid_key_symbol(char *str);
+
 // parser_argv.c
 char		**parser__get_argv(char **str);
 char		*parser__get_word(char **str);

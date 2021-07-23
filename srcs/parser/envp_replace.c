@@ -37,7 +37,8 @@ char	*replace_keys__get_value(char **envp[2], char *key, size_t *key_len)
 	while (key[*key_len] && !ft_isspace(key[*key_len])
 		&& parser__is_oper(key) == OP_NONE
 		&& key[*key_len] != '\"' && key[*key_len] != '\''
-		&& key[*key_len] != '$' && key[*key_len] != '=')
+		&& key[*key_len] != '$' && key[*key_len] != '='
+		&& key[*key_len] != ':')
 		++(*key_len);
 	index = 0;
 	while (envp[KEY][index])
@@ -66,9 +67,7 @@ static void	replace_keys(char *str, char *dest, char **envp[2],
 			dquotes_flag = !dquotes_flag;
 		else if (!dquotes_flag && *str == '\'')
 			squotes_flag = !squotes_flag;
-		if (*str == '$' && !squotes_flag && *(str + 1)
-			&& !ft_isspace(*(str + 1)) && *(str + 1) != '='
-			&& *(str + 1) != '\'' && *(str + 1) != '\"' && *(str + 1) != '$')
+		if (!squotes_flag && replace_keys__valid_key_symbol(str))
 		{
 			value = replace_keys__key(str, envp, exit_code, &key_len);
 			if (value)
