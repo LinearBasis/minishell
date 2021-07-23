@@ -1,17 +1,4 @@
 1. Error codes (???)
 
-2. Bash exit code:		(LINUX TROUBLE)
-
-	* case:
-		minishell: ^C
-		minishell: ^D (exit)
-
-		zsh% echo $?
-		130
-
-		(128 + ^C code)
-
-3. echo "$PWD$"
-
-4. export PATH=$PATH:/dev/null
+2. export PATH=$PATH:/dev/null
 

@@ -67,7 +67,8 @@ static void	replace_keys(char *str, char *dest, char **envp[2],
 		else if (!dquotes_flag && *str == '\'')
 			squotes_flag = !squotes_flag;
 		if (*str == '$' && !squotes_flag && *(str + 1)
-			&& !ft_isspace(*(str + 1)))
+			&& !ft_isspace(*(str + 1)) && *(str + 1) != '='
+			&& *(str + 1) != '\'' && *(str + 1) != '\"' && *(str + 1) != '$')
 		{
 			value = replace_keys__key(str, envp, exit_code, &key_len);
 			if (value)
