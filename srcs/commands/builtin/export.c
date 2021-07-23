@@ -34,7 +34,8 @@ int	builtin_export(char **command, t_envp *exp)
 	{
 		returned_value = envp_add(exp, command[size]);
 		if (returned_value != GOOD_RETURN)
-			ans = perror__builtin((const char **)command, (int)size, returned_value);
+			ans = perror__builtin((const char **)command,
+					(int)size, returned_value);
 		size++;
 	}
 	return (ans);

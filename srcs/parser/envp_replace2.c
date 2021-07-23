@@ -46,7 +46,7 @@ static size_t	replace_keys__get_new_len__key(char *str, char **envp[2],
 	return (out_size);
 }
 
-int		replace_keys__valid_key_symbol(char *str)
+int	replace_keys__valid_key_symbol(char *str)
 {
 	return (*str == '$' && *(str + 1) && !ft_isspace(*(str + 1))
 		&& *(str + 1) != '=' && *(str + 1) != '$' && (*str + 1) != ':'

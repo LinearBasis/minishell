@@ -1,6 +1,6 @@
 #include "commands.h"
 
-int		ft_is_digit(char *c, int *put_here)
+int	ft_is_digit(char *c, int *put_here)
 {
 	int		i;
 
@@ -17,13 +17,13 @@ int		ft_is_digit(char *c, int *put_here)
 	return (1);
 }
 
-int		builtin_exit(char **command)
+int	builtin_exit(char **command)
 {
 	int	exit_status;
 
 	exit_status = 0;
 	if (command[1] != NULL && command[2] != NULL)
-		return (perror__builtin((const char **)command, 1,  TOO_MANY_ARGS));
+		return (perror__builtin((const char **)command, 1, TOO_MANY_ARGS));
 	if (command[1] && !ft_is_digit(command[1], &exit_status))
 		perror__builtin((const char **)command, -1, NUMERIC_ARG_REQUIRED);
 	exit_status %= 256;
