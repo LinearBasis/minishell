@@ -44,7 +44,9 @@ static int	exec_processes_prepare(t_commlist *commands, t_envp *envp)
 		return (exec_single_builtin(commands, envp));
 	pids = malloc(sizeof(int) * size);
 	if (!pids)
+	{
 		return (perror__errno("sys", EX_OSERR));
+	}
 	status = exec_all_processes(commands, envp, pids);
 	if (status != EX_OK)
 	{
