@@ -4,24 +4,24 @@
 t_envp	*envp_create(char **envp)
 {
 	int			i;
-	t_envp		*ans;
+	t_envp		*out;
 
 	i = 0;
 	while (envp[i])
 		i++;
-	ans = ft_calloc(1, sizeof(t_envp));
-	if (!ans)
+	out = ft_calloc(1, sizeof(t_envp));
+	if (!out)
 		return (NULL);
-	ans->envp_key_value[0] = ft_calloc(sizeof(char *), (i + 1));
-	ans->envp_key_value[1] = ft_calloc(sizeof(char *), (i + 1));
-	ans->envp_cpy = ft_calloc(sizeof(char *), (i + 1));
-	if (!ans->envp_key_value[0] || !ans->envp_key_value[1] || !ans->envp_cpy
-		|| _envp_copy(ans, envp, i) || _copy_envp_orig(ans, envp, i))
+	out->envp_key_value[0] = ft_calloc(sizeof(char *), (i + 1));
+	out->envp_key_value[1] = ft_calloc(sizeof(char *), (i + 1));
+	out->envp_cpy = ft_calloc(sizeof(char *), (i + 1));
+	if (!out->envp_key_value[0] || !out->envp_key_value[1] || !out->envp_cpy
+		|| _envp_copy(out, envp, i) || _copy_envp_orig(out, envp, i))
 	{
-		envp_clear(ans);
+		envp_clear(out);
 		return (NULL);
 	}
-	return (ans);
+	return (out);
 }
 
 void	envp_clear(t_envp *exp)

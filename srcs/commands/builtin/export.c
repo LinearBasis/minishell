@@ -21,10 +21,10 @@ int	builtin_export(char **command, t_envp *exp)
 {
 	size_t	size;
 	int		returned_value;
-	int		ans;
+	int		out;
 
 	size = 0;
-	ans = GOOD_RETURN;
+	out = GOOD_RETURN;
 	while (command[size])
 		size++;
 	if (size == 1)
@@ -34,11 +34,11 @@ int	builtin_export(char **command, t_envp *exp)
 	{
 		returned_value = envp_add(exp, command[size]);
 		if (returned_value != GOOD_RETURN)
-			ans = perror__builtin((const char **)command,
+			out = perror__builtin((const char **)command,
 					(int)size, returned_value);
 		size++;
 	}
-	return (ans);
+	return (out);
 }
 
 static void	_swap(int *a1, int *a2)
@@ -52,29 +52,29 @@ static void	_swap(int *a1, int *a2)
 
 static int	*get_sort_indexes(char **export, size_t size)
 {
-	int		*ans;
+	int		*out;
 	size_t	i;
 	size_t	j;
 
-	ans = malloc(sizeof(int) * size);
-	if (!ans)
+	out = malloc(sizeof(int) * size);
+	if (!out)
 		return (NULL);
 	i = 0;
 	j = -1;
 	while (++j < size)
-		ans[j] = j;
+		out[j] = j;
 	while (i < size)
 	{
 		j = 0;
 		while (j < size)
 		{
-			if (ft_strcmp(export[ans[i]], export[ans[j]]) < 0)
-				_swap(&ans[j], &ans[i]);
+			if (ft_strcmp(export[out[i]], export[out[j]]) < 0)
+				_swap(&out[j], &out[i]);
 			j++;
 		}
 		i++;
 	}
-	return (ans);
+	return (out);
 }
 
 static int	print_envp(t_envp *exp)
@@ -89,7 +89,7 @@ static int	print_envp(t_envp *exp)
 		size++;
 	indexes = get_sort_indexes(exp->envp_key_value[0], size);
 	if (!indexes)
-		return (MALLOC_ERROR);
+		return (perror__errno("sys", EX_OSERR));
 	i = 0;
 	while (i < size)
 	{

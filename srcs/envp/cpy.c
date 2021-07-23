@@ -1,6 +1,6 @@
 #include "envp.h"
 
-int	_fill_one_export(t_envp *ans, char *env, int i)
+int	_fill_one_export(t_envp *out, char *env, int i)
 {
 	size_t	len;
 	char	*a2;
@@ -16,39 +16,39 @@ int	_fill_one_export(t_envp *ans, char *env, int i)
 		a3 = ft_substr_from_to(env, len + 1, (int)ft_strlen(env));
 	else
 		a3 = ft_strdup("");
-	ans->envp_key_value[0][i] = NULL;
-	ans->envp_key_value[1][i] = NULL;
+	out->envp_key_value[0][i] = NULL;
+	out->envp_key_value[1][i] = NULL;
 	if (!a2 || !a3)
 	{
 		free(a2);
 		free(a3);
 		return (-1);
 	}
-	ans->envp_key_value[0][i] = a2;
-	ans->envp_key_value[1][i] = a3;
+	out->envp_key_value[0][i] = a2;
+	out->envp_key_value[1][i] = a3;
 	return (0);
 }
 
-int	_envp_copy(t_envp *ans, char **envp, int i)
+int	_envp_copy(t_envp *out, char **envp, int i)
 {
 	int		j;
 
 	j = 0;
 	while (j < i)
 	{
-		if (_fill_one_export(ans, envp[j], j) != 0)
+		if (_fill_one_export(out, envp[j], j) != 0)
 		{
-			envp_clear(ans);
+			envp_clear(out);
 			return (-1);
 		}
 		j++;
 	}
-	ans->envp_key_value[0][i] = 0;
-	ans->envp_key_value[1][i] = 0;
+	out->envp_key_value[0][i] = 0;
+	out->envp_key_value[1][i] = 0;
 	return (0);
 }
 
-int	_copy_envp_orig(t_envp *ans, char **envp, int i)
+int	_copy_envp_orig(t_envp *out, char **envp, int i)
 {
 	char	*add_to;
 	int		j;
@@ -59,7 +59,7 @@ int	_copy_envp_orig(t_envp *ans, char **envp, int i)
 		add_to = ft_strdup(envp[j]);
 		if (!add_to)
 			return (MALLOC_ERROR);
-		ans->envp_cpy[j] = add_to;
+		out->envp_cpy[j] = add_to;
 		++j;
 	}
 	return (GOOD_RETURN);
