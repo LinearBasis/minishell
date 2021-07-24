@@ -28,6 +28,8 @@ int	exec_command(char **argv, t_envp *envp)
 
 static int	check_binary(char *binary, int status, char **argv)
 {
+	struct stat	buff;
+
 	if (status == ENOENT)
 		return (perror__errno(argv[0], EX_CMD_NOTFOUND));
 	if (status != EX_OK)
@@ -38,6 +40,13 @@ static int	check_binary(char *binary, int status, char **argv)
 	{
 		free(argv[0]);
 		argv[0] = binary;
+	}
+	if (stat(binary, &buff) != 0)
+		return (perror__errno(argv[0], errno));
+	if (buff.st_mode & S_IFDIR)
+	{
+		errno = EISDIR; 
+		return (perror__errno(argv[0], EX_CMD_NOTEXEC));
 	}
 	return (EX_OK);
 }
