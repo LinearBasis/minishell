@@ -15,8 +15,11 @@ int			parse_input(char **str, t_commlist **out_commlist,
 
 // syntax_analys.c
 t_operation	parser__is_oper(const char *str);
-int			parser__syntax_analys(const char *str, t_operation *error_token);
+int			parser__syntax_analys(char *str, t_operation *error_token);
 void		parser__print_syntax_error(t_operation error_token);
+int			parser__syntax_analys__quotes(char *str);
+int			parser__syntax_analys__operations(char *str,
+				t_operation *error_token);
 
 // envp_replace
 int			parser__envp_replace(char **str, t_envp *envp);
