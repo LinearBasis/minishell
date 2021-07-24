@@ -15,9 +15,6 @@ int	perror__errno(const char *error_token, int error_code)
 
 int	perror__exec(const char *error_token, int error_code)
 {
-	const char	*error_text;
-
-	error_text = strerror(errno);
 	write(STDERR_FILENO, "minishell: ", 11);
 	write(STDERR_FILENO, error_token, ft_strlen(error_token));
 	write(STDERR_FILENO, ": command not found\n", 20);
