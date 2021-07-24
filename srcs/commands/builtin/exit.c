@@ -22,6 +22,7 @@ int	builtin_exit(char **command)
 	int	exit_status;
 
 	exit_status = g_last_exit_code;
+	printf("exit\n");
 	if (command[1] != NULL && command[2] != NULL)
 		return (perror__builtin((const char **)command, 1, TOO_MANY_ARGS));
 	if (command[1] && !ft_is_digit(command[1], &exit_status))
