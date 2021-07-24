@@ -56,4 +56,5 @@ static void	builtin_heredoc_exec(char *command, int fd_out)
 	}
 	free(input);
 	close(fd_out);
+	exit(EX_OK);
 }

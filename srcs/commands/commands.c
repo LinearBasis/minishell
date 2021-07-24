@@ -10,14 +10,11 @@ static size_t	count_procesess(t_commlist *commands);
 int	command_processing(t_commlist **commands, t_envp *envp)
 {
 	int		status;
-	int		exit_status;
 
 	if (err_assign(commands__pipe_parser(*commands), &status) != EX_OK)
 		return (status);
-	if (err_assign(redir_left_double(commands, &exit_status), &status) != EX_OK)
+	if (err_assign(redir_left_double(commands), &status) != EX_OK)
 		return (status);
-	if (exit_status != EX_OK)
-		return (exit_status);
 	if (err_assign(redir_left_uno(commands), &status) != EX_OK)
 		return (status);
 	if (err_assign(redir_right_all(commands), &status) != EX_OK)

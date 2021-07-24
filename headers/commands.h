@@ -19,7 +19,7 @@ int		command_processing(t_commlist **commands, t_envp *envp);
 int		commands__pipe_parser(t_commlist *commands);
 
 int		commands__redir_parser(t_commlist **commands);
-int		redir_left_double(t_commlist **commands, int *last_exit_code);
+int		redir_left_double(t_commlist **commands);
 int		redir_left_uno(t_commlist **commands);
 int		redir_right_all(t_commlist **commands);
 

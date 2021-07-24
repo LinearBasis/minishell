@@ -10,6 +10,7 @@ int	redir_right_all(t_commlist **commands)
 	t_commlist	*iter;
 	t_commlist	*redir_target;
 	int			last_fd;
+	int			status;
 
 	last_fd = 0;
 	redir_target = NULL;
@@ -18,8 +19,8 @@ int	redir_right_all(t_commlist **commands)
 	{
 		if (iter->op_prev == OP_REDIRR || iter->op_prev == OP_REDIR2R)
 		{
-			if (redir_right_all__fd_proc(iter, &redir_target, &last_fd) != 0)
-				return (-1);
+			if (err_assign(redir_right_all__fd_proc(iter, &redir_target, &last_fd), &status) != EX_OK)
+				return (status);
 			redir_right_all__delete_n_merge(commands, &iter);
 		}
 		else
@@ -29,7 +30,7 @@ int	redir_right_all(t_commlist **commands)
 			iter = iter->next;
 		}
 	}
-	return (0);
+	return (EX_OK);
 }
 
 static int	redir_right_all__fd_proc( t_commlist *iter,
@@ -44,7 +45,7 @@ static int	redir_right_all__fd_proc( t_commlist *iter,
 	else
 		*last_fd = open(iter->argv[0], O_WRONLY | O_APPEND | O_CREAT, 0644);
 	if (*last_fd < 0)
-		return (perror__errno(iter->argv[0], errno));
+		return (perror__errno(iter->argv[0], EX_CATCHALL));
 	if (iter->op_next != OP_REDIRR && iter->op_next != OP_REDIR2R)
 	{
 		if (*redir_target)

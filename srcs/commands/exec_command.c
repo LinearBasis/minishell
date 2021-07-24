@@ -45,7 +45,7 @@ static int	check_binary(char *binary, int status, char **argv)
 		return (perror__errno(argv[0], errno));
 	if (buff.st_mode & S_IFDIR)
 	{
-		errno = EISDIR; 
+		errno = EISDIR;
 		return (perror__errno(argv[0], EX_CMD_NOTEXEC));
 	}
 	return (EX_OK);
