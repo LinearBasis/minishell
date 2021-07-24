@@ -7,7 +7,7 @@ char	*parser__get_word(char **str, t_envp *envp)
 {
 	size_t	size;
 	char	*out;
-	int	status;
+	int		status;
 
 	size = parser__get_word__get_len(str);
 	out = malloc(sizeof(char) * (size + 1));
