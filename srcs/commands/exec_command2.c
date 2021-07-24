@@ -1,20 +1,5 @@
 #include "commands.h"
 
-int	exec_command__replace_home_dir(char **command, t_envp *envp)
-{
-	char	*tmp;
-
-	if (!ft_strncmp(*command, "~/", 2))
-	{
-		tmp = ft_strjoin(envp_get_value(envp, "HOME"), *command + 1);
-		if (!tmp)
-			return (perror__errno("sys", EX_OSERR));
-		free(*command);
-		*command = tmp;
-	}
-	return (0);
-}
-
 static char	*bruteforce_binary__preprocessing(char *command, char **path_dirs,
 				int *status)
 {

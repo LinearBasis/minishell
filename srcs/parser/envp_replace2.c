@@ -52,3 +52,18 @@ int	replace_keys__valid_key_symbol(char *str)
 		&& *(str + 1) != '=' && *(str + 1) != '$' && (*str + 1) != ':'
 		&& *(str + 1) != '\"' && *(str + 1) != '\'');
 }
+
+int	replace_keys__replace_home_dirs(char **command, t_envp *envp)
+{
+	char	*tmp;
+
+	if (**command == '~' && ((*command)[1] == '\0' || (*command)[1] == '/'))
+	{
+		tmp = ft_strjoin(envp_get_value(envp, "HOME"), *command + 1);
+		if (!tmp)
+			return (EX_OSERR);
+		free(*command);
+		*command = tmp;
+	}
+	return (0);
+}

@@ -28,10 +28,11 @@ char		*replace_keys__get_value(char **envp[2], char *key,
 size_t		replace_keys__get_new_len(char *str, char **envp[2],
 				char *exit_code);
 int			replace_keys__valid_key_symbol(char *str);
+int			replace_keys__replace_home_dirs(char **command, t_envp *envp);
 
 // parser_argv.c
-char		**parser__get_argv(char **str);
-char		*parser__get_word(char **str);
+char		**parser__get_argv(char **str, t_envp *envp);
+char		*parser__get_word(char **str, t_envp *envp);
 int			parser__get_word__check_quote(char *s,
 				char *quote_flag, char *quote_var);
 

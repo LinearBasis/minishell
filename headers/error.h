@@ -8,7 +8,7 @@
 # include "utils.h"
 
 # define EX_CATCHALL			1
-# define EX_MISUSE_BUILTIN		2
+# define EX_MISUSE_BUILTIN		258
 # define EX_CMD_NOTEXEC			126
 # define EX_CMD_NOTFOUND		127
 # define EX_INVAL_EXIT_CODE		128

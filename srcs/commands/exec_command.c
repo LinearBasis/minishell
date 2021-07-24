@@ -14,9 +14,6 @@ int	exec_command(char **argv, t_envp *envp)
 	path_dirs = ft_smart_split(envp_get_value(envp, "PATH"), &is_colon, "/");
 	if (!path_dirs)
 		return (perror__errno("sys", EX_OSERR));
-	if (err_assign(exec_command__replace_home_dir(argv, envp), &status)
-		!= EX_OK)
-		return (status);
 	binary = exec_command__bruteforce_binary(argv[0], path_dirs, &status);
 	status = check_binary(binary, status, argv);
 	if (status != EX_OK)

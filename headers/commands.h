@@ -38,8 +38,7 @@ int		builtin_exit(char **command);
 int		builtin_heredoc(char *command, int *status);
 // exec commands
 int		exec_command(char **argv, t_envp *envp);
-int		exec_command__replace_home_dir(char **command, t_envp *envp);
-char	*exec_command__bruteforce_binary(char *command, char **path_dirs,
+char		*exec_command__bruteforce_binary(char *command, char **path_dirs,
 			int *status);
 
 #endif

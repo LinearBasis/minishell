@@ -2,7 +2,7 @@
 
 static size_t	count_words(char *str);
 
-char	**parser__get_argv(char **str)
+char	**parser__get_argv(char **str, t_envp *envp)
 {
 	size_t		argc;
 	size_t		index;
@@ -16,7 +16,7 @@ char	**parser__get_argv(char **str)
 	index = 0;
 	while (index < argc)
 	{
-		argv[index] = parser__get_word(str);
+		argv[index] = parser__get_word(str, envp);
 		if (!argv[index])
 		{
 			while (index--)

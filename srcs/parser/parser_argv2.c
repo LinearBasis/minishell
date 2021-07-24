@@ -3,10 +3,11 @@
 static size_t	parser__get_word__get_len(char **str);
 static void		parser__get_word__copy_word(char **s, char *dst);
 
-char	*parser__get_word(char **str)
+char	*parser__get_word(char **str, t_envp *envp)
 {
 	size_t	size;
 	char	*out;
+	int	status;
 
 	size = parser__get_word__get_len(str);
 	out = malloc(sizeof(char) * (size + 1));
@@ -14,6 +15,12 @@ char	*parser__get_word(char **str)
 		return (NULL);
 	parser__get_word__copy_word(str, out);
 	out[size] = '\0';
+	if (err_assign(replace_keys__replace_home_dirs(&out, envp), &status)
+		!= EX_OK)
+	{
+		free(out);
+		return (NULL);
+	}
 	return (out);
 }
 
