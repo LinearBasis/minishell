@@ -4,6 +4,7 @@
 static int		redir_left_double__fd_proc(t_commlist *iter,
 					t_commlist **redir_target, int *last_fd,
 					int status);
+static int		redir_left_double__fd_proc__exitclose(int last_fd);
 static void		redir_left_double__delete_n_merge(t_commlist **commands,
 					t_commlist **iter);
 
@@ -22,7 +23,7 @@ int	redir_left_double(t_commlist **commands)
 		if (iter->op_prev == OP_REDIR2L)
 		{
 			if (err_assign(redir_left_double__fd_proc(iter, &redir_target,
-					&last_fd, 0), &status) != EX_OK)
+						&last_fd, 0), &status) != EX_OK)
 				return (status);
 			redir_left_double__delete_n_merge(commands, &iter);
 		}
@@ -44,10 +45,7 @@ static int	redir_left_double__fd_proc(t_commlist *iter,
 		close(*last_fd);
 	*last_fd = builtin_heredoc(iter->argv[0], &status);
 	if (status != EX_OK)
-	{
-		close(*last_fd);
-		return (EX_CATCHALL);
-	}
+		redir_left_double__fd_proc__exitclose(*last_fd);
 	if (*last_fd < 0)
 		return (perror__errno(iter->argv[0], EX_CATCHALL));
 	if (iter->op_next != OP_REDIRL)
@@ -66,6 +64,12 @@ static int	redir_left_double__fd_proc(t_commlist *iter,
 		*redir_target = NULL;
 	}
 	return (EX_OK);
+}
+
+static int	redir_left_double__fd_proc__exitclose(int last_fd)
+{
+	close(last_fd);
+	return (EX_CATCHALL);
 }
 
 static void	redir_left_double__delete_n_merge(t_commlist **commands,

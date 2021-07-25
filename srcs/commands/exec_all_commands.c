@@ -1,14 +1,14 @@
 #include "commands.h"
 
 static void	child_process_handler(t_commlist *commands, t_envp *envp,
-			t_commlist *cl_root);
+				t_commlist *cl_root);
 static int	close_fds_n_switch(t_commlist **commands,
 				t_commlist *command_copy, int all_flag);
 
 int	exec_all_processes(t_commlist *commands, t_envp *envp, int *pids)
 {
-	ssize_t	index;
-	int		st;
+	ssize_t		index;
+	int			st;
 	t_commlist	*cl_root;
 
 	cl_root = commands;

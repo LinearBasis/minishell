@@ -56,7 +56,7 @@ static int	exec_single_builtin(t_commlist *commands, t_envp *envp)
 	int	stdout_fd;
 	int	stdin_fd;
 	int	st;
-		
+
 	st = EX_OK;
 	stdin_fd = STDIN_FILENO;
 	if (commands->fd_in)

@@ -30,6 +30,5 @@ int	handle_command(char **command, t_envp *envp, t_commlist *cl_root)
 		status = builtin_exit(command, cl_root);
 	else
 		status = exec_command(command, envp);
-	
 	return (status);
 }

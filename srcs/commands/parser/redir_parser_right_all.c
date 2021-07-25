@@ -19,7 +19,8 @@ int	redir_right_all(t_commlist **commands)
 	{
 		if (iter->op_prev == OP_REDIRR || iter->op_prev == OP_REDIR2R)
 		{
-			if (err_assign(redir_right_all__fd_proc(iter, &redir_target, &last_fd), &status) != EX_OK)
+			if (err_assign(redir_right_all__fd_proc(iter, &redir_target,
+						&last_fd), &status) != EX_OK)
 				return (status);
 			redir_right_all__delete_n_merge(commands, &iter);
 		}

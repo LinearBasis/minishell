@@ -19,7 +19,8 @@ int	redir_left_uno(t_commlist **commands)
 	{
 		if (iter->op_prev == OP_REDIRL)
 		{
-			if (err_assign(redir_left_uno__fd_proc(iter, &redir_target, &last_fd), &status) != EX_OK)
+			if (err_assign(redir_left_uno__fd_proc(iter, &redir_target,
+						&last_fd), &status) != EX_OK)
 				return (status);
 			redir_left_uno__delete_n_merge(commands, &iter);
 		}
