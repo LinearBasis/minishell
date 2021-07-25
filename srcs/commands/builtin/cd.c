@@ -26,12 +26,11 @@ static int	do_cd_to_user(char **command, t_envp *exp)
 	path = envp_get_value(exp, "HOME");
 	if (!path)
 		return (perror__builtin((const char **)command, 0, HOME_NOT_SET));
-	if (chdir("/Users/dnicki/") == -1)
+	if (chdir(path) == -1)
 	{
 		free(path);
 		return (perror__errno("cd", CD_CHDIR_ERROR));
 	}
-	printf("%s - this dir\n", getcwd(NULL, 0));
 	free(path);
 	return (0);
 }

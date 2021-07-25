@@ -23,10 +23,15 @@ int	builtin_exit(char **command, t_commlist *cl_root)
 
 	exit_status = g_last_exit_code;
 	printf("exit\n");
-	if (command[1] != NULL && command[2] != NULL)
-		return (perror__builtin((const char **)command, 1, TOO_MANY_ARGS));
+	if (!command[1])
+		exit((exit_status % 256 + 256) % 256);
 	if (command[1] && !ft_is_digit(command[1], &exit_status))
+	{
 		perror__builtin((const char **)command, -1, NUMERIC_ARG_REQUIRED);
+		exit_status = 255;
+	}
+	else if (command[1] != NULL && command[2] != NULL)
+		return (perror__builtin((const char **)command, 1, TOO_MANY_ARGS));
 	exit_status %= 256;
 	if (exit_status < 0)
 		exit_status += 256;

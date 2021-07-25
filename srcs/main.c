@@ -29,7 +29,7 @@ int	minishell(t_envp *envp)
 			printf("\e[u%sexit\n", SHELL_NAME);
 			return (g_last_exit_code);
 		}
-		if (*input && !g_last_exit_code)
+		if (*input)
 			add_history(input);
 		if (parse_input(&input, &commands, envp) == 0)
 		{
