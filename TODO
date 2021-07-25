@@ -1,4 +1,0 @@
-1. Check is file descriptors closes
-	in redirections' and pipes' parsers
-	when some error occured while opening files
-	or creating pipes.
