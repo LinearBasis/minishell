@@ -8,7 +8,7 @@ int	is_builtin_command(char **command)
 		|| !ft_strcmp(command[0], "exit"));
 }
 
-int	handle_command(char **command, t_envp *envp)
+int	handle_command(char **command, t_envp *envp, t_commlist *cl_root)
 {
 	int		status;
 
@@ -27,8 +27,9 @@ int	handle_command(char **command, t_envp *envp)
 	else if (!ft_strcmp(command[0], "env"))
 		status = builtin_env(command, envp);
 	else if (!ft_strcmp(command[0], "exit"))
-		status = builtin_exit(command);
+		status = builtin_exit(command, cl_root);
 	else
 		status = exec_command(command, envp);
+	
 	return (status);
 }

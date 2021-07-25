@@ -17,7 +17,7 @@ int	ft_is_digit(char *c, int *put_here)
 	return (1);
 }
 
-int	builtin_exit(char **command)
+int	builtin_exit(char **command, t_commlist *cl_root)
 {
 	int	exit_status;
 
@@ -30,5 +30,6 @@ int	builtin_exit(char **command)
 	exit_status %= 256;
 	if (exit_status < 0)
 		exit_status += 256;
+	commlist_clear(cl_root);
 	exit(exit_status);
 }

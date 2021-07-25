@@ -25,7 +25,7 @@ int		redir_right_all(t_commlist **commands);
 
 int		exec_all_processes(t_commlist *commands, t_envp *envp, int *pids);
 int		is_builtin_command(char **command);
-int		handle_command(char **command, t_envp *envp);
+int		handle_command(char **command, t_envp *envp, t_commlist *cl_root);
 
 // builtin commands
 int		builtin_echo(char **command);
@@ -34,7 +34,7 @@ int		builtin_pwd(char **command);
 int		builtin_export(char **command, t_envp *envp);
 int		builtin_unset(char **command, t_envp *envp);
 int		builtin_env(char **command, t_envp *envp);
-int		builtin_exit(char **command);
+int		builtin_exit(char **command, t_commlist *cl_root);
 int		builtin_heredoc(char *command, int *status);
 // exec commands
 int		exec_command(char **argv, t_envp *envp);

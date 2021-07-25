@@ -56,7 +56,7 @@ static int	exec_single_builtin(t_commlist *commands, t_envp *envp)
 	int	stdout_fd;
 	int	stdin_fd;
 	int	st;
-
+		
 	st = EX_OK;
 	stdin_fd = STDIN_FILENO;
 	if (commands->fd_in)
@@ -71,7 +71,7 @@ static int	exec_single_builtin(t_commlist *commands, t_envp *envp)
 		err_assign2(dup2(commands->fd_out, STDOUT_FILENO), EX_OSERR, &st);
 	}
 	if (st == EX_OK)
-		st = handle_command(commands->argv, envp);
+		st = handle_command(commands->argv, envp, commands);
 	exec_single_builtin__restore_fds(commands, stdin_fd, stdout_fd);
 	return (st);
 }
