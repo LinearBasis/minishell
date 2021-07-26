@@ -30,12 +30,15 @@ int		handle_command(char **command, t_envp *envp, t_commlist *cl_root);
 // builtin commands
 int		builtin_echo(char **command);
 int		builtin_cd(char **command, t_envp *envp);
-int		builtin_pwd(char **command);
+int		builtin_pwd(char **command, t_envp *exp);
 int		builtin_export(char **command, t_envp *envp);
 int		builtin_unset(char **command, t_envp *envp);
 int		builtin_env(char **command, t_envp *envp);
 int		builtin_exit(char **command, t_commlist *cl_root);
 int		builtin_heredoc(char *command, int *status);
+
+int		set_pwd(t_envp *exp);
+
 // exec commands
 int		exec_command(char **argv, t_envp *envp);
 char		*exec_command__bruteforce_binary(char *command, char **path_dirs,

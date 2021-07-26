@@ -19,7 +19,7 @@ int	handle_command(char **command, t_envp *envp, t_commlist *cl_root)
 	else if (!ft_strcmp(command[0], "cd"))
 		status = builtin_cd(command, envp);
 	else if (!ft_strcmp(command[0], "pwd"))
-		status = builtin_pwd(command);
+		status = builtin_pwd(command, envp);
 	else if (!ft_strcmp(command[0], "export"))
 		status = builtin_export(command, envp);
 	else if (!ft_strcmp(command[0], "unset"))
