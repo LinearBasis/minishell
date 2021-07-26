@@ -45,7 +45,7 @@ static int	redir_left_double__fd_proc(t_commlist *iter,
 		close(*last_fd);
 	*last_fd = builtin_heredoc(iter->argv[0], &status);
 	if (status != EX_OK)
-		redir_left_double__fd_proc__exitclose(*last_fd);
+		return (redir_left_double__fd_proc__exitclose(*last_fd));
 	if (*last_fd < 0)
 		return (perror__errno(iter->argv[0], EX_CATCHALL));
 	if (iter->op_next != OP_REDIRL)
