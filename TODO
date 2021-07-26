@@ -1,3 +1,1 @@
-1. Case 'exit | exit' fix
-
-2. Clear debug outputs in builtin
+1. Case 'cat << eof' with ^C in here_doc
