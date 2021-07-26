@@ -39,9 +39,19 @@ int	builtin_cd(char **command, t_envp *exp)
 	char	*oldpwd_keyvalue;
 
 	oldpwd = envp_get_value(exp, "PWD");
+	if (!oldpwd)
+		oldpwd = getcwd(NULL, 0);
+	if (!oldpwd)
+		return (perror__errno("sys", errno));
 	oldpwd_keyvalue = ft_strjoin("OLDPWD=", oldpwd);
 	free(oldpwd);
-	envp_add(exp, oldpwd_keyvalue);
+	if (!oldpwd_keyvalue)
+		return (perror__errno("sys", errno));
+	if (envp_add(exp, oldpwd_keyvalue) != GOOD_RETURN)
+	{
+		free(oldpwd_keyvalue);
+		return (MALLOC_ERROR);
+	}
 	free(oldpwd_keyvalue);
 	if (command[1] == NULL)
 		return (do_cd_to_user(command, exp));
